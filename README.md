@@ -1,8 +1,12 @@
-### Hi there 👋
-![alt img](img.jpg)
-- ID: lopo12123
-- Name: CMH
-- Birthday: 1/24 99
+### Hi there👋
+![alt img](cat.jpg)
+
+- **ID:** lopo12123
+
+- **Name:** CMH
+
+- **Birthday:** 1/24
+
 <!--
 **lopo12123/lopo12123** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
