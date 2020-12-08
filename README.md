@@ -1,5 +1,9 @@
-### Hi there👋
+### 👋 Hi there !
+<br>
+
 ![alt img](cat.jpg)
+
+<br>
 
 - **ID:** lopo12123
 
@@ -7,7 +11,7 @@
 
 - **Birthday:** 1/24
 
-<br><br>
+<br>
 
 ***👉 You forget a thousand things every day,***
 
