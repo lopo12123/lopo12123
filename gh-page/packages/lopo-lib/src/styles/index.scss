@@ -1,0 +1,99 @@
+@use "./iconfont.scss";
+@use "./mixin.scss";
+
+// region [normal settings]
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html, body, #app {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+img {
+    -webkit-user-drag: none!important;
+}
+// endregion
+
+// region [el-dialog]
+.el-dialog {
+    background: transparent!important;
+    border: none!important;
+    outline: none!important;
+    box-shadow: none!important;
+
+    .el-dialog__header, .el-dialog__body, .el-dialog__footer {
+        margin: 0;
+        padding: 0;
+    }
+    .el-dialog__header {
+        display: none;
+    }
+}
+// endregion
+
+// region [codemirror]
+.cm-scroller {
+    @include mixin.scrollBarStyle(#cccccc80);
+}
+.cm-focused {
+    outline: none!important;
+}
+// endregion
+
+// region [icons in menu]
+.label-map { @extend .iconfont, .icon-map; margin-right: 5px; color: #8a2be2!important; font-weight: bold; font-size: 22px }
+.label-public { @extend .iconfont, .icon-unlock; margin-right: 5px; color: #79bd12!important; }
+.label-private { @extend .iconfont, .icon-lock; margin-right: 5px; color: #f56c6c!important; }
+.label-static { @extend .iconfont, .icon-affix; margin-right: 5px; color: #dda0dd!important;}
+
+$icon-size: 18px;
+@mixin menu-label-base($content: "", $bg: #000000, $color: #ffffff) {
+    position: relative;
+    width: $icon-size;
+    height: $icon-size;
+    margin-right: 10px;
+    display: inline-block;
+    &::before {
+        content: $content;
+        position: absolute;
+        width: $icon-size;
+        height: $icon-size;
+        border-radius: calc(#{$icon-size} / 2);
+        background-color: $bg;
+        color: $color!important;
+        font-size: 12px;
+        font-weight: bold;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+.label-class { @include menu-label-base("c", #2791ff); }
+.label-constructor { @include menu-label-base("~", #cccccc); }
+.label-parameter { @include menu-label-base("p", #f6bd38); }
+.label-method { @include menu-label-base("m", #ffc0cb); }
+// endregion
+
+// region [code-line-dark]
+.code-line-dark {
+    position: relative;
+    width: fit-content;
+    height: 100%;
+    padding: 0 10px;
+    border-radius: 5px;
+    background-color: #dcdfe6;
+    color: #666666;
+    font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;;
+    font-size: 16px;
+    user-select: none;
+}
+.language-typescript {
+    font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;;
+    font-size: 16px;
+    display: block;
+}
+// endregion

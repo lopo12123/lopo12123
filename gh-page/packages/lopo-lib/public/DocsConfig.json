@@ -1,0 +1,251 @@
+{
+    "Overview": {
+        "Clone": "For copying objects or arrays or any other type of data.\n· 'plain' will use the built-in JSON method to copy (it will lose some information, such as function);\n· 'deep' will use the built-in Reflect method to recursively copy properties and methods, all properties and methods are not lost.",
+        "Queue": "'Queue' data structure.\n· including methods for enqueuing, dequeuing, looping (forward and reverse), and emptying the queue.",
+        "Search": "Various search methods.\n· including dfs.",
+        "Stack": "The 'stack' data structure.\n· including methods such as pushing, popping, and emptying the stack.",
+        "Tree": "Conversion between three common 'tree' data structures.\n· There are three types of tree structures:\n    1. 'multi-layer' - a tree structure represented by a nested representation of objects through the 'children' field;\n    2. 'flat-array' - flatten the nodes of the tree, and express the parent-child relationship between nodes through the 'parent' or 'children' fields;\n    3. 'node-link' - stores all nodes of the tree and their connection relationships in the 'nodes' and 'links' fields of an object, where node must have an id attribute, and link specifies the parent-child relationship of the node through the from-to method.\n· Purpose of these data structures:\n    1. multi-layer - one of the most common representations. tree data that can be used to construct the echarts drawing library;\n    2. flat-array - tree data that can be used to construct the gojs drawing library;\n    3. node-link - tree data that can be used to construct the vis-network drawing library;\n    4. Using this class can quickly convert the tree data required by several drawing libraries."
+    },
+    "Clone": {
+        "plain": {
+            "type": "method",
+            "static": true,
+            "permission": "public",
+            "description": "Clone an object、array or anything else. (by build-in JSON)",
+            "declaration": "function plain<T>(o: T): T",
+            "example": "import { Clone } from \"lopo-lib\"\n\nconst oriObj = {\n    type_number: 12345,\n    type_string: 'i am string',\n    type_boolean: false,\n    type_undefined: undefined,\n    type_null: null,\n    type_array: [1, 2, 3, 4, 5],\n    type_object: {\n        attr1: 1,\n        attr2: '2'\n    },\n    type_function: () => {\n        console.log('i am function')\n    }\n}\n\nconst plainRes = Clone.plain(oriObj)\nconsole.log(plainRes)\n\n// the result in console is:\n// {\n//     type_number: 12345,\n//     type_string: 'i am string',\n//     type_boolean: false,\n//     type_null: null,\n//     type_array: [ 1, 2, 3, 4, 5 ],\n//     type_object: { attr1: 1, attr2: '2' }\n// }"
+        },
+        "deep": {
+            "type": "method",
+            "static": true,
+            "permission": "public",
+            "description": "Clone an object、array or anything else. (by Reflect)",
+            "declaration": "function deep<T>(o: T): T",
+            "example": "import { Clone } from \"lopo-lib\"\n\nconst oriObj = {\n    type_number: 12345,\n    type_string: 'i am string',\n    type_boolean: false,\n    type_undefined: undefined,\n    type_null: null,\n    type_array: [1, 2, 3, 4, 5],\n    type_object: {\n        attr1: 1,\n        attr2: '2'\n    },\n    type_function: () => {\n        console.log('i am function')\n    }\n}\n\nconst deepRes = Clone.deep(oriObj)\nconsole.log(deepRes)\n\n// the result in console is:\n// {\n//     type_number: 12345,\n//     type_string: 'i am string',\n//     type_boolean: false,\n//     type_undefined: undefined,\n//     type_null: null,\n//     type_array: [ 1, 2, 3, 4, 5 ],\n//     type_object: { attr1: 1, attr2: '2' },\n//     type_function: [Function (anonymous)]\n// }"
+        }
+    },
+    "Queue": {
+        "constructor": {
+            "type": "constructor",
+            "static": false,
+            "permission": "public",
+            "description": "Create a queue with max length",
+            "declaration": "Queue<T>.constructor(max: number)",
+            "example": "import { Queue } from \"lopo-lib\"\n\nconst queue = new Queue(5)  // or new Queue<string>(5) in ts usage"
+        },
+        "length": {
+            "type": "parameter",
+            "static": false,
+            "permission": "public",
+            "description": "queue`s length",
+            "declaration": "public get Queue<T>.length(): number",
+            "example": "import { Queue } from \"lopo-lib\"\n\nconst queue = new Queue(5)\n\nconsole.log(queue.length)  // when init, the length of the queue is 0 (empty)\n\nqueue.in('item0', 'item1')  // push some items into the queue\nconsole.log(queue.length)  // now its`length is 2"
+        },
+        "create": {
+            "type": "method",
+            "static": true,
+            "permission": "public",
+            "description": "create a queue with max length ( alias of 'new Queue(n)' )",
+            "declaration": "public static Queue<T>.create<_T>(max: number): Queue<_T>",
+            "example": "import { Queue } from \"lopo-lib\"\n\n// as well as 'new Queue(5)'\nconst queue = Queue.create(5)  // or Queue.create<string>(5) in ts usage"
+        },
+        "getQueue": {
+            "type": "method",
+            "static": false,
+            "permission": "public",
+            "description": "returns a shallow copy of current queue",
+            "declaration": "public Queue<T>.getQueue(): T[]",
+            "example": "import { Queue } from \"lopo-lib\"\n\nconst queue = new Queue(5)\n\nconsole.log(queue.getQueue())  // []\n\nqueue.in('item0', 'item1')  // push some items into the queue\nconsole.log(queue.getQueue())  // ['item0', 'item1']"
+        },
+        "in": {
+            "type": "method",
+            "static": false,
+            "permission": "public",
+            "description": "push some items into the queue and return current length of the queue",
+            "declaration": "public Queue<T>.in(...items: T[]): number",
+            "example": "import { Queue } from \"lopo-lib\"\n\nconst queue = new Queue(5)\n\n// 1. push some items into the queue\nlet count = queue.in('item0', 'item1', 'item2')\nconsole.log(queue.getQueue(), count)\n// ['item0', 'item1', 'item2'] 3\n\n// 2. push more items\ncount = queue.in('item3', 'item4', 'item5')\nconsole.log(queue.getQueue(), count)\n// ['item1', 'item2', 'item3', 'item4', 'item5'] 5\n// and the the first item 'item0' was pushed out of the queue\n\n// 3. push more items (more then max-length of the queue)\ncount = queue.in('item6', 'item7', 'item8', 'item9', 'item10', 'item11')\nconsole.log(queue.getQueue(), count)\n// ['item7', 'item8', 'item9', 'item10', 'item11'] 5\n// only the last 5 items in the queue will be kept"
+        },
+        "out": {
+            "type": "method",
+            "static": false,
+            "permission": "public",
+            "description": "take n items from the queue",
+            "declaration": "public Queue<T>.out(n: number): T[]",
+            "example": "import { Queue } from \"lopo-lib\"\n\nconst queue = new Queue(5)\nqueue.in('item0', 'item1', 'item2', 'item3', 'item4')\n\n// 1. take some items from the queue\nlet take = queue.out(3)\nconsole.log(take)\n// ['item0', 'item1', 'item2'] -- that is what we need\n\n// 2. take more items from the queue (more than what's left in the queue)\ntake = queue.out(3)\nconsole.log(take)\n// ['item3', 'item4'] -- it just takes out the rest\n\n// 3. take some items from the empty queue\ntake = queue.out(1)\nconsole.log(take)\n// [] -- returns an empty array"
+        },
+        "circle": {
+            "type": "method",
+            "static": false,
+            "permission": "public",
+            "description": "move the queue forward n positions, and the items dequeued at the head are re-queued in order",
+            "declaration": "public Queue<T>.circle(n: number, reverse: boolean = false): void",
+            "example": "import { Queue } from \"lopo-lib\"\n\nconst queue = new Queue(5)\nqueue.in('item0', 'item1', 'item2')\n\n// 1. rotate forward 1 position\nqueue.circle(1)\nconsole.log(queue.getQueue())\n// ['item1', 'item2', 'item0']\n\n// 2. reverse rotation 2 position\nqueue.circle(2, true)\nconsole.log(queue.getQueue())\n// ['item2', 'item0', 'item1']"
+        },
+        "clear": {
+            "type": "method",
+            "static": false,
+            "permission": "public",
+            "description": "clear the queue and reset its max-length to 'n' (if need)",
+            "declaration": "public Queue<T>.clear(n?: number): void",
+            "example": "import { Queue } from \"lopo-lib\"\n\nconst queue = new Queue(5)\nqueue.in('item0', 'item1', 'item2', 'item3', 'item4', 'item5')\nconsole.log(queue.getQueue(), queue.length)\n// ['item1', 'item2', 'item3', 'item4', 'item5'] 5\n\nqueue.clear(3)\nqueue.in('item0', 'item1', 'item2', 'item3', 'item4', 'item5')\nconsole.log(queue.getQueue(), queue.length)\n// ['item3', 'item4', 'item5'] 3 -- now the max-length of the queue has been set to 3"
+        },
+        "_max": {
+            "type": "parameter",
+            "static": false,
+            "permission": "private",
+            "description": "max length of the queue",
+            "declaration": "private Queue<T>._max: number",
+            "example": "import { Queue } from \"lopo-lib\"\n\nconst queue = new Queue(5)\nconsole.log(queue._max)  // 5"
+        },
+        "_queue": {
+            "type": "parameter",
+            "static": false,
+            "permission": "private",
+            "description": "current queue (use instance.getQueue() instead)",
+            "declaration": "private Queue<T>._queue: T[]",
+            "example": "import { Queue } from \"lopo-lib\"\n\nconst queue = new Queue(5)\nqueue.in('item0', 'item1', 'item2', 'item3', 'item4')\nconsole.log(queue._queue)  // ['item0', 'item1', 'item2', 'item3', 'item4']"
+        }
+    },
+    "Search": {
+        "dfs": {
+            "type": "method",
+            "static": true,
+            "permission": "public",
+            "description": "depth first search",
+            "declaration": "public static Search.dfs<TreeNode extends object, K>(root: TreeNode, condition: (node: TreeNode) => boolean, childKey: string = 'children', resultFilter: (node: TreeNode) => K = node => node): K | null",
+            "example": "import { Search } from \"lopo-lib\"\n\ntype TreeNode = {\n    id: string\n    name: string\n    children?: TreeNode[]\n}\nconst tree: TreeNode = {\n    id: '1',\n    name: 'node 1',\n    children: [\n        {\n            id: '2',\n            name: 'node 2',\n            children: [\n                {\n                    id: '5',\n                    name: 'node 5',\n                    children: []\n                },\n                {\n                    id: '6',\n                    name: 'node 6'\n                }\n            ]\n        },\n        {\n            id: '3',\n            name: 'node 3',\n            children: []\n        },\n        {\n            id: '4',\n            name: 'node 4'\n        }\n    ]\n}\n\n// 1. by default it will return a reference to the entire subtree with the target node as the root node.\n//    if you modify the contents of the subTree now, the tree will also be modified.\nconst subTree = Search.dfs(tree, (node) => {\n    return node.name === 'node 2'\n})\nconsole.log(subTree)\n// {\n//     id: '2',\n//     name: 'node 2',\n//     children: [\n//         { id: '5', name: 'node 5', children: [] },\n//         { id: '6', name: 'node 6' }\n//     ]\n// }\n\n// 2. you can set filter functions to filter the returned results\n//    you can do copy work in the filter function or just filter the result to return\nconst filteredSubTree = Search.dfs(\n    tree,\n    (node) => {\n        return node.name === 'node 2'\n    },\n    'children',\n    (res) => {\n        const realRes = JSON.parse(JSON.stringify(res))  // do copy here\n        delete realRes.children  // deal with original result\n        return realRes\n    }\n)\nconsole.log(filteredSubTree)\n// { id: '2', name: 'node 2' }\n\n// 3. you can specify the key of the subtree by passing in the 'childKey' parameter according to the actual situation.\n// no example for this..."
+        }
+    },
+    "Stack": {
+        "constructor": {
+            "type": "constructor",
+            "static": false,
+            "permission": "public",
+            "description": "Create a stack with max length (unlimited if the parameter 'max' equals '-1')",
+            "declaration": "Stack<T>.constructor(max: number)",
+            "example": "import { Stack } from \"lopo-lib\"\n\nconst stack = new Stack(5)  // or new Stack<string>(5) in ts usage"
+        },
+        "depth": {
+            "type": "parameter",
+            "static": false,
+            "permission": "public",
+            "description": "stack`s depth",
+            "declaration": "public get Stack<T>.depth(): number",
+            "example": "import { Stack } from \"lopo-lib\"\n\nconst stack = new Stack(5)\nconsole.log(stack.depth)  // 0\nstack.in('item0', 'item1', 'item2')\nconsole.log(stack.depth)  // 3"
+        },
+        "create": {
+            "type": "method",
+            "static": true,
+            "permission": "public",
+            "description": "create a stack with max length ( alias of 'new Stack(n)' )",
+            "declaration": "public static Stack<T>.create<_T>(max: number): Stack<_T>",
+            "example": "import { Stack } from \"lopo-lib\"\n\n// as well as 'new Stack(5)'\nconst stack = Stack.create(5)  // or Stack.create<string>(5) in ts usage"
+        },
+        "in": {
+            "type": "method",
+            "static": false,
+            "permission": "public",
+            "description": "push some items into the stack and return current depth of the stack (it will automatically ignore the rest items when the stack is full)",
+            "declaration": "public Stack<T>.in(...items: T[]): number",
+            "example": "import { Stack } from \"lopo-lib\"\n\nconst stack = new Stack(5)\n\n// 1. push some items into the stack\nlet count = stack.in('item0', 'item1', 'item2')\nconsole.log(stack.getStack(), count)\n// ['item0', 'item1', 'item2'] 3\n\n// 2. push more items\ncount = stack.in('item3', 'item4', 'item5')\nconsole.log(stack.getStack(), count)\n// ['item0', 'item1', 'item2', 'item3', 'item4'] 5\n// and the the rest item 'item5' was ignored cause the stack is full"
+        },
+        "out": {
+            "type": "method",
+            "static": false,
+            "permission": "public",
+            "description": "take n items from the stack",
+            "declaration": "public Stack<T>.out(n: number): T[]",
+            "example": "import { Stack } from \"lopo-lib\"\n\nconst stack = new Stack(5)\nstack.in('item0', 'item1', 'item2', 'item3', 'item4')\n\n// 1. take some items from the stack\nlet take = stack.out(3)\nconsole.log(take)\n// ['item4', 'item3', 'item2'] -- that is what we need\n\n// 2. take more items from the stack (more than what's left in the stack)\ntake = stack.out(3)\nconsole.log(take)\n// ['item1', 'item0'] -- it just takes out the rest\n\n// 3. take some items from the empty stack\ntake = stack.out(1)\nconsole.log(take)\n// [] -- returns an empty array"
+        },
+        "clear": {
+            "type": "method",
+            "static": false,
+            "permission": "public",
+            "description": "clear the queue and reset it`s max-length to `n` (if need)",
+            "declaration": "public Stack<T>.clear(n?: number): void",
+            "example": "import { Stack } from \"lopo-lib\"\n\nconst stack = new Stack(5)\nstack.in('item0', 'item1', 'item2', 'item3', 'item4')\n\nconsole.log(stack.getStack(), stack.depth)\n// ['item0', 'item1', 'item2', 'item3', 'item4'] 5\n\nstack.clear(3)\nstack.in('item0', 'item1', 'item2', 'item3', 'item4')\nconsole.log(stack.getStack(), stack.depth)\n// ['item0', 'item1', 'item2'] 3"
+        },
+        "_max": {
+            "type": "parameter",
+            "static": false,
+            "permission": "private",
+            "description": "max depth of the stack (unlimited if '_max === -1')",
+            "declaration": "private Stack<T>._max: number",
+            "example": "import { Stack } from \"lopo-lib\"\n\nconst stack = new Stack(5)\nconsole.log(stack._max)  // 5"
+        },
+        "_stack": {
+            "type": "parameter",
+            "static": false,
+            "permission": "private",
+            "description":"current stack (use instance.getStack() instead)",
+            "declaration": "private Stack<T>._stack: T[]",
+            "example": "import { Stack } from \"lopo-lib\"\n\nconst stack = new Stack(5)\nstack.in('item0', 'item1', 'item2', 'item3', 'item4')\nconsole.log(stack._stack)  // ['item0', 'item1', 'item2', 'item3', 'item4']"
+        }
+    },
+    "Tree": {
+        "TransKeyed_P2C": {
+            "type": "method",
+            "static": true,
+            "permission": "public",
+            "description": "[Tree_FlatArray] trans from 'parent-keyed' to 'child-keyed'",
+            "declaration": "public static Tree.TransKeyed_P2C(ori: Tree_FlatArray_PKeyed): Tree_FlatArray_CKeyed",
+            "example": "import { Tree, Tree_FlatArray_CKeyed, Tree_FlatArray_PKeyed } from \"lopo-lib\"\n\nconst tree_flat_p: Tree_FlatArray_PKeyed = [\n    { id: 'flat-c-1', extData: { name: 'flat-c-1' } },\n    { id: 'flat-c-2', extData: { name: 'flat-c-2' }, parent: 'flat-c-1' },\n    { id: 'flat-c-3', extData: { name: 'flat-c-3' }, parent: 'flat-c-1' },\n    { id: 'flat-c-4', extData: { name: 'flat-c-4' }, parent: 'flat-c-2' }\n]\n\nconst tree_flat_c: Tree_FlatArray_CKeyed = Tree.TransKeyed_P2C(tree_flat_p)\nconsole.log(tree_flat_c)\n// [\n//     {\n//         id: 'flat-c-1',\n//         extData: { name: 'flat-c-1' },\n//         children: [ 'flat-c-2', 'flat-c-3' ]\n//     },\n//     {\n//         id: 'flat-c-2',\n//         extData: { name: 'flat-c-2' },\n//         children: [ 'flat-c-4' ]\n//     },\n//     { id: 'flat-c-3', extData: { name: 'flat-c-3' } },\n//     { id: 'flat-c-4', extData: { name: 'flat-c-4' } }\n// ]"
+        },
+        "TransKeyed_C2P": {
+            "type": "method",
+            "static": true,
+            "permission": "public",
+            "description": "[Tree_FlatArray] trans from 'child-keyed' to 'parent-keyed'",
+            "declaration": "public static Tree.TransKeyed_C2P(ori: Tree_FlatArray_CKeyed): Tree_FlatArray_PKeyed",
+            "example": "import { Tree, Tree_FlatArray_CKeyed, Tree_FlatArray_PKeyed } from \"lopo-lib\"\n\nconst tree_flat_c: Tree_FlatArray_CKeyed = [\n    { id: 'flat-c-1', extData: { name: 'flat-c-1' }, children: ['flat-c-2', 'flat-c-3'] },\n    { id: 'flat-c-2', extData: { name: 'flat-c-2' }, children: ['flat-c-4'] },\n    { id: 'flat-c-3', extData: { name: 'flat-c-3' } },\n    { id: 'flat-c-4', extData: { name: 'flat-c-4' } }\n]\n\nconst tree_flat_p: Tree_FlatArray_PKeyed = Tree.TransKeyed_C2P(tree_flat_c)\nconsole.log(tree_flat_p)\n// [\n//     { id: 'flat-c-1', extData: { name: 'flat-c-1' } },\n//     { id: 'flat-c-2', extData: { name: 'flat-c-2' }, parent: 'flat-c-1' },\n//     { id: 'flat-c-3', extData: { name: 'flat-c-3' }, parent: 'flat-c-1' },\n//     { id: 'flat-c-4', extData: { name: 'flat-c-4' }, parent: 'flat-c-2' }\n// ]"
+        },
+        "Multilayer2FlatArray": {
+            "type": "method",
+            "static": true,
+            "permission": "public",
+            "description": "trans tree from 'Multilayer' to 'FlatArray'.\nif there is no `id` on the node, it will add an `id` for this node automatically.",
+            "declaration": "// 2 overloads\npublic static Tree.Multilayer2FlatArray(ori: Tree_Multilayer, keyed: \"parent\"): Tree_FlatArray_PKeyed\npublic static Tree.Multilayer2FlatArray(ori: Tree_Multilayer, keyed: \"children\"): Tree_FlatArray_CKeyed",
+            "example": "import { Tree, Tree_FlatArray_CKeyed, Tree_FlatArray_PKeyed, Tree_Multilayer } from \"lopo-lib\"\n\nconst tree_multi: Tree_Multilayer = {\n    id: 'flat-c-1',\n    extData: { name: 'flat-c-1' },\n    children: [\n        {\n            id: 'flat-c-2',\n            extData: { name: 'flat-c-2' },\n            children: [\n                { id: 'flat-c-4', extData: { name: 'flat-c-4' } }\n            ]\n        },\n        { id: 'flat-c-3', extData: { name: 'flat-c-3' } }\n    ]\n}\n\nconst res_multi2flat_p: Tree_FlatArray_PKeyed = Tree.Multilayer2FlatArray(tree_multi, 'parent')\nconsole.log(res_multi2flat_p)\n// [\n//     { id: 'flat-c-1', extData: { name: 'flat-c-1' } },\n//     { id: 'flat-c-2', extData: { name: 'flat-c-2' }, parent: 'flat-c-1' },\n//     { id: 'flat-c-4', extData: { name: 'flat-c-4' }, parent: 'flat-c-2' },\n//     { id: 'flat-c-3', extData: { name: 'flat-c-3' }, parent: 'flat-c-1' }\n// ]\n\nconst res_multi2flat_c: Tree_FlatArray_CKeyed = Tree.Multilayer2FlatArray(tree_multi, 'children')\nconsole.log(res_multi2flat_c)\n// [\n//     { id: 'flat-c-1', extData: { name: 'flat-c-1' }, children: ['flat-c-2', 'flat-c-3'] },\n//     { id: 'flat-c-2', extData: { name: 'flat-c-2' }, children: ['flat-c-4'] },\n//     { id: 'flat-c-4', extData: { name: 'flat-c-4' }, children: [] },\n//     { id: 'flat-c-3', extData: { name: 'flat-c-3' }, children: [] }\n// ]"
+        },
+        "FlatArray2Multilayer": {
+            "type": "method",
+            "static": true,
+            "permission": "public",
+            "description": "trans tree from 'FlatArray' to 'Multilayer'.\n⚠ it will try to find a node with no `parent` field (or `parent` with value `null` or `undefined`) as the root node, and build the tree on this node.\n⚠ if there are multiple nodes that meet the conditions in `ori`, it will only take the first one as the root node and start building the tree directly, the rest of the nodes will be ignored.",
+            "declaration": "// 2 overloads\npublic static Tree.FlatArray2Multilayer(ori: Tree_FlatArray_PKeyed, keyed: \"parent\"): Tree_Multilayer\npublic static Tree.FlatArray2Multilayer(ori: Tree_FlatArray_CKeyed, keyed: \"children\"): Tree_Multilayer",
+            "example": "import { Tree, Tree_FlatArray_CKeyed, Tree_FlatArray_PKeyed, Tree_Multilayer } from \"lopo-lib\"\n\n// 1. flat-array tree (with parent keyed) to multi-layer tree\nconst tree_flat_p: Tree_FlatArray_PKeyed = [\n    { id: 'flat-c-1', extData: { name: 'flat-c-1' } },\n    { id: 'flat-c-2', extData: { name: 'flat-c-2' }, parent: 'flat-c-1' },\n    { id: 'flat-c-3', extData: { name: 'flat-c-3' }, parent: 'flat-c-1' },\n    { id: 'flat-c-4', extData: { name: 'flat-c-4' }, parent: 'flat-c-2' }\n]\nconst res_flat2multi_p: Tree_Multilayer = Tree.FlatArray2Multilayer(tree_flat_p, 'parent')\nconsole.log(res_flat2multi_p)\n// {\n//     id: 'flat-c-1',\n//     extData: { name: 'flat-c-1' },\n//     children: [\n//         {\n//             id: 'flat-c-2',\n//             extData: { name: 'flat-c-2' },\n//             children: [\n//                 { id: 'flat-c-4', extData: { name: 'flat-c-4' } }\n//             ]\n//         },\n//         { id: 'flat-c-3', extData: { name: 'flat-c-3' } }\n//     ]\n// }\n\n// 2. flat-array tree (with child keyed) to multi-layer tree\nconst tree_flat_c: Tree_FlatArray_CKeyed = [\n    { id: 'flat-c-1', extData: { name: 'flat-c-1' }, children: ['flat-c-2', 'flat-c-3'] },\n    { id: 'flat-c-2', extData: { name: 'flat-c-2' }, children: ['flat-c-4'] },\n    { id: 'flat-c-3', extData: { name: 'flat-c-3' } },\n    { id: 'flat-c-4', extData: { name: 'flat-c-4' } }\n]\nconst res_flat2multi_c: Tree_Multilayer = Tree.FlatArray2Multilayer(tree_flat_c, 'children')\nconsole.log(res_flat2multi_c)\n// {\n//     id: 'flat-c-1',\n//     extData: { name: 'flat-c-1' },\n//     children: [\n//         {\n//             id: 'flat-c-2',\n//             extData: { name: 'flat-c-2' },\n//             children: [\n//                 { id: 'flat-c-4', extData: { name: 'flat-c-4' } }\n//             ]\n//         },\n//         { id: 'flat-c-3', extData: { name: 'flat-c-3' } }\n//     ]\n// }"
+        },
+        "Multilayer2NodeLink": {
+            "type": "method",
+            "static": true,
+            "permission": "public",
+            "description": "trans tree from 'Multilayer' to 'NodeLink'.\n⚠ if there is no `id` on the node, it will add an `id` for this node automatically.",
+            "declaration": "public static Tree.Multilayer2NodeLink(ori: Tree_Multilayer): Tree_NodeLink",
+            "example": "import { Tree, Tree_Multilayer, Tree_NodeLink } from \"lopo-lib\"\n\nconst tree_multi: Tree_Multilayer = {\n    id: 'flat-c-1',\n    extData: { name: 'flat-c-1' },\n    children: [\n        {\n            id: 'flat-c-2',\n            extData: { name: 'flat-c-2' },\n            children: [\n                { id: 'flat-c-4', extData: { name: 'flat-c-4' } }\n            ]\n        },\n        { id: 'flat-c-3', extData: { name: 'flat-c-3' } }\n    ]\n}\n\nconst res_multi2nodelink: Tree_NodeLink = Tree.Multilayer2NodeLink(tree_multi)\nconsole.log(res_multi2nodelink)\n// {\n//     nodes: [\n//         { id: 'flat-c-1', extData: { name: 'flat-c-1' } },\n//         { id: 'flat-c-2', extData: { name: 'flat-c-2' } },\n//         { id: 'flat-c-4', extData: { name: 'flat-c-4' } },\n//         { id: 'flat-c-3', extData: { name: 'flat-c-3' } },\n//     ],\n//     links: [\n//         { id: 'a1711ded-43c2-449e-85e7-37795c69f966', from: 'flat-c-1', to: 'flat-c-2' },\n//         { id: '570ee8f2-be5e-4945-8952-831ca6f58783', from: 'flat-c-2', to: 'flat-c-4' },\n//         { id: '20d03281-4874-41ba-ad3d-88e36b3bfa5f', from: 'flat-c-1', to: 'flat-c-3' }\n//     ]\n// }"
+        },
+        "NodeLink2Multilayer": {
+            "type": "method",
+            "static": true,
+            "permission": "public",
+            "description": "trans tree from 'NodeLink' to 'Multilayer'\n⚠it will try to find a node that is not pointed to by the `to` of any of the `ori.links` as the root node, and build the tree on this node.\n⚠if there are multiple nodes that meet the conditions in `ori.nodes`, it will only take the first one as the root node and start building the tree directly, the rest of the nodes will be ignored.\n⚠if there are some nodes in `ori.nodes` that are not connected to other nodes, these nodes will be ignored.",
+            "declaration": "public static Tree.NodeLink2Multilayer(ori: Tree_NodeLink): Tree_Multilayer | null",
+            "example": "import { Tree, Tree_Multilayer, Tree_NodeLink } from \"lopo-lib\"\n\nconst tree_nodelink: Tree_NodeLink = {\n    nodes: [\n        { id: 'flat-c-1', extData: { name: 'flat-c-1' } },\n        { id: 'flat-c-2', extData: { name: 'flat-c-2' } },\n        { id: 'flat-c-4', extData: { name: 'flat-c-4' } },\n        { id: 'flat-c-3', extData: { name: 'flat-c-3' } },\n    ],\n    links: [\n        { id: 'a1711ded-43c2-449e-85e7-37795c69f966', from: 'flat-c-1', to: 'flat-c-2' },\n        { id: '570ee8f2-be5e-4945-8952-831ca6f58783', from: 'flat-c-2', to: 'flat-c-4' },\n        { id: '20d03281-4874-41ba-ad3d-88e36b3bfa5f', from: 'flat-c-1', to: 'flat-c-3' }\n    ]\n}\n\nconst res_nodelink2multi: Tree_Multilayer = Tree.NodeLink2Multilayer(tree_nodelink)\nconsole.log(res_nodelink2multi)\n// {\n//     id: 'flat-c-1',\n//     extData: { name: 'flat-c-1' },\n//     children: [\n//         {\n//             id: 'flat-c-2',\n//             extData: { name: 'flat-c-2' },\n//             children: [\n//                 { id: 'flat-c-4', extData: { name: 'flat-c-4' } }\n//             ]\n//         },\n//         { id: 'flat-c-3', extData: { name: 'flat-c-3' } }\n//     ]\n// }"
+        },
+        "FlatArray2NodeLink": {
+            "type": "method",
+            "static": true,
+            "permission": "public",
+            "description": "trans from 'FlatArray' to 'NodeLink'",
+            "declaration": "// 2 overloads\npublic static Tree.FlatArray2NodeLink(ori: Tree_FlatArray_PKeyed, keyed: \"parent\"): Tree_NodeLink\npublic static Tree.FlatArray2NodeLink(ori: Tree_FlatArray_CKeyed, keyed: \"children\"): Tree_NodeLink",
+            "example": "import {Tree, Tree_FlatArray_CKeyed, Tree_FlatArray_PKeyed, Tree_NodeLink} from \"lopo-lib\"\n\nconst tree_flat_p: Tree_FlatArray_PKeyed = [\n    { id: 'flat-c-1', extData: { name: 'flat-c-1' } },\n    { id: 'flat-c-2', extData: { name: 'flat-c-2' }, parent: 'flat-c-1' },\n    { id: 'flat-c-3', extData: { name: 'flat-c-3' }, parent: 'flat-c-1' },\n    { id: 'flat-c-4', extData: { name: 'flat-c-4' }, parent: 'flat-c-2' }\n]\nconst res_flat2nodelink_p: Tree_NodeLink = Tree.FlatArray2NodeLink(tree_flat_p, 'parent')\nconsole.log(res_flat2nodelink_p)\n// {\n//     nodes: [\n//         { id: 'flat-c-1', extData: { name: 'flat-c-1' } },\n//         { id: 'flat-c-2', extData: { name: 'flat-c-2' } },\n//         { id: 'flat-c-4', extData: { name: 'flat-c-4' } },\n//         { id: 'flat-c-3', extData: { name: 'flat-c-3' } },\n//     ],\n//     links: [\n//         { id: 'a1711ded-43c2-449e-85e7-37795c69f966', from: 'flat-c-1', to: 'flat-c-2' },\n//         { id: '570ee8f2-be5e-4945-8952-831ca6f58783', from: 'flat-c-2', to: 'flat-c-4' },\n//         { id: '20d03281-4874-41ba-ad3d-88e36b3bfa5f', from: 'flat-c-1', to: 'flat-c-3' }\n//     ]\n// }\n\nconst tree_flat_c: Tree_FlatArray_CKeyed = [\n    { id: 'flat-c-1', extData: { name: 'flat-c-1' }, children: ['flat-c-2', 'flat-c-3'] },\n    { id: 'flat-c-2', extData: { name: 'flat-c-2' }, children: ['flat-c-4'] },\n    { id: 'flat-c-3', extData: { name: 'flat-c-3' } },\n    { id: 'flat-c-4', extData: { name: 'flat-c-4' } }\n]\nconst res_flat2nodelink_c: Tree_NodeLink = Tree.FlatArray2NodeLink(tree_flat_c, 'children')\nconsole.log(res_flat2nodelink_c)\n// {\n//     nodes: [\n//         { id: 'flat-c-1', extData: { name: 'flat-c-1' } },\n//         { id: 'flat-c-2', extData: { name: 'flat-c-2' } },\n//         { id: 'flat-c-4', extData: { name: 'flat-c-4' } },\n//         { id: 'flat-c-3', extData: { name: 'flat-c-3' } },\n//     ],\n//     links: [\n//         { id: 'a1711ded-43c2-449e-85e7-37795c69f966', from: 'flat-c-1', to: 'flat-c-2' },\n//         { id: '570ee8f2-be5e-4945-8952-831ca6f58783', from: 'flat-c-2', to: 'flat-c-4' },\n//         { id: '20d03281-4874-41ba-ad3d-88e36b3bfa5f', from: 'flat-c-1', to: 'flat-c-3' }\n//     ]\n// }"
+        },
+        "NodeLink2FlatArray": {
+            "type": "method",
+            "static": true,
+            "permission": "public",
+            "description": "trans tree from 'NodeLink' to 'FlatArray'\n⚠if there is no `id` on the node, the node will be ignored.\n⚠if there is no `id` on the link, the link works as well.\n⚠if a node's `id` appears in the `to` of two(or more) links, the last link will be used and all the rest links will be ignored.",
+            "declaration": "// 2 overloads\npublic static Tree.NodeLink2FlatArray(ori: Tree_NodeLink, keyed: \"parent\"): Tree_FlatArray_PKeyed\npublic static Tree.NodeLink2FlatArray(ori: Tree_NodeLink, keyed: \"children\"): Tree_FlatArray_CKeyed",
+            "example": "import {Tree, Tree_FlatArray_CKeyed, Tree_FlatArray_PKeyed, Tree_NodeLink} from \"lopo-lib\"\n\nconst tree_nodelink: Tree_NodeLink = {\n    nodes: [\n        { id: 'flat-c-1', extData: { name: 'flat-c-1' } },\n        { id: 'flat-c-2', extData: { name: 'flat-c-2' } },\n        { id: 'flat-c-4', extData: { name: 'flat-c-4' } },\n        { id: 'flat-c-3', extData: { name: 'flat-c-3' } },\n    ],\n    links: [\n        { id: 'a1711ded-43c2-449e-85e7-37795c69f966', from: 'flat-c-1', to: 'flat-c-2' },\n        { id: '570ee8f2-be5e-4945-8952-831ca6f58783', from: 'flat-c-2', to: 'flat-c-4' },\n        { id: '20d03281-4874-41ba-ad3d-88e36b3bfa5f', from: 'flat-c-1', to: 'flat-c-3' }\n    ]\n}\n\nconst res_nodelink2flat_p: Tree_FlatArray_PKeyed = Tree.NodeLink2FlatArray(tree_nodelink, 'parent')\nconsole.log(res_nodelink2flat_p)\n// [\n//     { id: 'flat-c-1', extData: { name: 'flat-c-1' } },\n//     { id: 'flat-c-2', extData: { name: 'flat-c-2' }, parent: 'flat-c-1' },\n//     { id: 'flat-c-4', extData: { name: 'flat-c-4' }, parent: 'flat-c-2' },\n//     { id: 'flat-c-3', extData: { name: 'flat-c-3' }, parent: 'flat-c-1' }\n// ]\n\nconst res_nodelink2flat_c: Tree_FlatArray_CKeyed = Tree.NodeLink2FlatArray(tree_nodelink, 'children')\nconsole.log(res_nodelink2flat_c)\n// [\n//     {\n//         id: 'flat-c-1',\n//         extData: { name: 'flat-c-1' },\n//         children: ['flat-c-2', 'flat-c-3']\n//     },\n//     {\n//         id: 'flat-c-2',\n//         extData: { name: 'flat-c-2' },\n//         children: ['flat-c-4']\n//     },\n//     { id: 'flat-c-4', extData: { name: 'flat-c-4' } },\n//     { id: 'flat-c-3', extData: { name: 'flat-c-3' } }\n// ]"
+        }
+    }
+}

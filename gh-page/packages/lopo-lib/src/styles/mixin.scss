@@ -1,0 +1,20 @@
+// 滚动条样式
+@mixin scrollBarStyle($color: #eeeeee) {
+    &::-webkit-scrollbar {
+        width: 8px!important;
+        height: 8px!important;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: $color!important;
+        //background: linear-gradient(0deg,
+        //        #00000033 0%,
+        //        #00000066 50%,
+        //        #00000033 100%);;
+        border-radius: 10px!important;
+    }
+    &::-webkit-scrollbar-track {
+        background-color: #00000000!important;
+        border-radius: 10px!important;
+        opacity: 0!important;
+    }
+}
