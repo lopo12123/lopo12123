@@ -1,13 +1,12 @@
 import {
-    HTMLAttributes,
-    ReactNode,
+    HTMLAttributes, ReactNode,
     RefObject,
     useEffect,
     useRef,
     useState
 } from "react";
 
-// region 接口
+// region [types]
 /**
  * @description SpaConverter 的入参
  */
@@ -23,25 +22,29 @@ export interface SpaConverterProp extends HTMLAttributes<HTMLElement> {
 }
 
 /**
+ * @description import('entry-path-to-sub-spa').then(spa: SpaModule)
+ */
+export interface SpaModule {
+    default: (container: HTMLDivElement | null) => SpaModuleMethod
+}
+
+/**
  * @description 子应用的生命周期方法
  * @example
  * 调用 subSpaInstance.mount() 以挂载子应用
  * 调用 subSpaInstance.render() 以绘制子应用
  * 调用 subSpaInstance.unmount() 以卸载子应用
  */
-export interface SpaMethod {
-    mount?: (props: any) => void
-    render?: (props: any) => ReactNode
+export interface SpaModuleMethod {
+    mount?: (props?: Record<string, any>) => void
+    render?: (props?: Record<string, any>) => ReactNode
     unmount?: () => void
 }
 
 /**
- * @description import('entry-path-to-sub-spa').then(spa: SpaModule)
+ * @description defineSpaApp 的入参
  */
-export interface SpaModule {
-    default: (container: HTMLDivElement | null) => SpaMethod
-}
-
+export type SpaConstructor = (container: HTMLElement) => SpaModuleMethod
 // endregion
 
 // region 内部方法
@@ -65,10 +68,11 @@ const loadSpaModule = (entryPath: string | (() => Promise<string>)): Promise<Spa
 /**
  * @description 加载子应用后进行检查 (正确 - 返回子模块生命周期方法; 错误 - 抛出错误信息)
  */
-const spaModuleCheck = (spaModule: SpaModule, containerRef: RefObject<HTMLDivElement>): Promise<SpaMethod> => {
+const spaModuleCheck = (spaModule: SpaModule, containerRef: RefObject<HTMLDivElement | null>): Promise<SpaModuleMethod> => {
     if(typeof spaModule.default !== 'function') return Promise.reject(`[SubSpa] 导出格式错误, 缺失必要的 'default' 导出.`)
+    else if(!!containerRef.current) return Promise.reject(`[SubSpa] 挂载元素错误, 目标元素不存在.`)
     else {
-        const _spa = spaModule.default(containerRef.current) as SpaMethod
+        const _spa = spaModule.default(containerRef.current) as SpaModuleMethod
 
         if(!_spa.mount && !_spa.render) return Promise.reject(`[SubSpa] 'mount' 和 'render' 方法同时缺失, 需要至少一项不为空.`)
         else if(_spa.mount && !_spa.unmount) return Promise.reject(`[SubSpa] 'unmount' 方法缺失, 当 'mount' 方法非空时, 'unmount' 方法为必须项.`)
@@ -78,11 +82,20 @@ const spaModuleCheck = (spaModule: SpaModule, containerRef: RefObject<HTMLDivEle
 
 // endregion
 
-export function SpaConverter_React({ entryPath, deepProps, loadingDisplay, errorDisplay, ...props }: SpaConverterProp) {
+/**
+ * @description 主应用使用 React 时, 子应用使用的包装器
+ * @example
+ * <Routes>
+ *     <Route element={ <SpaConverter_React entryPath="entry-path-of-sub-app" /> }>
+ * </Routes>
+ */
+export function SpaConverter_React(converterProp: SpaConverterProp): JSX.Element {
+    // 解构
+    const { entryPath, deepProps, loadingDisplay, errorDisplay, ...props } = converterProp
     // 子应用容器
-    const containerRef = useRef<HTMLDivElement>(null)
+    const containerRef = useRef<HTMLDivElement | null>(null)
     // 子应用配置
-    const spaMethodRef = useRef<SpaMethod>()
+    const spaMethodRef = useRef<SpaModuleMethod>()
     // converter加载状态
     const [ converterLoading, setConverterLoading ] = useState<boolean>(true)
     // 错误信息
@@ -122,7 +135,8 @@ export function SpaConverter_React({ entryPath, deepProps, loadingDisplay, error
 
     // 返回子应用的容器
     return (
-        <div ref={ containerRef } { ...props }>
+        <div>hello</div>
+        /* <div ref={ containerRef } { ...props }>
             {
                 errMsg
                     ? errorDisplay
@@ -137,5 +151,35 @@ export function SpaConverter_React({ entryPath, deepProps, loadingDisplay, error
                             : '[Sub Spa] Sub-app has no content.'
             }
         </div>
+        */
     )
+}
+
+/**
+ * @description 子应用实例处理
+ * @example
+ * // 在子应用入口文件中使用
+ * export default defineSpaApp((container: HTMLElement) => {
+ *     const app = createApp(App)  // app: 子应用实例
+ *     return {
+ *         mount() {
+ *             app.mount(container)
+ *         },
+ *         render() {
+ *             // ...
+ *         },
+ *         unmount() {
+ *             app.unmount()
+ *         }
+ *     } as SpaModuleMethod
+ * })
+ */
+export function defineSpaApp(spaConstructor: SpaConstructor) {
+    return ((container: HTMLElement) => {
+        const spaInstance = spaConstructor(container)
+
+        // do inject
+
+        return spaInstance
+    })
 }
