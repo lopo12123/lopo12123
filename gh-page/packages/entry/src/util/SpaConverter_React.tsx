@@ -13,7 +13,7 @@ import {
  */
 export interface SpaConverterProp extends HTMLAttributes<HTMLElement> {
     // 子应用加载路径
-    path: string
+    entryPath: string
     // 传递给子应用的参数
     deepProps?: Record<string, any>
     // 加载状态的展示内容
@@ -36,7 +36,7 @@ export interface SpaMethod {
 }
 
 /**
- * @description import('path-to-sub-spa').then(spa: SpaModule)
+ * @description import('entry-path-to-sub-spa').then(spa: SpaModule)
  */
 export interface SpaModule {
     default: (container: HTMLDivElement | null) => SpaMethod
@@ -46,19 +46,19 @@ export interface SpaModule {
 
 // region 内部方法
 /**
- * @description Makes it possible to get the path of the sub-application asynchronously
+ * @description Makes it possible to get the entry path of the sub-application asynchronously
  */
-const loadSpaModule = (path: string | (() => Promise<string>)): Promise<SpaModule> => {
-    if(typeof path === 'string') {
-        return import( /** @vite-ignore */ `${ path }`)
+const loadSpaModule = (entryPath: string | (() => Promise<string>)): Promise<SpaModule> => {
+    if(typeof entryPath === 'string') {
+        return import(/* @vite-ignore */`${ entryPath }`)
     }
-    else if(typeof path === 'function') {
-        return path().then((realPath) => {
-            return import( /** @vite-ignore */ `${ realPath }`)
+    else if(typeof entryPath === 'function') {
+        return entryPath().then((realPath) => {
+            return import(/* @vite-ignore */`${ realPath }`)
         })
     }
     else {
-        return Promise.reject('Type Error: path of spa.')
+        return Promise.reject('Type Error: entry path of spa.')
     }
 }
 
@@ -78,7 +78,7 @@ const spaModuleCheck = (spaModule: SpaModule, containerRef: RefObject<HTMLDivEle
 
 // endregion
 
-export function SpaConverter_React({ path, deepProps, loadingDisplay, errorDisplay, ...props }: SpaConverterProp) {
+export function SpaConverter_React({ entryPath, deepProps, loadingDisplay, errorDisplay, ...props }: SpaConverterProp) {
     // 子应用容器
     const containerRef = useRef<HTMLDivElement>(null)
     // 子应用配置
@@ -91,7 +91,7 @@ export function SpaConverter_React({ path, deepProps, loadingDisplay, errorDispl
     // 仅执行一次 once
     useEffect(() => {
         // 加载子应用
-        loadSpaModule(path)
+        loadSpaModule(entryPath)
             .then((spaModule) => spaModuleCheck(spaModule, containerRef))
             .then((spaMethod) => {
                 // 子应用有 'mount' 方法 - 渲染子应用
