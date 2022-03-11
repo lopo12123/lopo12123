@@ -17,7 +17,7 @@ export interface SpaConverterProp extends HTMLAttributes<HTMLElement> {
     // 传递给子应用的参数
     deepProps?: Record<string, any>
     // 加载状态的展示内容
-    loadingDisplay?: ReactNode
+    loadingDisplay?: ReactNode | void
     // 错误状态的展示内容
     errorDisplay?: (msg: string) => ReactNode
 }
@@ -116,19 +116,19 @@ export function SpaConverter_React(converterProp: SpaConverterProp): JSX.Element
             // 加载子应用
             loadSpaModule(entryPath)
                 .then((spaModule) => spaModuleCheck(spaModule, containerEl))
-            //     .then((spaMethod) => {
-            //         // 子应用有 'mount' 方法 - 渲染子应用
-            //         if(!!spaMethod.mount) {
-            //             setConverterLoading(false)  // converter准备就绪
-            //             spaMethodRef.current = spaMethod
-            //             spaMethod.mount(deepProps)  // 渲染子应用
-            //         }
-            //         // 子应用无 'mount' 方法 - 仅更新子应用ref
-            //         else {
-            //             setConverterLoading(false)
-            //             spaMethodRef.current = spaMethod
-            //         }
-            //     })
+                .then((spaMethod) => {
+                    // 子应用有 'mount' 方法 - 渲染子应用
+                    if(!!spaMethod.mount) {
+                        setConverterLoading(false)  // converter准备就绪
+                        spaMethodRef.current = spaMethod
+                        spaMethod.mount(deepProps)  // 渲染子应用
+                    }
+                    // 子应用无 'mount' 方法 - 仅更新子应用ref
+                    else {
+                        setConverterLoading(false)
+                        spaMethodRef.current = spaMethod
+                    }
+                })
                 .catch((err) => {
                     setErrMsg(err.toString)  // 更新错误信息
                     setConverterLoading(false)  // 取消加载状态
@@ -157,21 +157,20 @@ export function SpaConverter_React(converterProp: SpaConverterProp): JSX.Element
     //                     ? containerDom((spa.mount(deepProps)+'').slice(0, 0))
     //                     : containerDom('[Sub Spa] This Sub-app has no content.')
     return (
-        <div { ...deepProps } id={containerId} >
-            {containerId}
-            {/*{*/}
-            {/*    errMsg !== ''*/}
-            {/*        ? errorDisplay*/}
-            {/*            ? errorDisplay(errMsg)*/}
-            {/*            : errMsg*/}
-            {/*        : converterLoading*/}
-            {/*            ? loadingDisplay*/}
-            {/*                ? loadingDisplay*/}
-            {/*                : "[Sub Spa] Converter is preparing."*/}
-            {/*            : (spa && spa.render)*/}
-            {/*                ? spa.render(deepProps)*/}
-            {/*                : '[Sub Spa] This Sub-app has no content.'*/}
-            {/*}*/}
+        <div { ...props } id={ containerId }>
+            {
+                errMsg !== ''
+                    ? errorDisplay
+                        ? errorDisplay(errMsg)
+                        : errMsg
+                    : converterLoading
+                        ? loadingDisplay
+                            ? loadingDisplay
+                            : "[Sub Spa] Converter is preparing."
+                        : (spa && spa.render)
+                            ? spa.render(deepProps)
+                            : '[Sub Spa] This Sub-app has no content.'
+            }
         </div>
     )
 }
