@@ -5,6 +5,7 @@ import {
     useRef,
     useState
 } from "react";
+import { v4 as UUID } from "uuid";
 
 // region [types]
 /**
@@ -93,13 +94,14 @@ export function SpaConverter_React(converterProp: SpaConverterProp): JSX.Element
     // 解构
     const { entryPath, deepProps, loadingDisplay, errorDisplay, ...props } = converterProp
     // 子应用容器
-    const containerRef = useRef<HTMLDivElement | null>(null)
+    const containerRef = useRef<HTMLDivElement>(null)
+    const containerDom = (slot: ReactNode) => <div key={UUID()}>{slot}</div>
     // 子应用配置
     const spaMethodRef = useRef<SpaModuleMethod>()
     // converter加载状态
     const [ converterLoading, setConverterLoading ] = useState<boolean>(true)
     // 错误信息
-    const [ errMsg, setErrMsg ] = useState<string>()
+    const [ errMsg, setErrMsg ] = useState<string>('')
 
     // 仅执行一次 once
     useEffect(() => {
@@ -134,51 +136,46 @@ export function SpaConverter_React(converterProp: SpaConverterProp): JSX.Element
     const spa = spaMethodRef.current
 
     // 返回子应用的容器
-    return (
-        <div>hello</div>
-        /* <div ref={ containerRef } { ...props }>
-            {
-                errMsg
-                    ? errorDisplay
-                        ? errorDisplay(errMsg)
-                        : errMsg
-                    : converterLoading
+    return containerDom(
+        errMsg !== ''
+                ? errorDisplay
+                    ? errorDisplay(errMsg)
+                    : errMsg
+                : converterLoading
+                    ? loadingDisplay
                         ? loadingDisplay
-                            ? loadingDisplay
-                            : '[Sub Spa] Converter is preparing.'
-                        : (spa && spa.render)
-                            ? spa.render(deepProps)
-                            : '[Sub Spa] Sub-app has no content.'
-            }
-        </div>
-        */
+                        : '[Sub Spa] Converter is preparing.'
+                    : (spa && spa.render)
+                        ? spa.render(deepProps)
+                        : '[Sub Spa] This Sub-app has no content.'
     )
 }
 
 /**
  * @description 子应用实例处理
  * @example
- * // 在子应用入口文件中使用
- * export default defineSpaApp((container: HTMLElement) => {
- *     const app = createApp(App)  // app: 子应用实例
- *     return {
- *         mount() {
- *             app.mount(container)
- *         },
- *         render() {
- *             // ...
- *         },
- *         unmount() {
- *             app.unmount()
- *         }
- *     } as SpaModuleMethod
+ * // 1. 子应用应具有默认导出:
+ * export default () => ({
+ *     mount() { ... },
+ *     render() { ... },
+ *     unmount() { ... }
  * })
+ * // 2. 或在子应用入口文件中使用
+ * export default defineSpaApp((container: HTMLElement) => {
+ *     // 其他处理
+ *     return {
+ *         mount() { ... },
+ *         render() { ... },
+ *         unmount() { ... }
+ *     }
+ * )
  */
-export function defineSpaApp(spaConstructor: SpaConstructor) {
+export function defineSpaApp(spaConstructor: SpaConstructor, injects?: (instance: SpaModuleMethod) => void) {
     return ((container: HTMLElement) => {
         const spaInstance = spaConstructor(container)
 
-        // do inject
+        Object.freeze(spaInstance)
+        injects?.(spaInstance)
 
         return spaInstance
     })
