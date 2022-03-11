@@ -1,5 +1,4 @@
 import NavigationMenu from "./components/NavigationMenu";
-import { SpaConverter_React } from "../../utils/ReactSpaConverter";
 import { Outlet } from "react-router-dom";
 
 export default function App() {

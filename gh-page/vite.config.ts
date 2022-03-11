@@ -10,9 +10,6 @@ export default defineConfig({
     },
     resolve: {
         alias: {
-            "@root": "/packages",
-            "@entry": "/packages/entry",
-            "@entry-src": "/packages/entry/src",
             "@vite-react-ts": "/packages/vite-react-ts",
             "@vite-react-ts-src": "/packages/vite-react-ts/src",
             "@vite-vue-ts": "/packages/vite-vue-ts",
