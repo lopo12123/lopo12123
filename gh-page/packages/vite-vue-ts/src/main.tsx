@@ -8,6 +8,10 @@ export default defineSpaApp((container) => {
         mount() {
             app.mount(container)
             console.log('vue mount')
+
+            setTimeout(() => {
+                app.unmount()
+            }, 10_000)
         },
         unmount() {
             app.unmount()
