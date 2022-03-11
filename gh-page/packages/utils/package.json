@@ -1,6 +1,10 @@
 {
     "name": "utils",
     "version": "0.0.0",
+    "scripts": {
+        "dev": "echo no-dev",
+        "build": "echo no-build"
+    },
     "dependencies": {
         "radium": "^0.26.2",
         "react": "^17.0.2",
