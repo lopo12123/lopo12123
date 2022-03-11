@@ -1,7 +1,7 @@
 import {
-    HTMLAttributes, ReactNode,
-    RefObject,
-    useEffect,
+    HTMLAttributes,
+    ReactNode,
+    useLayoutEffect,
     useRef,
     useState
 } from "react";
@@ -69,11 +69,11 @@ const loadSpaModule = (entryPath: string | (() => Promise<string>)): Promise<Spa
 /**
  * @description 加载子应用后进行检查 (正确 - 返回子模块生命周期方法; 错误 - 抛出错误信息)
  */
-const spaModuleCheck = (spaModule: SpaModule, containerRef: RefObject<HTMLDivElement | null>): Promise<SpaModuleMethod> => {
+const spaModuleCheck = (spaModule: SpaModule, container: HTMLDivElement): Promise<SpaModuleMethod> => {
     if(typeof spaModule.default !== 'function') return Promise.reject(`[SubSpa] 导出格式错误, 缺失必要的 'default' 导出.`)
-    else if(!!containerRef.current) return Promise.reject(`[SubSpa] 挂载元素错误, 目标元素不存在.`)
+    else if(!container) return Promise.reject(`[SubSpa] 挂载元素错误, 目标元素不存在.`)
     else {
-        const _spa = spaModule.default(containerRef.current) as SpaModuleMethod
+        const _spa = spaModule.default(container) as SpaModuleMethod
 
         if(!_spa.mount && !_spa.render) return Promise.reject(`[SubSpa] 'mount' 和 'render' 方法同时缺失, 需要至少一项不为空.`)
         else if(_spa.mount && !_spa.unmount) return Promise.reject(`[SubSpa] 'unmount' 方法缺失, 当 'mount' 方法非空时, 'unmount' 方法为必须项.`)
@@ -94,8 +94,10 @@ export function SpaConverter_React(converterProp: SpaConverterProp): JSX.Element
     // 解构
     const { entryPath, deepProps, loadingDisplay, errorDisplay, ...props } = converterProp
     // 子应用容器
-    const containerRef = useRef<HTMLDivElement>(null)
-    const containerDom = (slot: ReactNode) => <div key={UUID()}>{slot}</div>
+    // const containerRef = useRef<HTMLDivElement>(null)
+    // const containerDom = (slot?: ReactNode) => <div id={UUID()}>{slot}</div>
+    // const [containerId] = useState<string>(UUID())
+    const containerId = UUID()
     // 子应用配置
     const spaMethodRef = useRef<SpaModuleMethod>()
     // converter加载状态
@@ -104,27 +106,34 @@ export function SpaConverter_React(converterProp: SpaConverterProp): JSX.Element
     const [ errMsg, setErrMsg ] = useState<string>('')
 
     // 仅执行一次 once
-    useEffect(() => {
-        // 加载子应用
-        loadSpaModule(entryPath)
-            .then((spaModule) => spaModuleCheck(spaModule, containerRef))
-            .then((spaMethod) => {
-                // 子应用有 'mount' 方法 - 渲染子应用
-                if(!!spaMethod.mount) {
-                    setConverterLoading(false)  // converter准备就绪
-                    spaMethodRef.current = spaMethod
-                    spaMethod.mount(deepProps)  // 渲染子应用
-                }
-                // 子应用无 'mount' 方法 - 仅更新子应用ref
-                else {
-                    setConverterLoading(false)
-                    spaMethodRef.current = spaMethod
-                }
-            })
-            .catch((err) => {
-                setErrMsg(err.toString)  // 更新错误信息
-                setConverterLoading(false)  // 取消加载状态
-            })
+    useLayoutEffect(() => {
+        const containerEl = document.getElementById(containerId) as HTMLDivElement
+
+        if(!containerEl) {
+            alert('[Sub Spa] No container matched!')
+        }
+        else {
+            // 加载子应用
+            loadSpaModule(entryPath)
+                .then((spaModule) => spaModuleCheck(spaModule, containerEl))
+            //     .then((spaMethod) => {
+            //         // 子应用有 'mount' 方法 - 渲染子应用
+            //         if(!!spaMethod.mount) {
+            //             setConverterLoading(false)  // converter准备就绪
+            //             spaMethodRef.current = spaMethod
+            //             spaMethod.mount(deepProps)  // 渲染子应用
+            //         }
+            //         // 子应用无 'mount' 方法 - 仅更新子应用ref
+            //         else {
+            //             setConverterLoading(false)
+            //             spaMethodRef.current = spaMethod
+            //         }
+            //     })
+                .catch((err) => {
+                    setErrMsg(err.toString)  // 更新错误信息
+                    setConverterLoading(false)  // 取消加载状态
+                })
+        }
         // Effect 清除 - 即加载新的子应用前卸载上一个应用
         return () => {
             const spaMethod = spaMethodRef.current
@@ -136,18 +145,34 @@ export function SpaConverter_React(converterProp: SpaConverterProp): JSX.Element
     const spa = spaMethodRef.current
 
     // 返回子应用的容器
-    return containerDom(
-        errMsg !== ''
-                ? errorDisplay
-                    ? errorDisplay(errMsg)
-                    : errMsg
-                : converterLoading
-                    ? loadingDisplay
-                        ? loadingDisplay
-                        : '[Sub Spa] Converter is preparing.'
-                    : (spa && spa.render)
-                        ? spa.render(deepProps)
-                        : '[Sub Spa] This Sub-app has no content.'
+    // return (errMsg !== '')
+    //             ? errorDisplay
+    //                 ? containerDom(errorDisplay(errMsg))
+    //                 : containerDom(errMsg)
+    //             : converterLoading
+    //                 ? loadingDisplay
+    //                     ? containerDom(loadingDisplay)
+    //                     : containerDom('[Sub Spa] Converter is preparing.')
+    //                 : (spa && spa.mount )
+    //                     ? containerDom((spa.mount(deepProps)+'').slice(0, 0))
+    //                     : containerDom('[Sub Spa] This Sub-app has no content.')
+    return (
+        <div { ...deepProps } id={containerId} >
+            {containerId}
+            {/*{*/}
+            {/*    errMsg !== ''*/}
+            {/*        ? errorDisplay*/}
+            {/*            ? errorDisplay(errMsg)*/}
+            {/*            : errMsg*/}
+            {/*        : converterLoading*/}
+            {/*            ? loadingDisplay*/}
+            {/*                ? loadingDisplay*/}
+            {/*                : "[Sub Spa] Converter is preparing."*/}
+            {/*            : (spa && spa.render)*/}
+            {/*                ? spa.render(deepProps)*/}
+            {/*                : '[Sub Spa] This Sub-app has no content.'*/}
+            {/*}*/}
+        </div>
     )
 }
 
