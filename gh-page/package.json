@@ -1,14 +1,17 @@
 {
-    "name": "npm-docs",
+    "name": "react-converter",
     "private": true,
     "version": "0.0.0",
     "scripts": {
-        "dev:whole": "cd packages/entry && yarn run dev",
+        "dev:all": "vite --host --open",
         "dev:entry": "cd packages/entry && yarn run dev",
+
+        "build:all": "echo not yet",
         "build:entry": "cd packages/entry && yarn run build"
     },
     "main": "./packages/entry/src/main.tsx",
     "workspaces": [
+        "packages/utils",
         "packages/entry",
         "packages/vite-react-ts",
         "packages/vite-vue-ts"
@@ -18,13 +21,16 @@
         "react": "^17.0.2",
         "react-dom": "^17.0.2",
         "react-router-dom": "^6.2.2",
-        "uuid": "^8.3.2"
+        "uuid": "^8.3.2",
+        "vue": "^3.2.25"
     },
     "devDependencies": {
         "@types/react": "^17.0.33",
         "@types/react-dom": "^17.0.10",
         "@vitejs/plugin-react": "^1.0.7",
+        "@vitejs/plugin-vue": "^2.2.0",
         "typescript": "^4.5.4",
-        "vite": "^2.8.0"
+        "vite": "^2.8.0",
+        "vue-tsc": "^0.29.8"
     }
 }

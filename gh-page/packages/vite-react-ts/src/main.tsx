@@ -1,11 +1,18 @@
-import React from 'react'
 import ReactDOM from 'react-dom'
-import './index.css'
 import App from './App'
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-)
+import { defineSpaApp } from "../../utils/ReactSpaConverter";
+
+export default defineSpaApp((container) => {
+    return {
+        mount() {
+            ReactDOM.render(<App/>, container)
+            console.log('react mount')
+        },
+        unmount() {
+            ReactDOM.unmountComponentAtNode(container)
+            console.log('react unmount')
+        }
+    }
+})
+

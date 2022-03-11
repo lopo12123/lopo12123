@@ -38,7 +38,7 @@ export interface SpaModule {
  */
 export interface SpaModuleMethod {
     mount?: (props?: Record<string, any>) => void
-    render?: (props?: Record<string, any>) => ReactNode
+    render?: (props?: Record<string, any>) => ReactNode  // 实际上是void返回值
     unmount?: () => void
 }
 
@@ -87,10 +87,10 @@ const spaModuleCheck = (spaModule: SpaModule, container: HTMLDivElement): Promis
  * @description 主应用使用 React 时, 子应用使用的包装器
  * @example
  * <Routes>
- *     <Route element={ <SpaConverter_React entryPath="entry-path-of-sub-app" /> }>
+ *     <Route element={ <ReactSpaConverter entryPath="entry-path-of-sub-app" /> }>
  * </Routes>
  */
-export function SpaConverter_React(converterProp: SpaConverterProp): JSX.Element {
+export function ReactSpaConverter(converterProp: SpaConverterProp): JSX.Element {
     // 解构
     const { entryPath, deepProps, loadingDisplay, errorDisplay, ...props } = converterProp
     // 子应用容器
@@ -185,7 +185,7 @@ export function SpaConverter_React(converterProp: SpaConverterProp): JSX.Element
  *     unmount() { ... }
  * })
  * // 2. 或在子应用入口文件中使用
- * export default defineSpaApp((container: HTMLElement) => {
+ * export default defineSpaApp((container: HTMLElement, injects?: (instance: SpaModuleMethod) => void) => {
  *     // 其他处理
  *     return {
  *         mount() { ... },
