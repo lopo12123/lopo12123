@@ -1,10 +1,10 @@
-import { StrictMode } from "react";
+import {StrictMode, useEffect} from "react";
 import ReactDOM from "react-dom";
 import { HashRouter, Route, Routes } from "react-router-dom";
 
 import App from './App'
 
-import { ReactSpaConverter } from "../packages/utils/ReactSpaConverter";
+import { ReactSpaConverter } from "spa-converter/lib/ReactSpaConverter";
 
 const SpaEntry: string = import.meta.env.DEV
     ? import.meta.env.VITE_APP_SUB_SPA_ENTRY__DEV
@@ -18,14 +18,14 @@ ReactDOM.render(
 
                     <Route path="vite-react-ts"
                            element={
-                               <ReactSpaConverter entryPath={
+                               <ReactSpaConverter key="react" entryPath={
                                    SpaEntry.replace('{SPA_NAME}', 'vite-react-ts')
                                }/>
                            }/>
 
                     <Route path="vite-vue-ts"
                            element={
-                               <ReactSpaConverter entryPath={
+                               <ReactSpaConverter key="vue" entryPath={
                                    SpaEntry.replace('{SPA_NAME}', 'vite-vue-ts')
                                }/>
                            }/>
