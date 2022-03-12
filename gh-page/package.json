@@ -4,7 +4,7 @@
     "version": "0.0.0",
     "scripts": {
         "dev:all": "vite --host --open",
-        "build:all": "tsc && vite build"
+        "build:all": "tsc && vite build && yarn workspaces run build"
     },
     "workspaces": [
         "packages/vite-react-ts",
