@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import { defineSpaApp } from "../../utils/ReactSpaConverter";
+
+import { defineSpaApp } from "spa-converter/lib/ReactSpaConverter";
 
 export default defineSpaApp((container) => {
     const app = createApp(App)
@@ -8,10 +9,10 @@ export default defineSpaApp((container) => {
         mount() {
             app.mount(container)
             console.log('vue mount')
-
-            setTimeout(() => {
-                app.unmount()
-            }, 10_000)
+        },
+        render() {
+            console.log('vue render')
+            return ''
         },
         unmount() {
             app.unmount()
