@@ -1,4 +1,4 @@
-import {StrictMode, useEffect} from "react";
+import {StrictMode} from "react";
 import ReactDOM from "react-dom";
 import { HashRouter, Route, Routes } from "react-router-dom";
 
