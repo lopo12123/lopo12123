@@ -1,9 +1,17 @@
+// style
+import "primereact/resources/themes/lara-light-indigo/theme.css";
+import "primereact/resources/primereact.min.css";
+import "primeicons/primeicons.css";
+
+// core
 import { StrictMode } from "react";
 import ReactDOM from "react-dom";
 import { HashRouter, Route, Routes } from "react-router-dom";
 
+// view
 import App from "./App";
 
+// adaptor
 import { ReactSpaConverter } from "spa-converter/lib/ReactSpaConverter";
 
 const SpaEntry: string = import.meta.env.DEV
