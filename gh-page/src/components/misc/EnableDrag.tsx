@@ -38,6 +38,15 @@ const drag_MousedownCB = (mousedownEv: MouseEvent) => {
     document.addEventListener('mouseup', drag_MouseupCB)
 }
 
+export interface EnableDragProp {
+    innerEl: JSX.Element
+    initPos?: {
+        top?: string
+        right?: string
+        bottom?: string
+        left?: string
+    }
+}
 /**
  * @description enable free drag for a JSXElement
  * <br/>add the a name of 'drag-controller' to the inner wrapped element
@@ -56,7 +65,7 @@ const drag_MousedownCB = (mousedownEv: MouseEvent) => {
  *     </div>
  * }/>
  */
-export const EnableDrag = ({ innerEl }: { innerEl: JSX.Element }): JSX.Element => {
+export const EnableDrag = ({ innerEl, initPos }: EnableDragProp): JSX.Element => {
     const dragBoxRef = useRef<HTMLDivElement>(null)
     const dragId = UUID()
 
@@ -78,6 +87,7 @@ export const EnableDrag = ({ innerEl }: { innerEl: JSX.Element }): JSX.Element =
                  position: 'absolute',
                  width: 'fit-content',
                  height: 'fit-content',
+                 ...initPos
              } }>
             { innerEl }
         </div>
