@@ -14,6 +14,7 @@ import App from "./App";
 
 // adaptor
 import { ReactSpaConverter } from "spa-converter/lib/ReactSpaConverter";
+import { ZotterPrincipal } from "@/views/ZotterPrincipal";
 
 const SpaEntry: string = import.meta.env.DEV
     ? import.meta.env.VITE_APP_SUB_SPA_ENTRY__DEV
@@ -29,6 +30,9 @@ ReactDOM.render(
         <HashRouter>
             <Routes>
                 <Route path="/" element={ <App/> }>
+                    <Route path="" element={
+                        <ZotterPrincipal/>
+                    }/>
                     {
                         subAppNameList.map((name, index) => {
                             return (
