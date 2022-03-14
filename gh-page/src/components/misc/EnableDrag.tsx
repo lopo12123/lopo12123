@@ -85,6 +85,7 @@ export const EnableDrag = ({ innerEl, initPos }: EnableDragProp): JSX.Element =>
         <div ref={ dragBoxRef } data-drag-id={ dragId }
              style={ {
                  position: 'absolute',
+                 zIndex: '10000',
                  width: 'fit-content',
                  height: 'fit-content',
                  ...initPos
