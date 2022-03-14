@@ -12,6 +12,7 @@
     ],
     "dependencies": {
         "@types/uuid": "^8.3.4",
+        "axios-canceller": "^1.0.1",
         "lopo-lib": "^2.0.2-fixed",
         "primeicons": "^5.0.0",
         "primereact": "^7.2.1",
@@ -19,6 +20,7 @@
         "react": "^17.0.2",
         "react-dom": "^17.0.2",
         "react-router-dom": "^6.2.2",
+        "react-transition-group": "^4.4.2",
         "sass": "^1.49.9",
         "spa-converter": "^1.0.0",
         "uuid": "^8.3.2",
