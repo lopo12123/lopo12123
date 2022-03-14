@@ -1,0 +1,17 @@
+@use "mixin";
+
+* {
+    @include mixin.scrollBarStyle();
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.styled-scroll {
+    @include mixin.scrollBarStyle();
+}
