@@ -3,6 +3,7 @@ import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import "@/styles/animations.scss";
+import "@/styles/fonts.scss";
 import "@/styles/index.scss";
 
 // core
