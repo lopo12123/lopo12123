@@ -20,10 +20,14 @@ const PrincipalBox = (prop: { number: number, zh: string, en: string }) => {
     return (
         <div style={{
             position: 'relative',
-            width: 'calc(100% - 102px)',
+            width: 'calc(100% - 202px)',
             height: '58px',
             margin: '10px 50px',
-            border: 'solid 1px #cccccc',
+            padding: '0 50px',
+            border: 'solid 1px #cccccc80',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-start'
         }}>
             123
         </div>
@@ -54,11 +58,9 @@ export const ZotterPrincipal = () => {
             width: '100%',
             height: '100%',
             backgroundColor: '#001c33',
-            // display: 'flex',
-            // flexDirection: 'column',
-            // alignItems: 'center',
-            // justifyContent: 'flex-start',
-            overflow: 'auto'
+            color: '#eeeeee',
+            fontFamily: 'lab',
+            overflow: 'auto hidden'
         } }>
             { list.map(({ id, number, commandment, explain }) => {
                 return (
