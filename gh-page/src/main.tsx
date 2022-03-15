@@ -10,13 +10,12 @@ import "@/styles/index.scss";
 import { StrictMode } from "react";
 import ReactDOM from "react-dom";
 import { HashRouter, Route, Routes } from "react-router-dom";
+import { ReactSpaConverter } from "spa-converter/lib/ReactSpaConverter";
 
 // view
 import App from "./App";
-
-// adaptor
-import { ReactSpaConverter } from "spa-converter/lib/ReactSpaConverter";
 import { ZotterPrincipal } from "@/views/ZotterPrincipal";
+import { TestView } from "@/views/TestView";
 
 const SpaEntry: string = import.meta.env.DEV
     ? import.meta.env.VITE_APP_SUB_SPA_ENTRY__DEV
@@ -33,7 +32,8 @@ ReactDOM.render(
             <Routes>
                 <Route path="/" element={ <App/> }>
                     <Route path="" element={
-                        <ZotterPrincipal/>
+                        // <ZotterPrincipal/>
+                        <TestView/>
                     }/>
                     {
                         subAppNameList.map((name, index) => {
