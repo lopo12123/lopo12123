@@ -43,19 +43,19 @@ export const ZotterPrincipal = () => {
     }, [])
 
     // 依赖执行: 列表的首项变换后触发
-    useLayoutEffect(() => {
-        if(headId !== '' && !!containerRef.current) {
-            const container = containerRef.current
-            const head = container.firstElementChild as HTMLElement
-            const tail = head.cloneNode(true)
-            head.id = head.id + '-to-be-remove'
-            Animate.fadeOut(head, 'height')
-                ?.then(() => {
-                    container.appendChild(tail)
-                    setHeadId(container.firstElementChild!.id)
-                })
-        }
-    }, [ headId ])
+    // useLayoutEffect(() => {
+    //     if(headId !== '' && !!containerRef.current) {
+    //         const container = containerRef.current
+    //         const head = container.firstElementChild as HTMLElement
+    //         const tail = head.cloneNode(true)
+    //         head.id = head.id + '-to-be-remove'
+    //         Animate.fadeOut_Fix(head, 'height')
+    //             ?.then(() => {
+    //                 container.appendChild(tail)
+    //                 setHeadId(container.firstElementChild!.id)
+    //             })
+    //     }
+    // }, [ headId ])
 
     return (
         <div ref={ containerRef } style={ {
@@ -63,7 +63,7 @@ export const ZotterPrincipal = () => {
             width: '100%',
             height: '100px',
             fontFamily: 'lab',
-            overflow: 'hidden auto'
+            overflow: 'hidden'
         } }>
             {
                 list.slice(0, 10).map(({ id, number, commandment, explain }) => {
