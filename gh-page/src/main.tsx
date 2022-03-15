@@ -15,6 +15,7 @@ import { ReactSpaConverter } from "spa-converter/lib/ReactSpaConverter";
 // view
 import App from "./App";
 import { ZotterPrincipal } from "@/views/ZotterPrincipal";
+import {IceAndFire} from "@/views/IceAndFire";
 import { TestView } from "@/views/TestView";
 
 const SpaEntry: string = import.meta.env.DEV
@@ -33,7 +34,7 @@ ReactDOM.render(
                 <Route path="/" element={ <App/> }>
                     <Route path="" element={
                         // <ZotterPrincipal/>
-                        <TestView/>
+                        <IceAndFire/>
                     }/>
                     {
                         subAppNameList.map((name, index) => {
