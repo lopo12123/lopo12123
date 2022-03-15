@@ -17,5 +17,6 @@ html, body, #root {
 }
 
 .styled-scroll {
+    overflow: auto;
     @include mixin.scrollBarStyle();
 }
