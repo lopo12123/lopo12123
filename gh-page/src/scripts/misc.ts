@@ -62,7 +62,13 @@ const useToastStore = () => {
 
 // region animate
 class Animate {
-    public static fadeOut(el: HTMLElement, type: 'height' | 'width' = 'height', till: number = 3000) {
+    /**
+     * @description fade-out by fixed time
+     * @param el element
+     * @param type horizontal or vertical
+     * @param till time to fade out
+     */
+    public static fadeOut_Percent(el: HTMLElement, type: 'height' | 'width' = 'height', till: number = 3000) {
         if(!el) return;
 
         const oriLength = type === 'height' ? el.offsetHeight : el.offsetWidth
@@ -85,6 +91,40 @@ class Animate {
                 el.style.opacity = percent + ''
                 percent -= 0.05
             }, till / 20)
+        })
+    }
+
+    /**
+     * @description fade-out by fixed step
+     * @param el element
+     * @param type horizontal or vertical
+     * @param lps length per second
+     */
+    public static fadeOut_Fix(el: HTMLElement, type: 'height' | 'width' = 'height', lps: number = 10) {
+        if(!el || lps < 10) return;
+
+        const getLength = () => {
+            return type === 'height' ? el.offsetHeight : el.offsetWidth
+        }
+        const oriLength = getLength()
+        const step = Math.floor(lps / 5)
+
+        el.style.overflow = 'hidden'
+
+        return new Promise<boolean>((resolve, reject) => {
+            const timer = setInterval(() => {
+                if(getLength() <= step) {
+                    clearInterval(timer)
+
+                    el.style[type] = '0'
+                    el.style.opacity = '0'
+                    el.remove()
+
+                    resolve(true)
+                }
+                el.style[type] = (getLength() - step) + 'px'
+                el.style.opacity = (getLength() / oriLength).toFixed(2)
+            }, 200)
         })
     }
 }
