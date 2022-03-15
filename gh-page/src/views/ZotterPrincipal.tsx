@@ -1,107 +1,82 @@
-import {useEffect, useState} from "react";
-import {UseAxios} from "axios-canceller";
-import {useToastStore} from "@/scripts/misc";
-import {NormalHoverSwitch} from "@/components/NormalHoverSwitch";
+import { useLayoutEffect, useRef, useState } from "react";
+import { UseAxios } from "axios-canceller";
+import { Animate, useToastStore } from "@/scripts/misc";
+import { MessagesHoverSwitch } from "@/components/misc/MessagesHoverSwitch";
 
-export interface Principal {
+interface Principal {
     id: string  // uuid
     number: number  // 1-57
     commandment: {
-        zh: string
         en: string
+        zh: string
     }
     explain: {
-        zh: string
         en: string
+        zh: string
     }
-}
-
-const PrincipalBox = (prop: { number: number, zh: string, en: string, highlight?: boolean }) => {
-    return (
-        <div style={{
-            position: 'relative',
-            width: 'calc(100% - 206px)',
-            height: '54px',
-            margin: '15px 50px',
-            padding: '0 50px',
-            border: `solid 3px ${ prop.highlight ? '#673b47' : '#c0c0c0' }`,
-            borderRadius: '5px',
-            background: `linear-gradient(90deg,
-                #919191 0,
-                #4e4e4e 25%,
-                #5e5e5e 50%,
-                #919191 75%,
-                #c6c6c6 100%
-            )`,
-            boxShadow: '#cccccc 10px 3px 20px',
-            color: prop.highlight ? '#ffffff' : '#777777',
-            fontSize: '12px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'flex-start'
-        }}>
-            <div className="index"
-                 style={{
-                     width: '150px',
-                     minWidth: '150px',
-                     marginRight: '50px',
-                     color: '#ffffff',
-                     fontSize: '18px',
-                     letterSpacing: '3px'
-                 }}>
-                Principle {prop.number}
-            </div>
-            <div className="content">
-                <div className="en">
-                    {prop.en}
-                </div>
-                <div className="zh" style={{fontFamily: 'cursive'}}>
-                    {prop.zh}
-                </div>
-            </div>
-        </div>
-    )
 }
 
 export const ZotterPrincipal = () => {
     const useAxios = new UseAxios()
 
-    const [list, setList] = useState<Principal[]>([])
+    const containerRef = useRef<HTMLDivElement>(null)
+    const [ list, setList ] = useState<Principal[]>([])
+    const [ headId, setHeadId ] = useState('')
+    const [ move, setMove ] = useState(true)
 
-    useEffect(() => {
-        useAxios.get('zotter-principal', 'zotter57.json')
-            .then((res) => {
-                setList(res.data)
-            })
-            .catch((err) => {
-                useToastStore().error(err.toString())
-            })
+    // 执行一次: 获取原始数据
+    useLayoutEffect(() => {
+        (async function () {
+            await useAxios.get('zotter-principal', 'zotter57.json')
+                .then((res) => {
+                    setList(res.data)
+                    setHeadId(res.data[0].id)
+                })
+                .catch((err) => {
+                    useToastStore().error(err.toString())
+                })
+        })()
+
         return () => {
             useAxios.cancelScopes('zotter-principal')
         }
     }, [])
 
+    // 依赖执行: 列表的首项变换后触发
+    useLayoutEffect(() => {
+        if(headId !== '' && !!containerRef.current) {
+            const container = containerRef.current
+            const head = container.firstElementChild as HTMLElement
+            const tail = head.cloneNode(true)
+            head.id = head.id + '-to-be-remove'
+            Animate.fadeOut(head, 'height')
+                ?.then(() => {
+                    container.appendChild(tail)
+                    setHeadId(container.firstElementChild!.id)
+                })
+        }
+    }, [ headId ])
+
     return (
-        <div style={{
+        <div ref={ containerRef } style={ {
             position: 'relative',
             width: '100%',
-            height: '100%',
-            backgroundColor: '#efefef',
+            height: '100px',
             fontFamily: 'lab',
             overflow: 'hidden auto'
-        }}>
-            {list.map(({id, number, commandment, explain}) => {
-                return (
-                    <NormalHoverSwitch
-                        key={id}
-                        normal={
-                            <PrincipalBox number={number} en={commandment.en} zh={commandment.zh}/>
-                        }
-                        hover={
-                            <PrincipalBox number={number} en={explain.en} zh={explain.zh} highlight={true}/>
-                        }/>
-                )
-            })}
+        } }>
+            {
+                list.slice(0, 10).map(({ id, number, commandment, explain }) => {
+                    return (
+                        <MessagesHoverSwitch
+                            key={ id }
+                            id={ id }
+                            number={ number }
+                            normal={ { ...commandment } }
+                            hover={ { ...explain } }/>
+                    )
+                })
+            }
         </div>
     )
 }
