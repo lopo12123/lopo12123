@@ -16,7 +16,7 @@ class PlayerControl {
         ]
 
         const _head = Bodies.circle(startPoint[0], startPoint[1] - legSize[1] - legGap - bodySize[1] - neckGap - headRadius, headRadius, { render: { fillStyle: color + 'aa' } })
-        const _body = Bodies.rectangle(startPoint[0], startPoint[1] - legSize[1] - legGap - bodySize[1] / 2, bodySize[0], bodySize[1], { render: { fillStyle: color } })
+        const _body = Bodies.rectangle(startPoint[0], startPoint[1] - legSize[1] - legGap - bodySize[1] / 2, bodySize[0], bodySize[1], { render: { fillStyle: color }, chamfer: { radius: 5 } })
         const _leg_left = Bodies.rectangle(startPoint[0] - bodySize[0] / 4, startPoint[1] - legSize[1] / 2, legSize[0], legSize[1], { render: { fillStyle: color + 'cc' } })
         const _leg_right = Bodies.rectangle(startPoint[0] + bodySize[0] / 4, startPoint[1] - legSize[1] / 2, legSize[0], legSize[1], { render: { fillStyle: color + 'cc' } })
 
