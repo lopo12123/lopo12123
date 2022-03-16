@@ -124,43 +124,42 @@ class IAF extends IAF_Base {
     runTest() {
         const ground = Bodies.rectangle(100, 500, 200, 5, { render: { fillStyle: '#cccccc' } })
         const rect = Bodies.rectangle(200, 100, 20, 20)
-        const circle = Bodies.circle(250, 600, 15)
+        const circle = Bodies.circle(400, 200, 15)
         const stack = Composites.stack(200, 100, 1, 5, 0, 10, (x: number, y: number) => {
             return Bodies.circle(x, y, 10)
         })
         Composites.chain(stack, 0, 0, 0, 0, {})
         Composites.chain(stack, 0, 0.5, 0, 0.5, {})
         const car = Composites.car(200, 100, 100, 10, 10)
-        const rock = Bodies.polygon(470, 550, 8, 20, {density: 0.004})
+        const rock = Bodies.polygon(400, 200, 8, 20)
 
         const mouseControl = MouseConstraint.create(this.getEngine(), { mouse: Mouse.create(this.getElement()) })
 
-        const pl0 = PlayerControl.createPlayer('#777777', [ 200, 600 ])
-        const pl1 = PlayerControl.createPlayer('#0000ff', [ 100, 500 ])
-        const pl2 = PlayerControl.createPlayer('#00ff00', [ 20, 600 ])
+        const pl0 = PlayerControl.createPlayer('#777777', [ 400, 600 ])
+        const pl1 = PlayerControl.createPlayer('#0000ff', [ 350, 600 ])
+        const pl2 = PlayerControl.createPlayer('#00ff00', [ 100, 300 ])
 
-        pl1.isStatic = true
+        const bridge = BasicComponents.bridge(300, 530)
 
-        const bridge = BasicComponents.bridge(300, 500)
-
-        this.addToWorld(ground, bridge, rock, pl0, pl1, pl2)
+        this.addToWorld(ground, ...bridge, pl0, pl1, pl2)
 
         this.start()
 
         Body.rotate(ground, Math.PI / 10)
         ground.isStatic = true
 
-        // const timer = setInterval(() => {
-        //     Body.setVelocity(pl2, { x: 5, y: 0 })
-        //     // PlayerControl.control(pl2, ['right'])
-        // }, 100)
+        const timer = setInterval(() => {
+            // Body.setVelocity(pl2, { x: 5, y: 0 })
+            PlayerControl.control(pl0, ['up'])
+            PlayerControl.control(pl1, ['up'])
+        }, 1000)
 
-        // setTimeout(() => {
-            // clearInterval(timer)
+        setTimeout(() => {
+            clearInterval(timer)
             // Body.applyForce(pl1, {x: pl1.position.x, y: pl1.position.y - 30}, { x: 0.01, y: 0 })
             // Body.applyForce(pl2, {x: pl2.position.x, y: pl2.position.y - 30}, { x: 0.05, y: 0 })
 
-        // }, 8_000)
+        }, 8_000)
     }
 }
 
