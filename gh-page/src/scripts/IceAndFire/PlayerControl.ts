@@ -27,7 +27,7 @@ class PlayerControl {
             // friction: 0,  // 动摩擦力
             // frictionAir: 0,  // 空气阻力
             // frictionStatic: 0,  // 静摩擦力
-            restitution: 1,
+            // restitution: 1,
             collisionFilter: {
                 group: -1
             },
