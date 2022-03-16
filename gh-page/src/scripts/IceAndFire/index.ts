@@ -1,18 +1,43 @@
-import {Bodies, Body, Composites, Engine, Events, Mouse, MouseConstraint, Render, Runner, World} from "matter-js";
+import { Bodies, Body, Composites, Engine, Events, Mouse, MouseConstraint, Render, Runner, World } from "matter-js";
+import { GlobalConfig } from "@/scripts/IceAndFire/BasicConfig";
+import { PlayerControl } from "@/scripts/IceAndFire/PlayerControl";
 
 abstract class IAF_Base {
-    private readonly element: HTMLCanvasElement
-    public getElement() { return this.element }
-    private readonly engine: Engine
-    public getEngine() { return this.engine }
-    private readonly render: Render
-    public getRender() { return this.render }
-    private readonly world: World
-    public getWorld() { return this.world }
-    private runner: (Runner | null) = null
-    public getRunner() { return this.runner }
 
-    constructor(canvas: HTMLCanvasElement) {
+    // region 各属性及其get方法 (子类中用到)
+    private readonly element: HTMLCanvasElement
+
+    public getElement() {
+        return this.element
+    }
+
+    private readonly engine: Engine
+
+    public getEngine() {
+        return this.engine
+    }
+
+    private readonly render: Render
+
+    public getRender() {
+        return this.render
+    }
+
+    private readonly world: World
+
+    public getWorld() {
+        return this.world
+    }
+
+    private runner: (Runner | null) = null
+
+    public getRunner() {
+        return this.runner
+    }
+
+    // endregion
+
+    protected constructor(canvas: HTMLCanvasElement) {
         this.element = canvas
         this.engine = Engine.create(canvas, {
             gravity: {},
@@ -31,30 +56,31 @@ abstract class IAF_Base {
         this.world = this.engine.world
     }
 
-    // region 通用方法
-    /**
-     * @description 世界添加边框
-     * <br/>外尺寸 [1000, 640]
-     * <br/>厚度20
-     * <br/>内尺寸 [960, 600]
-     */
-    public addBoundary() {
-        const wall_up = Bodies.rectangle(500, 10, 1000, 20)
-        const wall_right = Bodies.rectangle(990, 320, 20, 640)
-        const wall_bottom = Bodies.rectangle(500, 630, 1000, 20)
-        const wall_left = Bodies.rectangle(10, 320, 20, 640)
-
-        this.addToWorld(Body.create({
-            parts: [wall_up, wall_right, wall_bottom, wall_left],
-            isStatic: true
-        }))
-    }
-
+    // region 通用方法 - 调用
     /**
      * @description 将任意事物添加到世界中
      */
     public addToWorld(...objects: any[]) {
         World.add(this.world, objects)
+    }
+
+    // endregion
+
+    // region 通用方法 - 实体
+    /**
+     * @description 世界添加边框
+     */
+    public addBoundary(boundaryColor: string = '#777777') {
+        const { outerSize, boundaryThickness } = GlobalConfig.world
+        const wall_up = Bodies.rectangle(outerSize[0] / 2, boundaryThickness / 2, outerSize[0], boundaryThickness, { render: { fillStyle: boundaryColor } })
+        const wall_right = Bodies.rectangle(outerSize[0] - boundaryThickness / 2, outerSize[1] / 2, boundaryThickness, outerSize[1], { render: { fillStyle: boundaryColor } })
+        const wall_bottom = Bodies.rectangle(outerSize[0] / 2, outerSize[1] - boundaryThickness / 2, outerSize[0], boundaryThickness, { render: { fillStyle: boundaryColor }, frictionStatic: 0 })
+        const wall_left = Bodies.rectangle(boundaryThickness / 2, outerSize[1] / 2, boundaryThickness, outerSize[1], { render: { fillStyle: boundaryColor } })
+
+        this.addToWorld(Body.create({
+            parts: [ wall_up, wall_right, wall_bottom, wall_left ],
+            isStatic: true
+        }))
     }
 
     // endregion
@@ -72,7 +98,8 @@ abstract class IAF_Base {
      * @description 结束
      */
     public stop() {
-        if (!!this.runner) {
+        if(!!this.runner) {
+            Render.stop(this.render)
             Runner.stop(this.runner)
             this.runner = null
         }
@@ -89,31 +116,48 @@ class IAF extends IAF_Base {
 
     constructor(canvas: HTMLCanvasElement) {
         super(canvas)
+
+        this.addBoundary()
     }
 
     runTest() {
-        const ground = Bodies.rectangle(200, 300, 100, 20)
+        const ground = Bodies.rectangle(100, 500, 200, 5, { render: { fillStyle: '#cccccc' } })
         const rect = Bodies.rectangle(200, 100, 20, 20)
-        const circle = Bodies.circle(200, 100, 10, {restitution: 2})
+        const circle = Bodies.circle(250, 600, 15)
         const stack = Composites.stack(200, 100, 1, 5, 0, 10, (x: number, y: number) => {
             return Bodies.circle(x, y, 10)
         })
         Composites.chain(stack, 0, 0, 0, 0, {})
         Composites.chain(stack, 0, 0.5, 0, 0.5, {})
-
         const car = Composites.car(200, 100, 100, 10, 10)
-
-        let width = 960
+        const rock = Bodies.polygon(170, 450, 8, 20, {density: 0.004})
 
         const mouseControl = MouseConstraint.create(this.getEngine(), { mouse: Mouse.create(this.getElement()) })
 
-        Events.on(ground, 'mousedown', (e) => {
-            console.log('clicked')
-        })
+        const pl0 = PlayerControl.createPlayer('#777777', [ 400, 600 ])
+        const pl1 = PlayerControl.createPlayer('#0000ff', [ 100, 500 ])
+        const pl2 = PlayerControl.createPlayer('#00ff00', [ 20, 600 ])
 
-        this.addToWorld(ground, mouseControl)
-        this.addBoundary()
+        pl1.isStatic = true
+
+        this.addToWorld(ground, rock, pl0, pl1, pl2)
+
         this.start()
+
+        Body.rotate(ground, Math.PI / 10)
+        ground.isStatic = true
+
+        const timer = setInterval(() => {
+            Body.setVelocity(pl2, { x: 5, y: 0 })
+            // PlayerControl.control(pl2, ['right'])
+        }, 100)
+
+        setTimeout(() => {
+            clearInterval(timer)
+            // Body.applyForce(pl1, {x: pl1.position.x, y: pl1.position.y - 30}, { x: 0.01, y: 0 })
+            // Body.applyForce(pl2, {x: pl2.position.x, y: pl2.position.y - 30}, { x: 0.05, y: 0 })
+
+        }, 8_000)
     }
 }
 
