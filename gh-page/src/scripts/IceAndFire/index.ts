@@ -1,6 +1,7 @@
 import { Bodies, Body, Composites, Engine, Events, Mouse, MouseConstraint, Render, Runner, World } from "matter-js";
 import { GlobalConfig } from "@/scripts/IceAndFire/BasicConfig";
 import { PlayerControl } from "@/scripts/IceAndFire/PlayerControl";
+import { BasicComponents } from "@/scripts/IceAndFire/BasicComponents";
 
 abstract class IAF_Base {
 
@@ -130,34 +131,36 @@ class IAF extends IAF_Base {
         Composites.chain(stack, 0, 0, 0, 0, {})
         Composites.chain(stack, 0, 0.5, 0, 0.5, {})
         const car = Composites.car(200, 100, 100, 10, 10)
-        const rock = Bodies.polygon(170, 450, 8, 20, {density: 0.004})
+        const rock = Bodies.polygon(470, 550, 8, 20, {density: 0.004})
 
         const mouseControl = MouseConstraint.create(this.getEngine(), { mouse: Mouse.create(this.getElement()) })
 
-        const pl0 = PlayerControl.createPlayer('#777777', [ 400, 600 ])
+        const pl0 = PlayerControl.createPlayer('#777777', [ 200, 600 ])
         const pl1 = PlayerControl.createPlayer('#0000ff', [ 100, 500 ])
         const pl2 = PlayerControl.createPlayer('#00ff00', [ 20, 600 ])
 
         pl1.isStatic = true
 
-        this.addToWorld(ground, rock, pl0, pl1, pl2)
+        const bridge = BasicComponents.bridge(300, 500)
+
+        this.addToWorld(ground, bridge, rock, pl0, pl1, pl2)
 
         this.start()
 
         Body.rotate(ground, Math.PI / 10)
         ground.isStatic = true
 
-        const timer = setInterval(() => {
-            Body.setVelocity(pl2, { x: 5, y: 0 })
-            // PlayerControl.control(pl2, ['right'])
-        }, 100)
+        // const timer = setInterval(() => {
+        //     Body.setVelocity(pl2, { x: 5, y: 0 })
+        //     // PlayerControl.control(pl2, ['right'])
+        // }, 100)
 
-        setTimeout(() => {
-            clearInterval(timer)
+        // setTimeout(() => {
+            // clearInterval(timer)
             // Body.applyForce(pl1, {x: pl1.position.x, y: pl1.position.y - 30}, { x: 0.01, y: 0 })
             // Body.applyForce(pl2, {x: pl2.position.x, y: pl2.position.y - 30}, { x: 0.05, y: 0 })
 
-        }, 8_000)
+        // }, 8_000)
     }
 }
 
