@@ -50,8 +50,8 @@ abstract class IAF_Base {
             options: {
                 width: 1000,  // 960 + 20 * 2
                 height: 640,  // 600 + 20 * 2
-                // wireframes: false,
-                // background: '#efefef'
+                wireframes: false,
+                background: '#efefef'
             }
         })
         this.world = this.engine.world
@@ -140,26 +140,32 @@ class IAF extends IAF_Base {
         const pl2 = PlayerControl.createPlayer('#00ff00', [ 100, 300 ])
 
         const bridge = BasicComponents.bridge(300, 530)
+        const door = BasicComponents.door(550, 500, [50, 100], 5)
 
-        this.addToWorld(ground, ...bridge, pl0, pl1, pl2)
+
+        this.addToWorld(ground, ...bridge, door[0], pl0, pl1, pl2)
 
         this.start()
 
         Body.rotate(ground, Math.PI / 10)
         ground.isStatic = true
 
-        const timer = setInterval(() => {
-            // Body.setVelocity(pl2, { x: 5, y: 0 })
-            PlayerControl.control(pl0, ['up'])
-            PlayerControl.control(pl1, ['up'])
-        }, 1000)
-
         setTimeout(() => {
-            clearInterval(timer)
-            // Body.applyForce(pl1, {x: pl1.position.x, y: pl1.position.y - 30}, { x: 0.01, y: 0 })
-            // Body.applyForce(pl2, {x: pl2.position.x, y: pl2.position.y - 30}, { x: 0.05, y: 0 })
+            door[1]()
+        }, 2000)
 
-        }, 8_000)
+        // const timer = setInterval(() => {
+        //     // Body.setVelocity(pl2, { x: 5, y: 0 })
+        //     PlayerControl.control(pl0, ['up'])
+        //     PlayerControl.control(pl1, ['up'])
+        // }, 1000)
+        //
+        // setTimeout(() => {
+        //     clearInterval(timer)
+        //     // Body.applyForce(pl1, {x: pl1.position.x, y: pl1.position.y - 30}, { x: 0.01, y: 0 })
+        //     // Body.applyForce(pl2, {x: pl2.position.x, y: pl2.position.y - 30}, { x: 0.05, y: 0 })
+        //
+        // }, 8_000)
     }
 }
 
