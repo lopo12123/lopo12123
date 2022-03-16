@@ -1,7 +1,6 @@
 import {useLayoutEffect, useRef} from "react";
 import {IAF} from "@/scripts/IceAndFire";
 
-
 export const IceAndFire = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null)
 
@@ -25,15 +24,15 @@ export const IceAndFire = () => {
             height: '100%',
             backgroundColor: '#efefef',
             display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
+            alignItems: 'flex-start',
+            justifyContent: 'flex-start'
         }}>
             <canvas ref={canvasRef} style={{
                 position: 'relative',
-                width: '960px',
-                height: '600px',
-                border: 'solid 5px #777777',
+                width: '400px',  // '960px',
+                height: '300px',  // '600px',
                 borderRadius: '5px',
+                outline: 'none',
                 backgroundColor: '#333333'
             }} />
         </div>
