@@ -16,10 +16,17 @@ html, body, #root {
     overflow: hidden;
 }
 
+img {
+    -webkit-user-drag: none!important;
+}
+
 .custom-scroll {
     overflow: auto;
     @include mixin.scrollBarStyle();
 }
 .custom-cursor {
     cursor: url("../assets/bar.png"), auto!important;
+}
+.disable-drag {
+    -webkit-user-drag: none!important;
 }
