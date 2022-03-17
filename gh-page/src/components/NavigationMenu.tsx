@@ -116,7 +116,6 @@ export default function NavigationMenu() {
 
             <ContextMenu ref={ ctxMenuRef }
                          model={ ctxMenuConfig }
-                         style={ { zIndex: 10000 } }
                          onShow={ () => {
                              setCtxOpen(true)
                          } }
