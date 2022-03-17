@@ -65,6 +65,7 @@ export default function NavigationMenu() {
         }
     ]
 
+    const [ ctxOpen, setCtxOpen ] = useState(false)
     const [ inMenu, setInMenu ] = useState(false)
 
     return (
@@ -89,10 +90,10 @@ export default function NavigationMenu() {
                          overflow: 'hidden'
                      } }
                      onMouseEnter={ () => {
-                         setInMenu(true)
+                         if(!ctxOpen) setInMenu(true)
                      } }
                      onMouseLeave={ () => {
-                         setInMenu(false)
+                         if(!ctxOpen) setInMenu(false)
                      } }>
                     {
                         inMenu
@@ -113,7 +114,16 @@ export default function NavigationMenu() {
                 </div>
             </div>
 
-            <ContextMenu ref={ ctxMenuRef } model={ ctxMenuConfig }/>
+            <ContextMenu ref={ ctxMenuRef }
+                         model={ ctxMenuConfig }
+                         style={ { zIndex: 10000 } }
+                         onShow={ () => {
+                             setCtxOpen(true)
+                         } }
+                         onHide={ () => {
+                             setCtxOpen(false)
+                             setInMenu(false)
+                         } }/>
             <Tooltip target="#navigate-menu" mouseTrack mouseTrackTop={ 20 } position="bottom"/>
         </div>
     )
