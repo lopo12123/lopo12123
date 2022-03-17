@@ -1,10 +1,11 @@
-import { Link } from "react-router-dom";
+import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { ContextMenu } from "primereact/contextmenu";
 import { useToastStore } from "@/scripts/misc";
-import { useRef } from "react";
 import type { MenuItem } from "primereact/menuitem";
 
 export default function NavigationMenu() {
+    const navigate = useNavigate()
     const useToast = useToastStore()
 
     const ctxMenuRef = useRef<ContextMenu>(null)
@@ -17,8 +18,28 @@ export default function NavigationMenu() {
             label: 'Home',
             icon: 'pi pi-home',
             command() {
-                console.log('go home')
+                navigate('/')
             }
+        },
+        {
+            label: 'Sub App',
+            icon: 'pi pi-sitemap',
+            items: [
+                {
+                    label: 'vite-react-ts',
+                    icon: 'pi pi-book',
+                    command() {
+                        navigate('/vite-react-ts')
+                    }
+                },
+                {
+                    label: 'vite-vue-ts',
+                    icon: 'pi pi-book',
+                    command() {
+                        navigate('/vite-vue-ts')
+                    }
+                }
+            ]
         },
         {
             label: 'Star Me',
@@ -33,23 +54,6 @@ export default function NavigationMenu() {
             command() {
                 useToast.replyCancel()
             }
-        },
-        {
-            separator: true
-        },
-        {
-            label: 'Sub App',
-            icon: 'pi pi-sitemap',
-            items: [
-                {
-                    label: 'vite-react-ts',
-                    icon: 'pi pi-book'
-                },
-                {
-                    label: 'vite-vue-ts',
-                    icon: 'pi pi-book'
-                }
-            ]
         }
     ]
 
@@ -62,18 +66,6 @@ export default function NavigationMenu() {
                 <div className="sprite">
                     Navigation menu
                 </div>
-
-                <button onClick={ () => {
-                    useToast.info('message')
-                } }>toast
-                </button>
-                <button onClick={ () => {
-                    useToast.clear()
-                } }>clear
-                </button>
-                <Link to="/">home</Link> <br/>
-                <Link to="/vite-react-ts">vite-react-ts</Link> <br/>
-                <Link to="/vite-vue-ts">vite-vue-ts</Link> <br/>
             </div>
 
             <ContextMenu ref={ ctxMenuRef } model={ ctxMenuConfig }/>
