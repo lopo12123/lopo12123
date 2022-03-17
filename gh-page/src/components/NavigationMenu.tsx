@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { ContextMenu } from "primereact/contextmenu";
 import { Tooltip } from "primereact/tooltip";
 import type { MenuItem } from "primereact/menuitem";
-import { navigateToSubApp, navigateToTool, SubAppNameList, ToolNameList } from "@/router";
+import { MiscItemList, navigateToMisc, navigateToSubApp, navigateToTool, SubAppNameList, ToolNameList } from "@/router";
 import { useToastStore } from "@/scripts/misc";
 
 export default function NavigationMenu() {
@@ -41,10 +41,23 @@ export default function NavigationMenu() {
             icon: 'pi pi-box',
             items: ToolNameList.map((tool) => {
                 return {
-                    label: tool,
-                    icon: 'pi pi-bolt',
+                    label: tool.label,
+                    icon: tool.icon,
                     command() {
-                        navigateToTool(navigate, tool)
+                        navigateToTool(navigate, tool.path)
+                    }
+                }
+            })
+        },
+        {
+            label: 'Misc',
+            icon: 'pi pi-hashtag',
+            items: MiscItemList.map((misc) => {
+                return {
+                    label: misc.label,
+                    icon: misc.icon,
+                    command() {
+                        navigateToMisc(navigate, misc.path)
                     }
                 }
             })

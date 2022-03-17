@@ -16,20 +16,31 @@ const navigateToSubApp = (navigate: NavigateFunction, which: SubAppName) => {
 // endregion
 
 // region tools
-type ToolName = 'Image Parser'
+interface ToolName {
+    label: 'Image Parser'
+    icon: string
+    path: 'image-parser'
+}
 const ToolNameList: ToolName[] = [
-    'Image Parser'
+    { label: 'Image Parser', icon: 'pi pi-images', path: 'image-parser' }
 ]
-const navigateToTool = (navigate: NavigateFunction, which: ToolName) => {
-    navigate(`/tool/${which.replace(/[ ]/g, '-').toLowerCase()}`)
+const navigateToTool = (navigate: NavigateFunction, which: ToolName['path']) => {
+    navigate(`/tool/${which}`)
 }
 // endregion
 
 // region misc
-type MiscItem = 'Zt'
+interface MiscItem {
+    label: 'zt'
+    icon: string
+    path: 'zt'
+}
 const MiscItemList: MiscItem[] = [
-    'Zt'
+    { label: 'zt', icon: 'pi pi-bolt', path: 'zt' }
 ]
+const navigateToMisc = (navigate: NavigateFunction, which: MiscItem['path']) => {
+    console.log('to misc: ', which)
+}
 // endregion
 
 export {
@@ -37,7 +48,8 @@ export {
     navigateToSubApp,
 
     ToolNameList,
-    navigateToTool
+    navigateToTool,
 
-    //
+    MiscItemList,
+    navigateToMisc
 }
