@@ -1,4 +1,5 @@
 import { Toast } from "primereact/toast";
+import { RefObject } from "react";
 
 // region toast
 class ToastStore {
@@ -9,7 +10,7 @@ class ToastStore {
     }
 
     info(msg: string, title?: string, till: number = 3_000) {
-        this.ref?.clear()
+        // this.ref?.clear()
         this.ref?.show({
             severity: 'info',
             summary: title,
@@ -19,7 +20,7 @@ class ToastStore {
     }
 
     success(msg: string, title?: string, till: number = 3_000) {
-        this.ref?.clear()
+        // this.ref?.clear()
         this.ref?.show({
             severity: 'success',
             summary: title,
@@ -29,7 +30,7 @@ class ToastStore {
     }
 
     warn(msg: string, title?: string, till: number = 3_000) {
-        this.ref?.clear()
+        // this.ref?.clear()
         this.ref?.show({
             severity: 'warn',
             summary: title,
@@ -39,7 +40,7 @@ class ToastStore {
     }
 
     error(msg: string, title?: string, till: number = 3_000) {
-        this.ref?.clear()
+        // this.ref?.clear()
         this.ref?.show({
             severity: 'error',
             summary: title,
@@ -137,8 +138,44 @@ class Animate {
 
 //endregion
 
+// region canvas operate
+class CanvasOperate {
+    public static allowType = ['jpg', 'png']
+
+    public static drawBlobToCanvas (blob: File, canvasRef: RefObject<HTMLCanvasElement>) {
+        if (!!canvasRef.current && !!blob) {
+            const reader = new FileReader()
+            const ctx = canvasRef.current.getContext('2d')!
+            const [w, h] = [canvasRef.current.width, canvasRef.current.height]
+            reader.readAsDataURL(blob)
+            reader.onload = (e) => {
+                const img = document.createElement('img')
+                img.style.width = '50px'
+                img.style.height = '50px'
+                img.src = e.target!.result as string
+
+                img.onload = () => {
+                    ctx.drawImage(img, 0, 0, w, h)
+                }
+            }
+        }
+    }
+
+    public static drawTextToCanvas(text: string, canvasRef: RefObject<HTMLCanvasElement>) {
+        if(!!canvasRef.current) {
+            const ctx = canvasRef.current.getContext('2d')!
+            ctx.fillStyle = 'black'
+            ctx.font = '12px cursive'
+            ctx.textBaseline = 'bottom'
+            ctx.fillText(text, 0, canvasRef.current.height / 2)
+        }
+    }
+}
+
 export {
     useToastStore,
 
-    Animate
+    Animate,
+
+    CanvasOperate
 }
