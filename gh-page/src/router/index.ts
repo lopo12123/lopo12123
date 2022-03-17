@@ -16,18 +16,28 @@ const navigateToSubApp = (navigate: NavigateFunction, which: SubAppName) => {
 // endregion
 
 // region tools
-type ToolName = 'tool1'
+type ToolName = 'Image Parser'
 const ToolNameList: ToolName[] = [
-    'tool1'
+    'Image Parser'
 ]
 const navigateToTool = (navigate: NavigateFunction, which: ToolName) => {
-    console.log(`to: ${ which }`)
+    navigate(`/tool/${which.replace(/[ ]/g, '-').toLowerCase()}`)
 }
+// endregion
+
+// region misc
+type MiscItem = 'Zt'
+const MiscItemList: MiscItem[] = [
+    'Zt'
+]
 // endregion
 
 export {
     SubAppNameList,
     navigateToSubApp,
+
     ToolNameList,
     navigateToTool
+
+    //
 }
