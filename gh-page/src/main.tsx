@@ -16,6 +16,7 @@ import { ReactSpaConverter } from "spa-converter/lib/ReactSpaConverter";
 import App from "./App";
 import { SubAppNameList } from "@/router";
 import { ElegantNeverDie } from "@/views/ElegantNeverDie";
+import { ImageParser } from "@/views/ImageParser";
 
 const SpaEntry: string = import.meta.env.DEV
     ? import.meta.env.VITE_APP_SUB_SPA_ENTRY__DEV
@@ -31,9 +32,9 @@ ReactDOM.render(
                     }/>
 
                     {/* region tools */ }
-                    {/*<Route path="tools">*/}
-                    {/*    */}
-                    {/*</Route>*/}
+                    <Route path="tool">
+                        <Route path="image-parser" element={ <ImageParser/> }/>
+                    </Route>
                     {/* endregion */ }
 
                     {/* region sub-app */ }
