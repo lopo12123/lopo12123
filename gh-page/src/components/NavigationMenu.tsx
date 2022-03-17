@@ -70,9 +70,6 @@ export default function NavigationMenu() {
     return (
         <div>
             <div className="drag-controller"
-                 onClick={ (e) => {
-                     ctxMenuRef.current?.show(e)
-                 } }
                  onContextMenu={ (e) => {
                      ctxMenuRef.current?.show(e)  // 组件内部有 preventDefault 和 stopPropagation
                  } }>
@@ -80,9 +77,9 @@ export default function NavigationMenu() {
                      data-pr-tooltip="Place me anywhere."
                      style={ {
                          position: 'relative',
-                         width: inMenu ? '80px' : '30px',
-                         height: '30px',
-                         marginLeft: inMenu ? '0' : '25px',
+                         width: inMenu ? '80px' : '40px',
+                         height: '40px',
+                         marginLeft: inMenu ? '0' : '20px',
                          border: 'dashed 1px #777777',
                          borderRadius: '5px',
                          display: 'flex',
@@ -100,11 +97,14 @@ export default function NavigationMenu() {
                     {
                         inMenu
                             ? <span style={ {
+                                color: '#777777',
                                 fontSize: '12px',
+                                lineHeight: '12px',
                                 fontFamily: 'lab',
                                 whiteSpace: 'nowrap'
                             } }>
-                                Menu
+                                Right-Click <br/>
+                                Show Menu
                             </span>
                             : <span className="custom-rgb" style={ { opacity: '0.5' } }>
                                 <i className="pi pi-cog pi-spin" style={ { fontSize: '18px' } }/>
@@ -114,7 +114,7 @@ export default function NavigationMenu() {
             </div>
 
             <ContextMenu ref={ ctxMenuRef } model={ ctxMenuConfig }/>
-            <Tooltip target="#navigate-menu" mouseTrack mouseTrackTop={20} position="bottom" />
+            <Tooltip target="#navigate-menu" mouseTrack mouseTrackTop={ 20 } position="bottom"/>
         </div>
     )
 }
