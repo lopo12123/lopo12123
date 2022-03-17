@@ -77,8 +77,27 @@ export const ImageParser = () => {
         const item = fileList.find((file) => {
             return file.id === activeId
         })
+
         if(!item) {
             useToastStore().warn('Please select one first')
+        }
+        else {
+            switch (type) {
+                case 'load':
+                    // load image to right
+                    break
+                case 'remove':
+                    setFileList(fileList.filter((file) => {
+                        return file.id !== activeId
+                    }))
+                    break
+                case 'resize':
+                    // do resize option
+                    break
+                case 'gray':
+                    // do gray
+                    break
+            }
         }
     }
 
