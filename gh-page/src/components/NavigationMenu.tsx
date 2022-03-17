@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { ContextMenu } from "primereact/contextmenu";
 import { useToastStore } from "@/scripts/misc";
 import type { MenuItem } from "primereact/menuitem";
+import { navigateToSubApp } from "@/router";
 
 export default function NavigationMenu() {
     const navigate = useNavigate()
@@ -29,14 +30,14 @@ export default function NavigationMenu() {
                     label: 'vite-react-ts',
                     icon: 'pi pi-book',
                     command() {
-                        navigate('/vite-react-ts')
+                        navigateToSubApp(navigate,'vite-react-ts')
                     }
                 },
                 {
                     label: 'vite-vue-ts',
                     icon: 'pi pi-book',
                     command() {
-                        navigate('/vite-vue-ts')
+                        navigateToSubApp(navigate, 'vite-vue-ts')
                     }
                 }
             ]
