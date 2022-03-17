@@ -24,19 +24,6 @@ export default function NavigationMenu() {
             }
         },
         {
-            label: 'Tool',
-            icon: 'pi pi-box',
-            items: ToolNameList.map((tool) => {
-                return {
-                    label: tool,
-                    icon: 'pi pi-bolt',
-                    command() {
-                        navigateToTool(navigate, tool)
-                    }
-                }
-            })
-        },
-        {
             label: 'Sub App',
             icon: 'pi pi-sitemap',
             items: SubAppNameList.map((subApp) => {
@@ -45,6 +32,19 @@ export default function NavigationMenu() {
                     icon: 'pi pi-book',
                     command() {
                         navigateToSubApp(navigate, subApp)
+                    }
+                }
+            })
+        },
+        {
+            label: 'Tool',
+            icon: 'pi pi-box',
+            items: ToolNameList.map((tool) => {
+                return {
+                    label: tool,
+                    icon: 'pi pi-bolt',
+                    command() {
+                        navigateToTool(navigate, tool)
                     }
                 }
             })
