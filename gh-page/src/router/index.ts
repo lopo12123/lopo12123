@@ -1,8 +1,8 @@
 import { NavigateFunction } from "react-router-dom";
 
 // region sub-app
-type SubApp = 'vite-react-ts' | 'vite-vue-ts'
-const SubAppNameList: SubApp[] = [
+type SubAppName = 'vite-react-ts' | 'vite-vue-ts'
+const SubAppNameList: SubAppName[] = [
     'vite-react-ts',
     'vite-vue-ts'
 ]
@@ -10,19 +10,24 @@ const SubAppNameList: SubApp[] = [
 /**
  * @description navigate to sub-app
  */
-const navigateToSubApp = (navigate: NavigateFunction, which: SubApp) => {
+const navigateToSubApp = (navigate: NavigateFunction, which: SubAppName) => {
     navigate(`/sub-app/${ which }`)
 }
 // endregion
 
 // region tools
-type Tools = ''
-const navigateToTools = (which: string) => {
+type ToolName = 'tool1'
+const ToolNameList: ToolName[] = [
+    'tool1'
+]
+const navigateToTool = (navigate: NavigateFunction, which: ToolName) => {
     console.log(`to: ${ which }`)
 }
 // endregion
 
 export {
     SubAppNameList,
-    navigateToSubApp
+    navigateToSubApp,
+    ToolNameList,
+    navigateToTool
 }
