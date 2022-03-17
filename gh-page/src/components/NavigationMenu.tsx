@@ -112,9 +112,10 @@ export default function NavigationMenu() {
                         inMenu
                             ? <span style={ {
                                 color: '#777777',
-                                fontSize: '12px',
+                                fontFamily: 'Curlz MT',
+                                fontSize: '16px',
+                                fontWeight: 'bold',
                                 lineHeight: '16px',
-                                fontFamily: 'lab',
                                 whiteSpace: 'nowrap'
                             } }>
                                 Right-Click <br/>
