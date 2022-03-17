@@ -88,7 +88,7 @@ export default function NavigationMenu() {
                      ctxMenuRef.current?.show(e)  // 组件内部有 preventDefault 和 stopPropagation
                  } }>
                 <div id="navigate-menu"
-                     data-pr-tooltip="Place me anywhere."
+                     data-pr-tooltip="you can drag me anywhere."
                      style={ {
                          position: 'relative',
                          width: inMenu ? '80px' : '40px',
