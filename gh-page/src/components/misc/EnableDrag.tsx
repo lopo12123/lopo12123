@@ -73,7 +73,7 @@ export const EnableDrag = ({ innerEl, initPos }: EnableDragProp): JSX.Element =>
         const controller = dragBoxRef.current?.getElementsByClassName('drag-controller')[0] as HTMLElement
         if(!controller) throw new Error('No controller for this draggable element.')
         controller.dataset.dragTarget = dragId
-        controller.style.cursor = 'move'
+        controller.style.cursor = 'grab'
         controller.style.userSelect = 'none'
         controller.addEventListener('mousedown', drag_MousedownCB)
         return () => {
