@@ -10,6 +10,9 @@ export default function App() {
 
     useEffect(() => {
         useToastStore().bind(toastRef.current)
+        return () => {
+            useToastStore().bind(null)
+        }
     }, [])
 
     return (
