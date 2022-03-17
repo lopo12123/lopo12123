@@ -99,7 +99,7 @@ export default function NavigationMenu() {
                             ? <span style={ {
                                 color: '#777777',
                                 fontSize: '12px',
-                                lineHeight: '12px',
+                                lineHeight: '16px',
                                 fontFamily: 'lab',
                                 whiteSpace: 'nowrap'
                             } }>
@@ -107,7 +107,7 @@ export default function NavigationMenu() {
                                 Show Menu
                             </span>
                             : <span className="custom-rgb" style={ { opacity: '0.5' } }>
-                                <i className="pi pi-cog pi-spin" style={ { fontSize: '18px' } }/>
+                                <i className="pi pi-cog pi-spin" style={ { fontSize: '24px' } }/>
                             </span>
                     }
                 </div>
