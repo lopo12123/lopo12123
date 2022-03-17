@@ -26,7 +26,7 @@ export default function App() {
             <Toast ref={ toastRef }/>
 
             <EnableDrag
-                key="test" initPos={ { left: '100px' } }
+                key="test" initPos={ { left: '500px', top: '200px' } }
                 innerEl={ <NavigationMenu/> }/>
 
             <Outlet/>
