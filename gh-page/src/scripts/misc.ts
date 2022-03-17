@@ -51,6 +51,12 @@ class ToastStore {
     clear() {
         this.ref?.clear()
     }
+
+    // region fast-use-words
+    replyCancel() {
+        this.info('Think twice before you press your mouse!')
+    }
+    // endregion
 }
 
 const _toastStore = new ToastStore()
