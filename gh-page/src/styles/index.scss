@@ -16,7 +16,10 @@ html, body, #root {
     overflow: hidden;
 }
 
-.styled-scroll {
+.custom-scroll {
     overflow: auto;
     @include mixin.scrollBarStyle();
+}
+.custom-cursor {
+    cursor: url("../assets/bar.png"), auto!important;
 }
