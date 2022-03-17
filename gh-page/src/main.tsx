@@ -14,16 +14,12 @@ import { ReactSpaConverter } from "spa-converter/lib/ReactSpaConverter";
 
 // view
 import App from "./App";
+import { SubAppNameList } from "@/router";
 import { ElegantNeverDie } from "@/views/ElegantNeverDie";
 
 const SpaEntry: string = import.meta.env.DEV
     ? import.meta.env.VITE_APP_SUB_SPA_ENTRY__DEV
     : import.meta.env.VITE_APP_SUB_SPA_ENTRY__PROD
-
-const subAppNameList = [
-    "vite-react-ts",
-    "vite-vue-ts"
-]
 
 ReactDOM.render(
     <StrictMode>
@@ -33,18 +29,29 @@ ReactDOM.render(
                     <Route path="" element={
                         <ElegantNeverDie/>
                     }/>
-                    {
-                        subAppNameList.map((name, index) => {
-                            return (
-                                <Route path={ name } key={ index }
-                                       element={
-                                           <ReactSpaConverter key={ name } entryPath={
-                                               SpaEntry.replace('{SPA_NAME}', name)
+
+                    {/* region tools */ }
+                    {/*<Route path="tools">*/}
+                    {/*    */}
+                    {/*</Route>*/}
+                    {/* endregion */ }
+
+                    {/* region sub-app */ }
+                    <Route path="sub-app">
+                        {
+                            SubAppNameList.map((name, index) => {
+                                return (
+                                    <Route path={ name } key={ index }
+                                           element={
+                                               <ReactSpaConverter key={ name } entryPath={
+                                                   SpaEntry.replace('{SPA_NAME}', name)
+                                               }/>
                                            }/>
-                                       }/>
-                            )
-                        })
-                    }
+                                )
+                            })
+                        }
+                    </Route>
+                    {/* endregion */ }
                 </Route>
             </Routes>
         </HashRouter>
