@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { ContextMenu } from "primereact/contextmenu";
 import { useToastStore } from "@/scripts/misc";
 import type { MenuItem } from "primereact/menuitem";
-import { navigateToSubApp } from "@/router";
+import { navigateToSubApp, navigateToTool, SubAppNameList, ToolNameList } from "@/router";
 
 export default function NavigationMenu() {
     const navigate = useNavigate()
@@ -23,24 +23,30 @@ export default function NavigationMenu() {
             }
         },
         {
-            label: 'Sub App',
-            icon: 'pi pi-sitemap',
-            items: [
-                {
-                    label: 'vite-react-ts',
-                    icon: 'pi pi-book',
+            label: 'Tool',
+            icon: 'pi pi-box',
+            items: ToolNameList.map((tool) => {
+                return {
+                    label: tool,
+                    icon: 'pi pi-bolt',
                     command() {
-                        navigateToSubApp(navigate,'vite-react-ts')
-                    }
-                },
-                {
-                    label: 'vite-vue-ts',
-                    icon: 'pi pi-book',
-                    command() {
-                        navigateToSubApp(navigate, 'vite-vue-ts')
+                        navigateToTool(navigate, tool)
                     }
                 }
-            ]
+            })
+        },
+        {
+            label: 'Sub App',
+            icon: 'pi pi-sitemap',
+            items: SubAppNameList.map((subApp) => {
+                return {
+                    label: subApp,
+                    icon: 'pi pi-book',
+                    command() {
+                        navigateToSubApp(navigate, subApp)
+                    }
+                }
+            })
         },
         {
             label: 'Star Me',
