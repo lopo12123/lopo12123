@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 import { Toast } from "primereact/toast";
 import NavigationMenu from "./components/NavigationMenu";
 import { EnableDrag } from "./components/misc/EnableDrag";
-import { useToastStore } from "@/scripts/misc";
+import { useToastStore } from "@/scripts/ToastStore";
 
 export default function App() {
     const toastRef = useRef<Toast>(null)
