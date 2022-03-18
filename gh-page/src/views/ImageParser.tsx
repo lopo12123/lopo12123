@@ -5,6 +5,7 @@ import { BaseOperate, fabricOperate } from "@/scripts/CanvasOperate";
 import { useToastStore } from "@/scripts/ToastStore";
 import { Button } from "primereact/button";
 import { Workspace } from "@/layouts/ImageParser/Workspace";
+import { InputNumber } from "primereact/inputnumber";
 
 interface ImageBlockProp {
     // props in item
@@ -85,9 +86,41 @@ const ImageBlock = (prop: ImageBlockProp) => {
                 alignItems: 'flex-start',
                 justifyContent: 'flex-end'
             } }
-                 onClick={ (e) => { e.stopPropagation(); prop.onClose?.() } }>
+                 onClick={ (e) => {
+                     e.stopPropagation();
+                     prop.onClose?.()
+                 } }>
                 <i className="pi pi-times" style={ { margin: '2px 2px 0 0', fontSize: '14px' } }/>
             </div>
+        </div>
+    )
+}
+
+const CheckButton = (prop: { onClick: () => void }) => {
+    const [ hover, setHover ] = useState(false)
+
+    return (
+        <div className={ hover ? 'custom-rgb' : '' }
+             style={ {
+                 position: 'relative',
+                 width: '40px',
+                 height: '30px',
+                 border: 'solid 1px #777777',
+                 borderRadius: '5px',
+                 backgroundColor: '#ffffff',
+                 cursor: 'pointer',
+                 display: 'flex',
+                 alignItems: 'center',
+                 justifyContent: 'center'
+             } }
+             onMouseEnter={ () => {
+                 setHover(true)
+             } }
+             onMouseLeave={ () => {
+                 setHover(false)
+             } }
+             onClick={ prop.onClick }>
+            <i className="pi pi-check" style={ { fontWeight: 'bolder' } }/>
         </div>
     )
 }
@@ -96,9 +129,50 @@ export const ImageParser = () => {
     const imgIptRef = useRef<HTMLInputElement>(null)
     const [ fileList, setFileList ] = useState<ImageBlockProp[]>([])
     const [ activeId, setActiveId ] = useState('')
+    const [ fabObj, setFabObj ] = useState<fabricOperate | null>(null)
     const [ operating, setOperating ] = useState(false)
 
-    let fabricObj: fabricOperate
+    const imageSelected = (item: ImageBlockProp) => {
+        if(!fabObj) {
+            useToastStore().warn('Please wait for canvas to finish initializing')
+        }
+        else if(activeId === item.id) {
+            useToastStore().warn('you selected the same file')
+        }
+        else {
+            fabObj.render(item.file)
+                .then(() => {
+                    setActiveId(item.id)
+                    setOperating(true)
+                })
+                .catch((e) => {
+                    useToastStore().error(e.toString())
+                })
+        }
+    }
+
+    const [ opacity, setOpacity ] = useState(1)
+    const [ width, setWidth ] = useState(0)
+    const [ height, setHeight ] = useState(0)
+
+    const imageSolve = (type: 'width' | 'height' | 'opacity' | 'gray' | 'download') => {
+        if(!operating || !fabObj) {
+            useToastStore().warn('Select a file first')
+        }
+        else {
+            switch(type) {
+                case 'width':
+                    fabObj.setWidth(width)
+                    break
+                case 'height':
+                    fabObj.setHeight(height)
+                    break
+                case 'opacity':
+                    fabObj.setOpacity(opacity)
+                    break
+            }
+        }
+    }
 
     return (
         <Splitter gutterSize={ 5 } style={ {
@@ -135,7 +209,6 @@ export const ImageParser = () => {
                                    }
                                }
                            } }/>
-
                     <div style={ {
                         position: 'relative',
                         width: '100%',
@@ -161,8 +234,7 @@ export const ImageParser = () => {
                                 return (
                                     <ImageBlock key={ index } { ...item } active={ activeId === item.id }
                                                 onSelect={ () => {
-                                                    setActiveId(item.id)
-                                                    setOperating(true)
+                                                    imageSelected(item)
                                                 } }
                                                 onClose={ () => {
                                                     setFileList(fileList.filter((file) => {
@@ -180,23 +252,98 @@ export const ImageParser = () => {
                         margin: '0 20px',
                         display: 'flex',
                         flexDirection: 'column',
-                        alignItems: 'flex-start',
-                        justifyContent: 'flex-start',
+                        alignItems: 'center',
+                        justifyContent: 'space-evenly',
                     } }>
-                        <Button className="p-button-sm p-button-success"
-                                label="Load local image"
-                                icon="pi pi-folder-open"
-                                style={ { width: '100%', margin: '5px 0' } }
-                                onClick={ () => {
-                                    imgIptRef.current?.click()
-                                } }/>
+                        <div style={ { width: '100%' } }
+                             onClick={ () => {
+                                 imgIptRef.current?.click()
+                             } }>
+                            <span className="p-inputgroup-addon">
+                                <i className="pi pi-upload"/>&nbsp;Upload(*.jpg, *.png)
+                            </span>
+                        </div>
+
+                        <div className="p-inputgroup"
+                             style={ {
+                                 width: '100%',
+                                 display: 'flex',
+                                 alignItems: 'center',
+                                 justifyContent: 'space-between'
+                             } }
+                             onClick={ () => {
+                                 imageSolve('width')
+                             } }>
+                            <span className="p-inputgroup-addon" style={ { width: '80px' } }>Width</span>
+                            <InputNumber value={ width } step={ 10 } allowEmpty={ false } suffix=" px"
+                                         onChange={ (e) => {
+                                             setWidth(e.value!)
+                                         } }/>
+                            <span className="p-inputgroup-addon"><span><i className="pi pi-check"/></span></span>
+                        </div>
+
+                        <div className="p-inputgroup"
+                             style={ {
+                                 width: '100%',
+                                 display: 'flex',
+                                 alignItems: 'center',
+                                 justifyContent: 'space-between'
+                             } }
+                             onClick={ () => {
+                                 imageSolve('height')
+                             } }>
+                            <span className="p-inputgroup-addon" style={ { width: '80px' } }>Height</span>
+                            <InputNumber value={ height } step={ 10 } allowEmpty={ false } suffix=" px"
+                                         onChange={ (e) => {
+                                             setHeight(e.value!)
+                                         } }/>
+                            <span className="p-inputgroup-addon"><span><i className="pi pi-check"/></span></span>
+                        </div>
+
+                        <div className="p-inputgroup"
+                             style={ {
+                                 width: '100%',
+                                 display: 'flex',
+                                 alignItems: 'center',
+                                 justifyContent: 'space-between'
+                             } }
+                             onClick={ () => {
+                                 imageSolve('opacity')
+                             } }>
+                            <span className="p-inputgroup-addon" style={ { width: '80px' } }>Opacity</span>
+                            <InputNumber value={ opacity } min={ 0 } max={ 1 } step={ 0.05 }
+                                         minFractionDigits={ 2 } maxFractionDigits={ 2 }
+                                         allowEmpty={ false }
+                                         onChange={ (e) => {
+                                             setOpacity(e.value!)
+                                         } }/>
+                            <span className="p-inputgroup-addon"><span><i className="pi pi-check"/></span></span>
+                        </div>
+
+                        <div style={ { width: '100%' } }
+                             onClick={ () => {
+                                 imageSolve('gray')
+                             } }>
+                            <span className="p-inputgroup-addon">
+                                <i className="pi pi-sync"/>&nbsp;RGB to Gray
+                            </span>
+                        </div>
+
+                        <div style={ { width: '100%' } }
+                             onClick={ () => {
+                                 imageSolve('download')
+                             } }>
+                            <span className="p-inputgroup-addon">
+                                <i className="pi pi-download"/>&nbsp;Download (*.png)
+                            </span>
+                        </div>
                     </div>
                 </div>
             </SplitterPanel>
             <SplitterPanel className="view-container" size={ 80 } minSize={ 50 }>
                 <Workspace onInit={ (canvas) => {
                     if(!!canvas) {
-                        fabricObj = new fabricOperate(canvas)
+                        setFabObj(new fabricOperate(canvas))
                     }
                 } }/>
             </SplitterPanel>

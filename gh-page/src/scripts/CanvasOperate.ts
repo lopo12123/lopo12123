@@ -28,19 +28,55 @@ class BaseOperate {
 
 class fabricOperate {
     private canvas: fabric.Canvas
+    private originWidth: number | undefined
+    private originHeight: number | undefined
 
-    constructor(canvas: fabric.Canvas, blob: Blob) {
+    constructor(canvas: fabric.Canvas) {
         this.canvas = canvas
-        Misc.readBlobAsDataUrl(blob)
-            .then((dataUrlStr) => {
-                const rect = new fabric.Rect({
-                    width: 50, height: 50, fill: '#333'
+    }
+
+    public render(blob: Blob) {
+        return new Promise<boolean>((resolve, reject) => {
+            Misc.readBlobAsDataUrl(blob)
+                .then((dataUrlStr) => {
+                    const imgEl = document.createElement('img')
+                    imgEl.src = dataUrlStr
+                    this.canvas.add(new fabric.Image(imgEl, { cacheKey: 'origin-image' }))
+                    this.originWidth = this.canvas._objects[0].width
+                    this.originHeight = this.canvas._objects[0].height
+                    setTimeout(() => {
+                        resolve(true)
+                    }, 200)
                 })
-                canvas.add(rect)
-            })
-            .catch((e) => {
-                useToastStore().error(e.toString())
-            })
+                .catch(reject)
+        })
+    }
+
+    public setOpacity(opacity: number) {
+        if(opacity < 0 || opacity > 1) return false
+        else {
+            this.canvas._objects[0].opacity = opacity
+            this.canvas.renderAll()
+            return true
+        }
+    }
+
+    public setWidth(width: number) {
+        if(!this.originWidth) return false
+        else {
+            this.canvas._objects[0].scaleX = width / this.originWidth
+            this.canvas.renderAll()
+            return true
+        }
+    }
+
+    public setHeight(height: number) {
+        if(!this.originHeight) return false
+        else {
+            this.canvas._objects[0].scaleX = height / this.originHeight
+            this.canvas.renderAll()
+            return true
+        }
     }
 }
 
