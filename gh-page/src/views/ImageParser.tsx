@@ -71,6 +71,7 @@ const ImageBlock = (prop: ImageBlockProp) => {
             </div>
             <div style={ {
                 position: 'absolute',
+                zIndex: '10',
                 width: '20px',
                 height: '20px',
                 top: '2px',
@@ -84,7 +85,7 @@ const ImageBlock = (prop: ImageBlockProp) => {
                 alignItems: 'flex-start',
                 justifyContent: 'flex-end'
             } }
-                 onClick={ prop.onClose }>
+                 onClick={ (e) => { e.stopPropagation(); prop.onClose?.() } }>
                 <i className="pi pi-times" style={ { margin: '2px 2px 0 0', fontSize: '14px' } }/>
             </div>
         </div>
@@ -95,7 +96,9 @@ export const ImageParser = () => {
     const imgIptRef = useRef<HTMLInputElement>(null)
     const [ fileList, setFileList ] = useState<ImageBlockProp[]>([])
     const [ activeId, setActiveId ] = useState('')
+    const [ operating, setOperating ] = useState(false)
 
+    let fabricObj: fabricOperate
 
     return (
         <Splitter gutterSize={ 5 } style={ {
@@ -159,6 +162,7 @@ export const ImageParser = () => {
                                     <ImageBlock key={ index } { ...item } active={ activeId === item.id }
                                                 onSelect={ () => {
                                                     setActiveId(item.id)
+                                                    setOperating(true)
                                                 } }
                                                 onClose={ () => {
                                                     setFileList(fileList.filter((file) => {
@@ -191,8 +195,9 @@ export const ImageParser = () => {
             </SplitterPanel>
             <SplitterPanel className="view-container" size={ 80 } minSize={ 50 }>
                 <Workspace onInit={ (canvas) => {
-                    if(!canvas) return
-                    console.log(canvas)
+                    if(!!canvas) {
+                        fabricObj = new fabricOperate(canvas)
+                    }
                 } }/>
             </SplitterPanel>
         </Splitter>
