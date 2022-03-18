@@ -13,6 +13,7 @@
     "dependencies": {
         "@types/uuid": "^8.3.4",
         "axios-canceller": "^1.0.1",
+        "fabric": "^5.2.1",
         "lopo-lib": "^2.0.2-fixed",
         "primeicons": "^5.0.0",
         "primereact": "^7.2.1",
