@@ -4,7 +4,7 @@ import { ContextMenu } from "primereact/contextmenu";
 import { Tooltip } from "primereact/tooltip";
 import type { MenuItem } from "primereact/menuitem";
 import { MiscItemList, navigateToMisc, navigateToSubApp, navigateToTool, SubAppNameList, ToolNameList } from "@/router";
-import { useToastStore } from "@/scripts/misc";
+import { useToastStore } from "@/scripts/ToastStore";
 
 export default function NavigationMenu() {
     const navigate = useNavigate()
