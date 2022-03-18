@@ -1,6 +1,6 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import { UseAxios } from "axios-canceller";
-import { Animate, useToastStore } from "@/scripts/misc";
+import { useToastStore } from "@/scripts/ToastStore";
 import { MessagesHoverSwitch } from "@/components/misc/MessagesHoverSwitch";
 
 interface Principal {

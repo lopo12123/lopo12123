@@ -1,16 +1,21 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import { Splitter, SplitterPanel } from "primereact/splitter";
 import { v4 as UUID } from "uuid";
-import { CanvasOperate, useToastStore } from "@/scripts/misc";
+import { BaseOperate, fabricOperate } from "@/scripts/CanvasOperate";
+import { useToastStore } from "@/scripts/ToastStore";
 import { Button } from "primereact/button";
+import { Workspace } from "@/layouts/ImageParser/Workspace";
 
 interface ImageBlockProp {
+    // props in item
     id: string
     file: File
     name: string
     type: string
     size: string
-    onClick?: () => void
+    // props in jsx
+    onSelect?: () => void
+    onClose?: () => void
     active?: boolean
 }
 
@@ -18,7 +23,7 @@ const ImageBlock = (prop: ImageBlockProp) => {
     const canvasRef = useRef<HTMLCanvasElement>(null)
     useLayoutEffect(() => {
         if(!!canvasRef.current && !!prop.file) {
-            CanvasOperate.drawBlobToCanvas(prop.file, canvasRef)
+            BaseOperate.drawBlobToCanvas(prop.file, canvasRef)
         }
     }, [])
 
@@ -32,7 +37,7 @@ const ImageBlock = (prop: ImageBlockProp) => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-evenly'
-        } } onClick={ prop.onClick }>
+        } } onClick={ prop.onSelect }>
             <canvas id={ `canvas-${ prop.id }` } ref={ canvasRef }
                     width="58" height="58"
                     style={ {
@@ -64,6 +69,24 @@ const ImageBlock = (prop: ImageBlockProp) => {
                     <b style={ { width: '40px', display: 'inline-block' } }>size</b> { prop.size }
                 </span>
             </div>
+            <div style={ {
+                position: 'absolute',
+                width: '20px',
+                height: '20px',
+                top: '2px',
+                right: '0',
+                borderRadius: '0 0 0 20px',
+                outline: 'solid 1px #1890ff',
+                backgroundColor: '#1890ff',
+                color: '#ffffff',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'flex-start',
+                justifyContent: 'flex-end'
+            } }
+                 onClick={ prop.onClose }>
+                <i className="pi pi-times" style={ { margin: '2px 2px 0 0', fontSize: '14px' } }/>
+            </div>
         </div>
     )
 }
@@ -73,33 +96,6 @@ export const ImageParser = () => {
     const [ fileList, setFileList ] = useState<ImageBlockProp[]>([])
     const [ activeId, setActiveId ] = useState('')
 
-    const operateImage = (type: 'load' | 'remove' | 'resize' | 'gray') => {
-        const item = fileList.find((file) => {
-            return file.id === activeId
-        })
-
-        if(!item) {
-            useToastStore().warn('Please select one first')
-        }
-        else {
-            switch (type) {
-                case 'load':
-                    // load image to right
-                    break
-                case 'remove':
-                    setFileList(fileList.filter((file) => {
-                        return file.id !== activeId
-                    }))
-                    break
-                case 'resize':
-                    // do resize option
-                    break
-                case 'gray':
-                    // do gray
-                    break
-            }
-        }
-    }
 
     return (
         <Splitter gutterSize={ 5 } style={ {
@@ -119,7 +115,7 @@ export const ImageParser = () => {
                                    const file = imgIptRef.current!.files![0]
                                    const [ suffix, ...nameReverse ] = file.name.split('.').reverse()
 
-                                   if(!CanvasOperate.allowType.includes(suffix)) {
+                                   if(!BaseOperate.allowType.includes(suffix)) {
                                        useToastStore().error('Type not allowed: *.' + suffix)
                                    }
                                    else {
@@ -161,8 +157,13 @@ export const ImageParser = () => {
                             fileList.map((item, index) => {
                                 return (
                                     <ImageBlock key={ index } { ...item } active={ activeId === item.id }
-                                                onClick={ () => {
+                                                onSelect={ () => {
                                                     setActiveId(item.id)
+                                                } }
+                                                onClose={ () => {
+                                                    setFileList(fileList.filter((file) => {
+                                                        return file.id !== activeId
+                                                    }))
                                                 } }/>
                                 )
                             })
@@ -181,29 +182,18 @@ export const ImageParser = () => {
                         <Button className="p-button-sm p-button-success"
                                 label="Load local image"
                                 icon="pi pi-folder-open"
-                                style={{width: '100%', margin: '5px 0'}}
+                                style={ { width: '100%', margin: '5px 0' } }
                                 onClick={ () => {
                                     imgIptRef.current?.click()
-                                } }/>
-                        <Button className="p-button-sm"
-                                label="Load selected image"
-                                icon="pi pi-angle-double-right"
-                                style={{width: '100%', margin: '5px 0'}}
-                                onClick={ () => {
-                                    operateImage('load')
-                                } }/>
-                        <Button className="p-button-sm p-button-warning"
-                                label="Remove selected image"
-                                icon="pi pi-trash"
-                                style={{width: '100%', margin: '5px 0'}}
-                                onClick={ () => {
-                                    operateImage('remove')
                                 } }/>
                     </div>
                 </div>
             </SplitterPanel>
             <SplitterPanel className="view-container" size={ 80 } minSize={ 50 }>
-                222
+                <Workspace onInit={ (canvas) => {
+                    if(!canvas) return
+                    console.log(canvas)
+                } }/>
             </SplitterPanel>
         </Splitter>
     )
