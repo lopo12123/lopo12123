@@ -3,7 +3,6 @@ import { Splitter, SplitterPanel } from "primereact/splitter";
 import { v4 as UUID } from "uuid";
 import { BaseOperate, fabricOperate } from "@/scripts/CanvasOperate";
 import { useToastStore } from "@/scripts/ToastStore";
-import { Button } from "primereact/button";
 import { Workspace } from "@/layouts/ImageParser/Workspace";
 import { InputNumber } from "primereact/inputnumber";
 
@@ -92,35 +91,6 @@ const ImageBlock = (prop: ImageBlockProp) => {
                  } }>
                 <i className="pi pi-times" style={ { margin: '2px 2px 0 0', fontSize: '14px' } }/>
             </div>
-        </div>
-    )
-}
-
-const CheckButton = (prop: { onClick: () => void }) => {
-    const [ hover, setHover ] = useState(false)
-
-    return (
-        <div className={ hover ? 'custom-rgb' : '' }
-             style={ {
-                 position: 'relative',
-                 width: '40px',
-                 height: '30px',
-                 border: 'solid 1px #777777',
-                 borderRadius: '5px',
-                 backgroundColor: '#ffffff',
-                 cursor: 'pointer',
-                 display: 'flex',
-                 alignItems: 'center',
-                 justifyContent: 'center'
-             } }
-             onMouseEnter={ () => {
-                 setHover(true)
-             } }
-             onMouseLeave={ () => {
-                 setHover(false)
-             } }
-             onClick={ prop.onClick }>
-            <i className="pi pi-check" style={ { fontWeight: 'bolder' } }/>
         </div>
     )
 }
