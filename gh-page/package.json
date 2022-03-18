@@ -28,6 +28,7 @@
         "vue": "^3.2.25"
     },
     "devDependencies": {
+        "@types/fabric": "^4.5.7",
         "@types/radium": "^0.24.4",
         "@types/react": "^17.0.33",
         "@types/react-dom": "^17.0.10",
