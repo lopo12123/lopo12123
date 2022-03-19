@@ -28,6 +28,7 @@ class BaseOperate {
 
 class fabricOperate {
     private canvas: fabric.Canvas
+    private grayFilter = new fabric.Image.filters.Grayscale()
     private originWidth: number | undefined
     private originHeight: number | undefined
 
@@ -41,7 +42,7 @@ class fabricOperate {
                 .then((dataUrlStr) => {
                     const imgEl = document.createElement('img')
                     imgEl.src = dataUrlStr
-                    this.canvas.add(new fabric.Image(imgEl, { cacheKey: 'origin-image' }))
+                    this.canvas.clear().add(new fabric.Image(imgEl, { cacheKey: 'origin-image' }))
                     this.originWidth = this.canvas._objects[0].width
                     this.originHeight = this.canvas._objects[0].height
                     setTimeout(() => {
@@ -73,10 +74,24 @@ class fabricOperate {
     public setHeight(height: number) {
         if(!this.originHeight) return false
         else {
-            this.canvas._objects[0].scaleX = height / this.originHeight
+            this.canvas._objects[0].scaleY = height / this.originHeight
             this.canvas.renderAll()
             return true
         }
+    }
+
+    public setGray() {
+        // @ts-ignore
+        this.canvas._objects[0].filters.push(this.grayFilter)
+        // @ts-ignore
+        this.canvas._objects[0].applyFilters()
+    }
+
+    public download() {
+        const aTag = document.createElement('a')
+        aTag.download = 'file'+Date.now()+'.png'
+        aTag.href = this.canvas.toDataURL()
+        aTag.click()
     }
 }
 
