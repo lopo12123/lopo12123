@@ -37,7 +37,7 @@ export const Workspace = (prop: WorkspaceProp) => {
             <canvas ref={ canvasRef }
                     style={ {
                         position: 'relative',
-                        border: 'solid 1px #efefef'
+                        border: 'solid 1px #cccccc'
                     } }/>
         </div>
     )
