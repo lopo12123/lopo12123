@@ -37,7 +37,7 @@ const ImageBlock = (prop: ImageBlockProp) => {
             alignItems: 'center',
             justifyContent: 'space-evenly'
         } } onClick={ prop.onSelect }>
-            <canvas id={ `canvas-${ prop.id }` } ref={ canvasRef }
+            <canvas key={ `canvas-${ prop.id }` } ref={ canvasRef }
                     width="58" height="58"
                     style={ {
                         position: 'relative',
@@ -96,23 +96,19 @@ const ImageBlock = (prop: ImageBlockProp) => {
 
 export const ImageParser = () => {
     const imgIptRef = useRef<HTMLInputElement>(null)
-    const [ fileList, setFileList ] = useState<ImageBlockProp[]>([])
-    const [ activeId, setActiveId ] = useState('')
+    const [ fileDataStr, setFileDataStr ] = useState('')
     const [ fabObj, setFabObj ] = useState<fabricOperate | null>(null)
-    const [ operating, setOperating ] = useState(false)
 
-    const imageSelected = (item: ImageBlockProp) => {
+    const loadFile = (file: Blob) => {
         if(!fabObj) {
             useToastStore().warn('Please wait for canvas to finish initializing')
         }
-        else if(activeId === item.id) {
-            useToastStore().warn('you selected the same file')
-        }
         else {
-            fabObj.render(item.file)
-                .then(() => {
-                    setActiveId(item.id)
-                    setOperating(true)
+            fabObj.render(file)
+                .then((dataUrl) => {
+                    console.log(dataUrl)
+                    setFileDataStr(dataUrl)
+                    useToastStore().success('Image loaded')
                 })
                 .catch((e) => {
                     useToastStore().error(e.toString())
@@ -125,7 +121,7 @@ export const ImageParser = () => {
     const [ height, setHeight ] = useState(0)
 
     const imageSolve = (type: 'width' | 'height' | 'opacity' | 'gray' | 'download') => {
-        if(!operating || !fabObj) {
+        if(!fabObj || !fileDataStr) {
             useToastStore().warn('Select a file first')
         }
         else {
@@ -138,6 +134,13 @@ export const ImageParser = () => {
                     break
                 case 'opacity':
                     fabObj.setOpacity(opacity)
+                    break
+                case 'gray':
+                    fabObj.setGray()
+                    break
+                case 'download':
+                    fabObj.download()
+                    console.log('download')
                     break
             }
         }
@@ -158,7 +161,8 @@ export const ImageParser = () => {
                 height: '100%',
                 borderRight: 'solid 1px #cccccc'
             } }>
-                <input ref={ imgIptRef } type="file" style={ { display: 'none' } }
+                <input ref={ imgIptRef } type="file"
+                       style={ { display: 'none' } }
                        onChange={ () => {
                            if(imgIptRef.current!.files!.length > 0) {
                                const file = imgIptRef.current!.files![0]
@@ -168,16 +172,7 @@ export const ImageParser = () => {
                                    useToastStore().error('Type not allowed: *.' + suffix)
                                }
                                else {
-                                   setFileList([
-                                       ...fileList,
-                                       {
-                                           id: UUID(),
-                                           name: nameReverse.reverse().join('.'),
-                                           size: file.size + 'B',
-                                           file: file,
-                                           type: suffix,
-                                       }
-                                   ])
+                                   loadFile((file))
                                }
                            }
                        } }/>
@@ -192,31 +187,17 @@ export const ImageParser = () => {
                     lineHeight: '30px',
                     textAlign: 'center'
                 } }>
-                    File List
+                    Operate
                 </div>
-                <div style={ {
-                    position: 'relative',
-                    width: 'calc(100% - 40px)',
-                    height: '50%',
-                    margin: '0 20px',
-                    overflow: 'hidden auto'
-                } }>
-                    {
-                        fileList.map((item, index) => {
-                            return (
-                                <ImageBlock key={ index } { ...item } active={ activeId === item.id }
-                                            onSelect={ () => {
-                                                imageSelected(item)
-                                            } }
-                                            onClose={ () => {
-                                                setFileList(fileList.filter((file) => {
-                                                    return file.id !== activeId
-                                                }))
-                                            } }/>
-                            )
-                        })
-                    }
-                </div>
+                {
+                    (fileDataStr !== '')
+                        ? <img style={ {
+                            position: 'relative',
+                            width: 'calc(100% - 40px)',
+                            margin: '0 20px',
+                        } } src={ fileDataStr } alt=""/>
+                        : ''
+                }
                 <div style={ {
                     position: 'relative',
                     width: 'calc(100% - 40px)',
@@ -232,7 +213,7 @@ export const ImageParser = () => {
                              imgIptRef.current?.click()
                          } }>
                             <span className="p-inputgroup-addon">
-                                <i className="pi pi-upload"/>&nbsp;Upload(*.jpg, *.png)
+                                <i className="pi pi-upload"/>&nbsp;Select (*.jpg, *.png)
                             </span>
                     </div>
 
@@ -242,16 +223,18 @@ export const ImageParser = () => {
                              display: 'flex',
                              alignItems: 'center',
                              justifyContent: 'space-between'
-                         } }
-                         onClick={ () => {
-                             imageSolve('width')
                          } }>
                         <span className="p-inputgroup-addon" style={ { width: '80px' } }>Width</span>
                         <InputNumber value={ width } step={ 10 } allowEmpty={ false } suffix=" px"
                                      onChange={ (e) => {
                                          setWidth(e.value!)
                                      } }/>
-                        <span className="p-inputgroup-addon"><span><i className="pi pi-check"/></span></span>
+                        <span className="p-inputgroup-addon"
+                              onClick={ () => {
+                                  imageSolve('width')
+                              } }>
+                            <span><i className="pi pi-check"/></span>
+                        </span>
                     </div>
 
                     <div className="p-inputgroup"
@@ -260,16 +243,18 @@ export const ImageParser = () => {
                              display: 'flex',
                              alignItems: 'center',
                              justifyContent: 'space-between'
-                         } }
-                         onClick={ () => {
-                             imageSolve('height')
                          } }>
                         <span className="p-inputgroup-addon" style={ { width: '80px' } }>Height</span>
                         <InputNumber value={ height } step={ 10 } allowEmpty={ false } suffix=" px"
                                      onChange={ (e) => {
                                          setHeight(e.value!)
                                      } }/>
-                        <span className="p-inputgroup-addon"><span><i className="pi pi-check"/></span></span>
+                        <span className="p-inputgroup-addon"
+                              onClick={ () => {
+                                  imageSolve('height')
+                              } }>
+                            <span><i className="pi pi-check"/></span>
+                        </span>
                     </div>
 
                     <div className="p-inputgroup"
@@ -278,9 +263,6 @@ export const ImageParser = () => {
                              display: 'flex',
                              alignItems: 'center',
                              justifyContent: 'space-between'
-                         } }
-                         onClick={ () => {
-                             imageSolve('opacity')
                          } }>
                         <span className="p-inputgroup-addon" style={ { width: '80px' } }>Opacity</span>
                         <InputNumber value={ opacity } min={ 0 } max={ 1 } step={ 0.05 }
@@ -289,7 +271,12 @@ export const ImageParser = () => {
                                      onChange={ (e) => {
                                          setOpacity(e.value!)
                                      } }/>
-                        <span className="p-inputgroup-addon"><span><i className="pi pi-check"/></span></span>
+                        <span className="p-inputgroup-addon"
+                              onClick={ () => {
+                                  imageSolve('opacity')
+                              } }>
+                            <span><i className="pi pi-check"/></span>
+                        </span>
                     </div>
 
                     <div style={ { width: '100%' } }
