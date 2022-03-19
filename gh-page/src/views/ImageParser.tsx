@@ -130,7 +130,7 @@ export const ImageParser = () => {
             useToastStore().warn('Select a file first')
         }
         else {
-            switch(type) {
+            switch (type) {
                 case 'width':
                     fabObj.setWidth(width)
                     break
@@ -145,178 +145,184 @@ export const ImageParser = () => {
     }
 
     return (
-        <Splitter gutterSize={ 5 } style={ {
+        <div style={ {
             position: 'relative',
             width: '100%',
-            height: '100%'
+            height: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between'
         } }>
-            <SplitterPanel className="panel-container" size={ 20 } minSize={ 20 }>
+            <div style={ {
+                position: 'relative',
+                width: 'calc(30% - 1px)',
+                height: '100%',
+                borderRight: 'solid 1px #cccccc'
+            } }>
+                <input ref={ imgIptRef } type="file" style={ { display: 'none' } }
+                       onChange={ () => {
+                           if(imgIptRef.current!.files!.length > 0) {
+                               const file = imgIptRef.current!.files![0]
+                               const [ suffix, ...nameReverse ] = file.name.split('.').reverse()
+
+                               if(!BaseOperate.allowType.includes(suffix)) {
+                                   useToastStore().error('Type not allowed: *.' + suffix)
+                               }
+                               else {
+                                   setFileList([
+                                       ...fileList,
+                                       {
+                                           id: UUID(),
+                                           name: nameReverse.reverse().join('.'),
+                                           size: file.size + 'B',
+                                           file: file,
+                                           type: suffix,
+                                       }
+                                   ])
+                               }
+                           }
+                       } }/>
                 <div style={ {
                     position: 'relative',
                     width: '100%',
-                    height: '100%'
+                    height: '30px',
+                    fontFamily: 'Curlz MT',
+                    fontSize: '24px',
+                    fontWeight: 'bold',
+                    letterSpacing: '3px',
+                    lineHeight: '30px',
+                    textAlign: 'center'
                 } }>
-                    <input ref={ imgIptRef } type="file" style={ { display: 'none' } }
-                           onChange={ () => {
-                               if(imgIptRef.current!.files!.length > 0) {
-                                   const file = imgIptRef.current!.files![0]
-                                   const [ suffix, ...nameReverse ] = file.name.split('.').reverse()
-
-                                   if(!BaseOperate.allowType.includes(suffix)) {
-                                       useToastStore().error('Type not allowed: *.' + suffix)
-                                   }
-                                   else {
-                                       setFileList([
-                                           ...fileList,
-                                           {
-                                               id: UUID(),
-                                               name: nameReverse.reverse().join('.'),
-                                               size: file.size + 'B',
-                                               file: file,
-                                               type: suffix,
-                                           }
-                                       ])
-                                   }
-                               }
-                           } }/>
-                    <div style={ {
-                        position: 'relative',
-                        width: '100%',
-                        height: '30px',
-                        fontFamily: 'Curlz MT',
-                        fontSize: '24px',
-                        fontWeight: 'bold',
-                        letterSpacing: '3px',
-                        lineHeight: '30px',
-                        textAlign: 'center'
-                    } }>
-                        File List
-                    </div>
-                    <div style={ {
-                        position: 'relative',
-                        width: 'calc(100% - 40px)',
-                        height: '50%',
-                        margin: '0 20px',
-                        overflow: 'hidden auto'
-                    } }>
-                        {
-                            fileList.map((item, index) => {
-                                return (
-                                    <ImageBlock key={ index } { ...item } active={ activeId === item.id }
-                                                onSelect={ () => {
-                                                    imageSelected(item)
-                                                } }
-                                                onClose={ () => {
-                                                    setFileList(fileList.filter((file) => {
-                                                        return file.id !== activeId
-                                                    }))
-                                                } }/>
-                                )
-                            })
-                        }
-                    </div>
-                    <div style={ {
-                        position: 'relative',
-                        width: 'calc(100% - 40px)',
-                        height: 'calc(50% - 30px)',
-                        margin: '0 20px',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'space-evenly',
-                    } }>
-                        <div style={ { width: '100%' } }
-                             onClick={ () => {
-                                 imgIptRef.current?.click()
-                             } }>
+                    File List
+                </div>
+                <div style={ {
+                    position: 'relative',
+                    width: 'calc(100% - 40px)',
+                    height: '50%',
+                    margin: '0 20px',
+                    overflow: 'hidden auto'
+                } }>
+                    {
+                        fileList.map((item, index) => {
+                            return (
+                                <ImageBlock key={ index } { ...item } active={ activeId === item.id }
+                                            onSelect={ () => {
+                                                imageSelected(item)
+                                            } }
+                                            onClose={ () => {
+                                                setFileList(fileList.filter((file) => {
+                                                    return file.id !== activeId
+                                                }))
+                                            } }/>
+                            )
+                        })
+                    }
+                </div>
+                <div style={ {
+                    position: 'relative',
+                    width: 'calc(100% - 40px)',
+                    height: 'calc(50% - 30px)',
+                    margin: '0 20px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'space-evenly',
+                } }>
+                    <div style={ { width: '100%' } }
+                         onClick={ () => {
+                             imgIptRef.current?.click()
+                         } }>
                             <span className="p-inputgroup-addon">
                                 <i className="pi pi-upload"/>&nbsp;Upload(*.jpg, *.png)
                             </span>
-                        </div>
+                    </div>
 
-                        <div className="p-inputgroup"
-                             style={ {
-                                 width: '100%',
-                                 display: 'flex',
-                                 alignItems: 'center',
-                                 justifyContent: 'space-between'
-                             } }
-                             onClick={ () => {
-                                 imageSolve('width')
-                             } }>
-                            <span className="p-inputgroup-addon" style={ { width: '80px' } }>Width</span>
-                            <InputNumber value={ width } step={ 10 } allowEmpty={ false } suffix=" px"
-                                         onChange={ (e) => {
-                                             setWidth(e.value!)
-                                         } }/>
-                            <span className="p-inputgroup-addon"><span><i className="pi pi-check"/></span></span>
-                        </div>
+                    <div className="p-inputgroup"
+                         style={ {
+                             width: '100%',
+                             display: 'flex',
+                             alignItems: 'center',
+                             justifyContent: 'space-between'
+                         } }
+                         onClick={ () => {
+                             imageSolve('width')
+                         } }>
+                        <span className="p-inputgroup-addon" style={ { width: '80px' } }>Width</span>
+                        <InputNumber value={ width } step={ 10 } allowEmpty={ false } suffix=" px"
+                                     onChange={ (e) => {
+                                         setWidth(e.value!)
+                                     } }/>
+                        <span className="p-inputgroup-addon"><span><i className="pi pi-check"/></span></span>
+                    </div>
 
-                        <div className="p-inputgroup"
-                             style={ {
-                                 width: '100%',
-                                 display: 'flex',
-                                 alignItems: 'center',
-                                 justifyContent: 'space-between'
-                             } }
-                             onClick={ () => {
-                                 imageSolve('height')
-                             } }>
-                            <span className="p-inputgroup-addon" style={ { width: '80px' } }>Height</span>
-                            <InputNumber value={ height } step={ 10 } allowEmpty={ false } suffix=" px"
-                                         onChange={ (e) => {
-                                             setHeight(e.value!)
-                                         } }/>
-                            <span className="p-inputgroup-addon"><span><i className="pi pi-check"/></span></span>
-                        </div>
+                    <div className="p-inputgroup"
+                         style={ {
+                             width: '100%',
+                             display: 'flex',
+                             alignItems: 'center',
+                             justifyContent: 'space-between'
+                         } }
+                         onClick={ () => {
+                             imageSolve('height')
+                         } }>
+                        <span className="p-inputgroup-addon" style={ { width: '80px' } }>Height</span>
+                        <InputNumber value={ height } step={ 10 } allowEmpty={ false } suffix=" px"
+                                     onChange={ (e) => {
+                                         setHeight(e.value!)
+                                     } }/>
+                        <span className="p-inputgroup-addon"><span><i className="pi pi-check"/></span></span>
+                    </div>
 
-                        <div className="p-inputgroup"
-                             style={ {
-                                 width: '100%',
-                                 display: 'flex',
-                                 alignItems: 'center',
-                                 justifyContent: 'space-between'
-                             } }
-                             onClick={ () => {
-                                 imageSolve('opacity')
-                             } }>
-                            <span className="p-inputgroup-addon" style={ { width: '80px' } }>Opacity</span>
-                            <InputNumber value={ opacity } min={ 0 } max={ 1 } step={ 0.05 }
-                                         minFractionDigits={ 2 } maxFractionDigits={ 2 }
-                                         allowEmpty={ false }
-                                         onChange={ (e) => {
-                                             setOpacity(e.value!)
-                                         } }/>
-                            <span className="p-inputgroup-addon"><span><i className="pi pi-check"/></span></span>
-                        </div>
+                    <div className="p-inputgroup"
+                         style={ {
+                             width: '100%',
+                             display: 'flex',
+                             alignItems: 'center',
+                             justifyContent: 'space-between'
+                         } }
+                         onClick={ () => {
+                             imageSolve('opacity')
+                         } }>
+                        <span className="p-inputgroup-addon" style={ { width: '80px' } }>Opacity</span>
+                        <InputNumber value={ opacity } min={ 0 } max={ 1 } step={ 0.05 }
+                                     minFractionDigits={ 2 } maxFractionDigits={ 2 }
+                                     allowEmpty={ false }
+                                     onChange={ (e) => {
+                                         setOpacity(e.value!)
+                                     } }/>
+                        <span className="p-inputgroup-addon"><span><i className="pi pi-check"/></span></span>
+                    </div>
 
-                        <div style={ { width: '100%' } }
-                             onClick={ () => {
-                                 imageSolve('gray')
-                             } }>
+                    <div style={ { width: '100%' } }
+                         onClick={ () => {
+                             imageSolve('gray')
+                         } }>
                             <span className="p-inputgroup-addon">
                                 <i className="pi pi-sync"/>&nbsp;RGB to Gray
                             </span>
-                        </div>
+                    </div>
 
-                        <div style={ { width: '100%' } }
-                             onClick={ () => {
-                                 imageSolve('download')
-                             } }>
+                    <div style={ { width: '100%' } }
+                         onClick={ () => {
+                             imageSolve('download')
+                         } }>
                             <span className="p-inputgroup-addon">
                                 <i className="pi pi-download"/>&nbsp;Download (*.png)
                             </span>
-                        </div>
                     </div>
                 </div>
-            </SplitterPanel>
-            <SplitterPanel className="view-container" size={ 80 } minSize={ 50 }>
+            </div>
+            <div style={ {
+                position: 'relative',
+                width: '70%',
+                height: '100%'
+            } }>
                 <Workspace onInit={ (canvas) => {
                     if(!!canvas) {
                         setFabObj(new fabricOperate(canvas))
                     }
                 } }/>
-            </SplitterPanel>
-        </Splitter>
+            </div>
+        </div>
     )
 }
