@@ -1,5 +1,4 @@
 import { useLayoutEffect, useRef, useState } from "react";
-import { Splitter, SplitterPanel } from "primereact/splitter";
 import { v4 as UUID } from "uuid";
 import { BaseOperate, fabricOperate } from "@/scripts/CanvasOperate";
 import { useToastStore } from "@/scripts/ToastStore";
@@ -155,7 +154,7 @@ export const ImageParser = () => {
         } }>
             <div style={ {
                 position: 'relative',
-                width: 'calc(30% - 1px)',
+                width: '299px',
                 height: '100%',
                 borderRight: 'solid 1px #cccccc'
             } }>
@@ -314,7 +313,7 @@ export const ImageParser = () => {
             </div>
             <div style={ {
                 position: 'relative',
-                width: '70%',
+                width: 'calc(100% - 300px)',
                 height: '100%'
             } }>
                 <Workspace onInit={ (canvas) => {
