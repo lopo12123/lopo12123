@@ -37,7 +37,7 @@ class fabricOperate {
     }
 
     public render(blob: Blob) {
-        return new Promise<boolean>((resolve, reject) => {
+        return new Promise<string>((resolve, reject) => {
             Misc.readBlobAsDataUrl(blob)
                 .then((dataUrlStr) => {
                     const imgEl = document.createElement('img')
@@ -45,9 +45,10 @@ class fabricOperate {
                     this.canvas.clear().add(new fabric.Image(imgEl, { cacheKey: 'origin-image' }))
                     this.originWidth = this.canvas._objects[0].width
                     this.originHeight = this.canvas._objects[0].height
-                    setTimeout(() => {
-                        resolve(true)
-                    }, 200)
+                    return Promise.resolve(dataUrlStr)
+                })
+                .then((dataUrlStr) => {
+                    resolve(dataUrlStr)
                 })
                 .catch(reject)
         })
