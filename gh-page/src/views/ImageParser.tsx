@@ -15,8 +15,10 @@ export const ImageParser = () => {
         }
         else {
             fabObj.render(file)
-                .then((dataUrl) => {
+                .then(([dataUrl, w, h]) => {
                     setFileDataStr(dataUrl)
+                    setWidth(w)
+                    setHeight(h)
                     useToastStore().success('Image loaded')
                 })
                 .catch((e) => {
@@ -25,16 +27,26 @@ export const ImageParser = () => {
         }
     }
 
-    const [ opacity, setOpacity ] = useState(1)
     const [ width, setWidth ] = useState(0)
     const [ height, setHeight ] = useState(0)
+    const [ opacity, setOpacity ] = useState(1)
+    const [ gray, setGray ] = useState(false)
 
-    const imageSolve = (type: 'width' | 'height' | 'opacity' | 'gray' | 'download') => {
+    const imageSolve = (type: 'reset' | 'width' | 'height' | 'opacity' | 'gray' | 'download') => {
         if(!fabObj || !fileDataStr) {
             useToastStore().warn('Select a file first')
         }
         else {
             switch (type) {
+                case 'reset':
+                    fabObj.reset()
+
+                    const [w, h] = fabObj.getSize()
+                    setWidth(w)
+                    setHeight(h)
+                    setOpacity(1)
+                    setGray(false)
+                    break
                 case 'width':
                     fabObj.setWidth(width)
                     break
@@ -45,7 +57,8 @@ export const ImageParser = () => {
                     fabObj.setOpacity(opacity)
                     break
                 case 'gray':
-                    fabObj.setGray()
+                    fabObj.setGray(!gray)
+                    setGray(!gray)
                     break
                 case 'download':
                     fabObj.download()
@@ -98,31 +111,41 @@ export const ImageParser = () => {
                 } }>
                     Operate
                 </div>
-                {
-                    (fileDataStr !== '')
-                        ? <img style={ {
-                            position: 'relative',
-                            width: 'calc(100% - 40px)',
-                            margin: '0 20px',
-                        } } src={ fileDataStr } alt=""/>
-                        : ''
-                }
                 <div style={ {
                     position: 'relative',
                     width: 'calc(100% - 40px)',
-                    height: 'calc(50% - 30px)',
+                    height: 'calc(100% - 30px)',
                     margin: '0 20px',
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
                     justifyContent: 'space-evenly',
                 } }>
+                    {
+                        (fileDataStr !== '')
+                            ? <img style={ {
+                                position: 'relative',
+                                width: 'calc(100% - 40px)',
+                                margin: '0 20px',
+                            } } src={ fileDataStr } alt=""/>
+                            : ''
+                    }
+
                     <div style={ { width: '100%' } }
                          onClick={ () => {
                              imgIptRef.current?.click()
                          } }>
                             <span className="p-inputgroup-addon">
                                 <i className="pi pi-upload"/>&nbsp;Select (*.jpg, *.png)
+                            </span>
+                    </div>
+
+                    <div style={ { width: '100%' } }
+                         onClick={ () => {
+                             imageSolve('reset')
+                         } }>
+                            <span className="p-inputgroup-addon">
+                                <i className="pi pi-images"/>&nbsp;Reset
                             </span>
                     </div>
 
@@ -134,7 +157,7 @@ export const ImageParser = () => {
                              justifyContent: 'space-between'
                          } }>
                         <span className="p-inputgroup-addon" style={ { width: '80px' } }>Width</span>
-                        <InputNumber value={ width } step={ 10 } allowEmpty={ false } suffix=" px"
+                        <InputNumber value={ width } step={ 10 } min={ 0 } allowEmpty={ false } suffix=" px"
                                      onChange={ (e) => {
                                          setWidth(e.value!)
                                      } }/>
@@ -154,7 +177,7 @@ export const ImageParser = () => {
                              justifyContent: 'space-between'
                          } }>
                         <span className="p-inputgroup-addon" style={ { width: '80px' } }>Height</span>
-                        <InputNumber value={ height } step={ 10 } allowEmpty={ false } suffix=" px"
+                        <InputNumber value={ height } step={ 10 } min={ 0 } allowEmpty={ false } suffix=" px"
                                      onChange={ (e) => {
                                          setHeight(e.value!)
                                      } }/>
@@ -193,7 +216,10 @@ export const ImageParser = () => {
                              imageSolve('gray')
                          } }>
                             <span className="p-inputgroup-addon">
-                                <i className="pi pi-sync"/>&nbsp;RGB to Gray
+                                <i className="pi pi-sync"/>&nbsp;
+                                { gray ? 'RGB' : <b>RGB</b> }
+                                &nbsp;<i className="pi pi-arrows-h"/>&nbsp;
+                                { gray ? <b>Gray</b> : 'Gray' }
                             </span>
                     </div>
 
