@@ -62,7 +62,6 @@ export const ImageParser = () => {
                     break
                 case 'download':
                     fabObj.download()
-                    console.log('download')
                     break
             }
         }
