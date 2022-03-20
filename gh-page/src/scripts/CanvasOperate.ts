@@ -54,6 +54,18 @@ class fabricOperate {
         })
     }
 
+    public reset() {
+        const obj = this.canvas._objects[0]
+        obj.scaleX = 1
+        obj.scaleY = 1
+        obj.opacity = 1
+        // @ts-ignore
+        obj.filters = []
+        // @ts-ignore
+        this.canvas._objects[0].applyFilters()
+        this.canvas.renderAll()
+    }
+
     public setOpacity(opacity: number) {
         if(opacity < 0 || opacity > 1) return false
         else {
@@ -81,18 +93,23 @@ class fabricOperate {
         }
     }
 
-    public setGray() {
+    public setGray(yes: boolean) {
         // @ts-ignore
-        this.canvas._objects[0].filters.push(this.grayFilter)
+        this.canvas._objects[0].filters = yes ? [this.grayFilter] : []
         // @ts-ignore
         this.canvas._objects[0].applyFilters()
+        this.canvas.renderAll()
     }
 
     public download() {
-        const aTag = document.createElement('a')
-        aTag.download = 'file'+Date.now()+'.png'
-        aTag.href = this.canvas.toDataURL()
-        aTag.click()
+        if(!this.originWidth || !this.originHeight) return
+        const w = this.canvas._objects[0].getScaledWidth()
+        const h = this.canvas._objects[0].getScaledHeight()
+        console.log(w, h)
+        // const aTag = document.createElement('a')
+        // aTag.download = 'file'+Date.now()+'.png'
+        // aTag.href = this.canvas.toDataURL()
+        // aTag.click()
     }
 
     public dispose() {
