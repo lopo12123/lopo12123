@@ -1,21 +1,29 @@
 import { useLayoutEffect, useRef } from "react";
 import { fabric } from "fabric";
+import { fabricOperate } from "@/scripts/CanvasOperate";
 
 interface WorkspaceProp {
-    onInit: (canvas: fabric.Canvas | null) => void
+    onInit: (canvas: fabricOperate | null) => void
 }
 
 export const Workspace = (prop: WorkspaceProp) => {
     const containerRef = useRef<HTMLDivElement>(null)
     const canvasRef = useRef<HTMLCanvasElement>(null)
 
-    let canvas: fabric.Canvas
+
     useLayoutEffect(() => {
         if(!!containerRef.current && !!canvasRef.current) {
             const [ width, height ] = [ containerRef.current.offsetWidth - 20, containerRef.current.offsetHeight - 20 ]
-            canvas = new fabric.Canvas(canvasRef.current, {width: width, height: height})
-
-            prop.onInit(canvas)
+            const fabObj = new fabricOperate(
+                new fabric.Canvas(
+                    canvasRef.current,
+                    {
+                        width: width,
+                        height: height
+                    }
+                )
+            )
+            prop.onInit(fabObj)
         }
         else {
             prop.onInit(null)
