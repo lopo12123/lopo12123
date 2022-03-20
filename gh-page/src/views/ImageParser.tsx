@@ -1,98 +1,8 @@
-import { useLayoutEffect, useRef, useState } from "react";
-import { v4 as UUID } from "uuid";
+import { useRef, useState } from "react";
 import { BaseOperate, fabricOperate } from "@/scripts/CanvasOperate";
 import { useToastStore } from "@/scripts/ToastStore";
 import { Workspace } from "@/layouts/ImageParser/Workspace";
 import { InputNumber } from "primereact/inputnumber";
-
-interface ImageBlockProp {
-    // props in item
-    id: string
-    file: File
-    name: string
-    type: string
-    size: string
-    // props in jsx
-    onSelect?: () => void
-    onClose?: () => void
-    active?: boolean
-}
-
-const ImageBlock = (prop: ImageBlockProp) => {
-    const canvasRef = useRef<HTMLCanvasElement>(null)
-    useLayoutEffect(() => {
-        if(!!canvasRef.current && !!prop.file) {
-            BaseOperate.drawBlobToCanvas(prop.file, canvasRef)
-        }
-    }, [])
-
-    return (
-        <div style={ {
-            position: 'relative',
-            width: 'calc(100% - 5px)',
-            height: '70px',
-            margin: '10px 0',
-            borderLeft: `solid 5px ${ prop.active ? '#409eff' : '#909399' }`,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-evenly'
-        } } onClick={ prop.onSelect }>
-            <canvas key={ `canvas-${ prop.id }` } ref={ canvasRef }
-                    width="58" height="58"
-                    style={ {
-                        position: 'relative',
-                        width: '58px',
-                        height: '58px',
-                        border: 'solid 1px #cccccc',
-                        outline: 'none'
-                    } }/>
-            <div style={ {
-                position: 'relative',
-                width: 'calc(100% - 80px)',
-                height: '100%',
-                outline: 'none',
-                fontSize: '12px',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'flex-start',
-                justifyContent: 'space-evenly',
-                overflow: 'auto'
-            } }>
-                <span style={ { whiteSpace: 'nowrap' } }>
-                    <b style={ { width: '40px', display: 'inline-block' } }>name</b> { prop.name }
-                </span>
-                <span style={ { whiteSpace: 'nowrap' } }>
-                    <b style={ { width: '40px', display: 'inline-block' } }>type</b> { prop.type }
-                </span>
-                <span style={ { whiteSpace: 'nowrap' } }>
-                    <b style={ { width: '40px', display: 'inline-block' } }>size</b> { prop.size }
-                </span>
-            </div>
-            <div style={ {
-                position: 'absolute',
-                zIndex: '10',
-                width: '20px',
-                height: '20px',
-                top: '2px',
-                right: '0',
-                borderRadius: '0 0 0 20px',
-                outline: 'solid 1px #1890ff',
-                backgroundColor: '#1890ff',
-                color: '#ffffff',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'flex-start',
-                justifyContent: 'flex-end'
-            } }
-                 onClick={ (e) => {
-                     e.stopPropagation();
-                     prop.onClose?.()
-                 } }>
-                <i className="pi pi-times" style={ { margin: '2px 2px 0 0', fontSize: '14px' } }/>
-            </div>
-        </div>
-    )
-}
 
 export const ImageParser = () => {
     const imgIptRef = useRef<HTMLInputElement>(null)
@@ -106,7 +16,6 @@ export const ImageParser = () => {
         else {
             fabObj.render(file)
                 .then((dataUrl) => {
-                    console.log(dataUrl)
                     setFileDataStr(dataUrl)
                     useToastStore().success('Image loaded')
                 })
@@ -172,7 +81,7 @@ export const ImageParser = () => {
                                    useToastStore().error('Type not allowed: *.' + suffix)
                                }
                                else {
-                                   loadFile((file))
+                                   loadFile(file)
                                }
                            }
                        } }/>
@@ -303,10 +212,8 @@ export const ImageParser = () => {
                 width: 'calc(100% - 300px)',
                 height: '100%'
             } }>
-                <Workspace onInit={ (canvas) => {
-                    if(!!canvas) {
-                        setFabObj(new fabricOperate(canvas))
-                    }
+                <Workspace onInit={ (fabObj) => {
+                    setFabObj(fabObj)
                 } }/>
             </div>
         </div>
