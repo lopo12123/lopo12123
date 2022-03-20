@@ -1,7 +1,7 @@
 {
-    "name": "npm-doc",
+    "name": "lopo12123",
     "private": true,
-    "version": "0.0.0",
+    "version": "0.0.1",
     "scripts": {
         "dev:all": "vite --host --open",
         "build:all": "tsc && vite build && yarn workspaces run build"
