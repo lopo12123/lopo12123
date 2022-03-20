@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { BaseOperate, fabricOperate } from "@/scripts/CanvasOperate";
+import { fabricOperate } from "@/scripts/CanvasOperate";
 import { useToastStore } from "@/scripts/ToastStore";
 import { Workspace } from "@/layouts/ImageParser/Workspace";
 import { InputNumber } from "primereact/inputnumber";
@@ -90,7 +90,7 @@ export const ImageParser = () => {
                                const file = imgIptRef.current!.files![0]
                                const [ suffix, ...nameReverse ] = file.name.split('.').reverse()
 
-                               if(!BaseOperate.allowType.includes(suffix)) {
+                               if(!fabricOperate.allowType.includes(suffix)) {
                                    useToastStore().error('Type not allowed: *.' + suffix)
                                }
                                else {
