@@ -5,6 +5,7 @@ import vueJsx from "@vitejs/plugin-vue-jsx";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+    base: '/lopo12123/',
     plugins: [ vue(), vueJsx() ],
     build: {
         // 子项目必须打包成库模式, 且入口文件名为 [main.js] 供主项目调用
