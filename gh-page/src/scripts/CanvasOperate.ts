@@ -107,17 +107,24 @@ class fabricOperate {
 
     public download() {
         if(!this.originWidth || !this.originHeight) return
-        const w = this.canvas._objects[0].getScaledWidth()
-        const h = this.canvas._objects[0].getScaledHeight()
-        console.log(w, h)
-        // const aTag = document.createElement('a')
-        // aTag.download = 'file'+Date.now()+'.png'
-        // aTag.href = this.canvas.toDataURL()
-        // aTag.click()
-    }
 
-    public dispose() {
-        this.canvas?.dispose()
+        const canvasSize = [this.canvas.getWidth(), this.canvas.getHeight()]
+        const objSize = [this.canvas._objects[0].getScaledWidth(), this.canvas._objects[0].getScaledHeight()]
+
+        this.canvas._objects[0].left = 0
+        this.canvas._objects[0].top = 0
+        this.canvas.width = objSize[0]
+        this.canvas.height = objSize[1]
+
+        const aTag = document.createElement('a')
+        aTag.download = 'file'+Date.now()+'.png'
+        aTag.href = this.canvas.toDataURL()
+        aTag.click()
+
+        this.canvas.width = canvasSize[0]
+        this.canvas.height = canvasSize[1]
+
+        this.canvas.renderAll()
     }
 }
 
