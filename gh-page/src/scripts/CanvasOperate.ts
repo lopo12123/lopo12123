@@ -42,13 +42,13 @@ class fabricOperate {
                 .then((dataUrlStr) => {
                     const imgEl = document.createElement('img')
                     imgEl.src = dataUrlStr
-                    this.canvas.clear().add(new fabric.Image(imgEl, { cacheKey: 'origin-image' }))
-                    this.originWidth = this.canvas._objects[0].width
-                    this.originHeight = this.canvas._objects[0].height
-                    return Promise.resolve(dataUrlStr)
-                })
-                .then((dataUrlStr) => {
-                    resolve(dataUrlStr)
+
+                    fabric.Image.fromURL(dataUrlStr, (imgObj) => {
+                        this.canvas.clear().add(imgObj)
+                        this.originWidth = this.canvas._objects[0].width
+                        this.originHeight = this.canvas._objects[0].height
+                        resolve(dataUrlStr)
+                    })
                 })
                 .catch(reject)
         })
@@ -93,6 +93,10 @@ class fabricOperate {
         aTag.download = 'file'+Date.now()+'.png'
         aTag.href = this.canvas.toDataURL()
         aTag.click()
+    }
+
+    public dispose() {
+        this.canvas?.dispose()
     }
 }
 
