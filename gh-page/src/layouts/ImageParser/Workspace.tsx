@@ -10,7 +10,6 @@ export const Workspace = (prop: WorkspaceProp) => {
     const containerRef = useRef<HTMLDivElement>(null)
     const canvasRef = useRef<HTMLCanvasElement>(null)
 
-
     useLayoutEffect(() => {
         if(!!containerRef.current && !!canvasRef.current) {
             const [ width, height ] = [ containerRef.current.offsetWidth - 20, containerRef.current.offsetHeight - 20 ]
