@@ -456,7 +456,6 @@ class GojsOperate {
         paletteEl: HTMLDivElement,
         ctxControl: ContextMenuControl
     ) {
-        console.log(ctxControl)
         // create an empty model
         this.model = emptyModel()
         // generate context menu
