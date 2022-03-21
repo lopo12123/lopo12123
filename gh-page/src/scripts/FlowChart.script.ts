@@ -461,8 +461,9 @@ class GojsOperate {
         this.model = emptyModel()
         // generate context menu
         const ctxMenu = contextMenu({
-            show: (a, b, c) => {
-                ctxControl('blank', [ 100, 100 ])
+            show: (obj, diagram, tool) => {
+                const mousePt = diagram.lastInput.viewPoint
+                ctxControl('blank', [ mousePt.x, mousePt.y ])
             },
             hide: (a, b) => {
                 ctxControl('hide', [ -1000, -1000 ])
