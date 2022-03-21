@@ -24,7 +24,7 @@ interface ToolName {
 
 const ToolNameList: ToolName[] = [
     { label: 'Image Parser', icon: 'pi pi-images', path: 'image-parser' },
-    { label: 'Flow Chart', icon: '', path: 'flow-chart' }
+    { label: 'Flow Chart', icon: 'pi pi-sitemap', path: 'flow-chart' }
 ]
 const navigateToTool = (navigate: NavigateFunction, which: ToolName['path']) => {
     navigate(`/tool/${ which }`)

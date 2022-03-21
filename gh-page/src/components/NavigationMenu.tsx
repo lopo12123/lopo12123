@@ -25,7 +25,7 @@ export default function NavigationMenu() {
         },
         {
             label: 'Sub App',
-            icon: 'pi pi-sitemap',
+            icon: 'pi pi-database',
             items: SubAppNameList.map((subApp) => {
                 return {
                     label: subApp,
