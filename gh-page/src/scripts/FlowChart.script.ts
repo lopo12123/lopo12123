@@ -22,7 +22,7 @@ interface PaletteItem {
     // type of item
     figure: BuildInFigure
     // bg-color of item
-    fill: string
+    fill: string | null
 }
 
 /**
@@ -80,13 +80,16 @@ const makePort = (name: 'T' | 'R' | 'B' | 'L', spot: Spot, output: boolean, inpu
         cursor: 'pointer'
     })
 }
+/**
+ * @description [port] show/hide small ports in node
+ */
 const showPort = (node: GraphObject, show: boolean) => {
-    console.log(node, show ? 'in' : 'out')
-    // node.ports.each((port) => {
-    //     if(port.portId !== '') {
-    //         port.fill = show ? '#0000004d' : null
-    //     }
-    // })
+    // @ts-ignore
+    node.ports.each((port) => {
+        if(port.portId !== '') {
+            port.fill = show ? 'rgba(0, 0, 0, 0.3)' : null
+        }
+    })
 }
 // endregion
 
@@ -119,15 +122,16 @@ const baseDiagram = (el: HTMLDivElement) => {
                 $make(Shape, 'LineV', { stroke: 'gray', strokeWidth: 0.5, interval: 10 }),
             ),
             // 拖拽功能
-            // 不允许拖拽线条
+            // - 不允许拖拽线条
             "draggingTool.dragsLink": false,
+            // - 格线吸附
             "draggingTool.isGridSnapEnabled": true,
             // 连线功能
-            // 不允许无连接的线
-            "linkingTool.isUnconnectedLinkValid": true,
+            // - 不允许无连接的线
+            "linkingTool.isUnconnectedLinkValid": false,
             "linkingTool.portGravity": 20,
             // 编辑连线连接目标
-            // 不允许无连接的线
+            // - 不允许无连接的线
             "relinkingTool.isUnconnectedLinkValid": false,
             "relinkingTool.portGravity": 20,
             "relinkingTool.fromHandleArchetype": $make(Shape, 'Diamond', {
@@ -288,7 +292,7 @@ const nodeTemplate = () => {
         // the main object is a Panel that surrounds a TextBlock with a Shape
         $make(
             Panel, 'Auto', { name: 'PANEL' },
-            new Binding('desiredSize', 'Size', Size.parse).makeTwoWay(Size.stringify),
+            new Binding('desiredSize', 'size', Size.parse).makeTwoWay(Size.stringify),
             // region 外侧边框
             $make(
                 Shape, 'Rectangle', {
@@ -320,9 +324,9 @@ const nodeTemplate = () => {
         ),
         // four small named ports, one on each side:
         makePort('T', Spot.Top, false, true),
-        makePort('R', Spot.Top, true, true),
-        makePort('B', Spot.Top, true, false),
-        makePort('L', Spot.Top, true, true),
+        makePort('R', Spot.Right, true, true),
+        makePort('B', Spot.Bottom, true, false),
+        makePort('L', Spot.Left, true, true),
         // handle mouse enter/leave events to show/hide the ports
         {
             mouseEnter: (e, node) => {
@@ -334,6 +338,9 @@ const nodeTemplate = () => {
         }
     )
 }
+/**
+ * @description [template: link] template for link
+ */
 const linkTemplate = () => {
     return $make(
         Link,
@@ -418,7 +425,15 @@ const createPalette = (paletteEl: HTMLDivElement, diagram: Diagram, items: Palet
 class GojsOperate {
     private readonly diagram: Diagram
     private readonly palette: Palette
-    private readonly model: Model
+
+    private model: Model
+
+    private readonly paletteItemList = [
+        { text: 'Start', figure: BuildInFigure.Circle, fill: null },
+        { text: 'Step', figure: BuildInFigure.Rectangle, fill: null },
+        { text: 'Branch', figure: BuildInFigure.Diamond, fill: null },
+        { text: 'Comment', figure: BuildInFigure.RoundedRectangle, fill: null },
+    ]
 
     constructor(diagramEl: HTMLDivElement, paletteEl: HTMLDivElement) {
         // create an empty model
@@ -429,9 +444,20 @@ class GojsOperate {
         // bind model
         this.diagram.model = this.model
         // create palette
-        this.palette = createPalette(paletteEl, this.diagram, [
-            { text: 'Start', figure: BuildInFigure.Circle, fill: 'lightblue' }
-        ])
+        this.palette = createPalette(paletteEl, this.diagram, this.paletteItemList)
+
+        // event listener
+        // this.diagram.addDiagramListener('Modified', (e) => {
+        //     console.log(e)
+        // })
+    }
+
+    public fromJson(jsonStr: string) {
+        this.model = Model.fromJson(jsonStr)
+        this.diagram.model = this.model
+    }
+    public toJson() {
+        return this.model.toJson()
     }
 }
 
