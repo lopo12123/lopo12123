@@ -17,15 +17,17 @@ const navigateToSubApp = (navigate: NavigateFunction, which: SubAppName) => {
 
 // region tools
 interface ToolName {
-    label: 'Image Parser'
+    label: string
     icon: string
-    path: 'image-parser'
+    path: string
 }
+
 const ToolNameList: ToolName[] = [
-    { label: 'Image Parser', icon: 'pi pi-images', path: 'image-parser' }
+    { label: 'Image Parser', icon: 'pi pi-images', path: 'image-parser' },
+    { label: 'Flow Chart', icon: '', path: 'flow-chart' }
 ]
 const navigateToTool = (navigate: NavigateFunction, which: ToolName['path']) => {
-    navigate(`/tool/${which}`)
+    navigate(`/tool/${ which }`)
 }
 // endregion
 
@@ -35,6 +37,7 @@ interface MiscItem {
     icon: string
     path: 'zt'
 }
+
 const MiscItemList: MiscItem[] = [
     { label: 'zt', icon: 'pi pi-bolt', path: 'zt' }
 ]

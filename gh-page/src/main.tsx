@@ -14,8 +14,9 @@ import { ReactSpaConverter } from "spa-converter/lib/ReactSpaConverter";
 // view
 import App from "./App";
 import { SubAppNameList } from "@/router";
-import { ImageParser } from "@/views/ImageParser";
 import { TestView } from "@/views/TestView";
+import { ImageParser } from "@/views/ImageParser";
+import { FlowChart } from "@/views/FlowChart";
 
 const SpaEntry: string = import.meta.env.DEV
     ? import.meta.env.VITE_APP_SUB_SPA_ENTRY__DEV
@@ -33,6 +34,7 @@ ReactDOM.render(
                     {/* region tools */ }
                     <Route path="tool">
                         <Route path="image-parser" element={ <ImageParser/> }/>
+                        <Route path="flow-chart" element={ <FlowChart/> }/>
                     </Route>
                     {/* endregion */ }
 
