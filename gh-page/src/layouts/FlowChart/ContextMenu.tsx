@@ -5,7 +5,6 @@ interface ContextMenuProps {
 }
 
 type CtxMenuEvent = 'blank' | 'node' | 'link' | 'hide'
-// 'copy' | 'paste' | 'cut' | 'delete' |
 
 export interface ContextMenuControl {
     (type: CtxMenuEvent, position: [ number, number ]): void
@@ -37,17 +36,23 @@ export const ContextMenu = (props: ContextMenuProps) => {
     }, [])
 
     return (
-        <div style={ {
-            position: 'absolute',
-            left: position[0],
-            top: position[1],
-            zIndex: '1000',
-            display: visible ? 'block' : 'none'
-        } }
-             onContextMenu={ (e) => {
-                 e.preventDefault()
-             } }>
-            123
+        <div
+            style={ {
+                position: 'absolute',
+                left: position[0] + 5,
+                top: position[1] + 5,
+                zIndex: '1000',
+                display: visible ? 'block' : 'none'
+            } }
+            onContextMenu={ (e) => {
+                e.preventDefault()
+            } }>
+            <div>
+                item1
+            </div>
+            <div>
+                item2
+            </div>
         </div>
     )
 }
