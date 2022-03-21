@@ -4,7 +4,7 @@ import { useToastStore } from "@/scripts/ToastStore";
 import { Workspace } from "@/layouts/ImageParser/Workspace";
 import { InputNumber } from "primereact/inputnumber";
 
-export const ImageParser = () => {
+export default () => {
     const imgIptRef = useRef<HTMLInputElement>(null)
     const [ fileDataStr, setFileDataStr ] = useState('')
     const [ fabObj, setFabObj ] = useState<fabricOperate | null>(null)

@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export const FlowChart = () => {
+export default () => {
     const [ aa, setAa ] = useState(1)
 
     return (

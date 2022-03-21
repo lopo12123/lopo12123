@@ -6,17 +6,19 @@ import "@/fonts/fonts.scss";
 import "@/styles/index.scss";
 
 // core
-import { StrictMode } from "react";
+import { StrictMode, Suspense, lazy } from "react";
 import ReactDOM from "react-dom";
 import { HashRouter, Route, Routes } from "react-router-dom";
 import { ReactSpaConverter } from "spa-converter/lib/ReactSpaConverter";
 
 // view
-import App from "./App";
 import { SubAppNameList } from "@/router";
+import App from "./App";
+
+const ImageParser = lazy(() => import("@/views/ImageParser"));
+const FlowChart = lazy(() => import("@/views/FlowChart"));
+
 import { TestView } from "@/views/TestView";
-import { ImageParser } from "@/views/ImageParser";
-import { FlowChart } from "@/views/FlowChart";
 
 const SpaEntry: string = import.meta.env.DEV
     ? import.meta.env.VITE_APP_SUB_SPA_ENTRY__DEV
@@ -25,37 +27,51 @@ const SpaEntry: string = import.meta.env.DEV
 ReactDOM.render(
     <StrictMode>
         <HashRouter>
-            <Routes>
-                <Route path="/" element={ <App/> }>
-                    <Route path="" element={
-                        <TestView/>
-                    }/>
+            <Suspense
+                fallback={
+                    <div style={ {
+                        position: 'relative',
+                        width: '100%',
+                        height: '100%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                    } }>
+                        loading
+                    </div>
+                }>
+                <Routes>
+                    <Route path="/" element={ <App/> }>
+                        <Route path="" element={
+                            <TestView/>
+                        }/>
 
-                    {/* region tools */ }
-                    <Route path="tool">
-                        <Route path="image-parser" element={ <ImageParser/> }/>
-                        <Route path="flow-chart" element={ <FlowChart/> }/>
-                    </Route>
-                    {/* endregion */ }
+                        {/* region tools */ }
+                        <Route path="tool">
+                            <Route path="image-parser" element={ <ImageParser/> }/>
+                            <Route path="flow-chart" element={ <FlowChart/> }/>
+                        </Route>
+                        {/* endregion */ }
 
-                    {/* region sub-app */ }
-                    <Route path="sub-app">
-                        {
-                            SubAppNameList.map((name, index) => {
-                                return (
-                                    <Route path={ name } key={ index }
-                                           element={
-                                               <ReactSpaConverter key={ name } entryPath={
-                                                   SpaEntry.replace('{SPA_NAME}', name)
+                        {/* region sub-app */ }
+                        <Route path="sub-app">
+                            {
+                                SubAppNameList.map((name, index) => {
+                                    return (
+                                        <Route path={ name } key={ index }
+                                               element={
+                                                   <ReactSpaConverter key={ name } entryPath={
+                                                       SpaEntry.replace('{SPA_NAME}', name)
+                                                   }/>
                                                }/>
-                                           }/>
-                                )
-                            })
-                        }
+                                    )
+                                })
+                            }
+                        </Route>
+                        {/* endregion */ }
                     </Route>
-                    {/* endregion */ }
-                </Route>
-            </Routes>
+                </Routes>
+            </Suspense>
         </HashRouter>
     </StrictMode>,
     document.getElementById('root')
