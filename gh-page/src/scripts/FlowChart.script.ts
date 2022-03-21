@@ -446,7 +446,7 @@ class GojsOperate {
 
     private readonly paletteItemList = [
         { text: 'Start', figure: BuildInFigure.Circle, fill: null },
-        { text: 'Step', figure: BuildInFigure.Rectangle, fill: null },
+        { text: 'Progress', figure: BuildInFigure.Rectangle, fill: null },
         { text: 'Branch', figure: BuildInFigure.Diamond, fill: null },
         { text: 'Comment', figure: BuildInFigure.RoundedRectangle, fill: null },
     ]
