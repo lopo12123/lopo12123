@@ -1,8 +1,19 @@
 import { fabric } from "fabric";
-import { Misc } from "@/scripts/misc";
 
 class fabricOperate {
     public static allowType = [ 'jpg', 'png' ]
+    public static readBlobAsDataUrl(blob: Blob) {
+        return new Promise<string>((resolve, reject) => {
+            const reader = new FileReader()
+            reader.onload = () => {
+                resolve(reader.result as string)
+            }
+            reader.onerror = (e) => {
+                reject(e)
+            }
+            reader.readAsDataURL(blob)
+        })
+    }
 
     private canvas: fabric.Canvas
     private grayFilter = new fabric.Image.filters.Grayscale()
@@ -19,7 +30,7 @@ class fabricOperate {
 
     public render(blob: Blob) {
         return new Promise<[string, number, number]>((resolve, reject) => {
-            Misc.readBlobAsDataUrl(blob)
+            fabricOperate.readBlobAsDataUrl(blob)
                 .then((dataUrlStr) => {
                     const imgEl = document.createElement('img')
                     imgEl.src = dataUrlStr
