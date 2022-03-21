@@ -464,7 +464,7 @@ class GojsOperate {
                 const mousePt = diagram.lastInput.viewPoint
                 ctxControl('blank', [ mousePt.x, mousePt.y ])
             },
-            hide: (a, b) => {
+            hide: (diagram, tool) => {
                 ctxControl('hide', [ -1000, -1000 ])
             }
         })
