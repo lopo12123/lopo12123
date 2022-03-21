@@ -98,7 +98,7 @@ const emptyModel = () => {
     return Model.fromJson(JSON.stringify({
         class: 'GraphLinkModel',
         linkFromPortIdProperty: 'fromPort',
-        linkToPortIdPorperty: 'toPort',
+        linkToPortIdProperty: 'toPort',
         nodeDataArray: [],
         linkDataArray: []
     }))
@@ -422,12 +422,8 @@ class GojsOperate {
 
     constructor(diagramEl: HTMLDivElement, paletteEl: HTMLDivElement) {
         // create an empty model
-        this.model = new GraphLinksModel([
-            { key: '1' },
-            { key: '2' }
-        ], [
-            { from: '1', to: '2' }
-        ])
+        this.model = emptyModel()
+        console.log(this.model.toJson())
         // create diagram
         this.diagram = createDiagram(diagramEl)
         // bind model
