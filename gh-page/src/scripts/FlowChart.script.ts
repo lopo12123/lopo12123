@@ -2,7 +2,7 @@ import {
     Adornment,
     Binding,
     Diagram, GraphLinksModel,
-    GraphObject, Link, Model,
+    GraphObject, HTMLInfo, Link, Model,
     Node, Palette,
     Panel,
     Placeholder,
@@ -10,8 +10,9 @@ import {
     Shape,
     Size,
     Spot,
-    TextBlock
+    TextBlock, Tool
 } from "gojs"
+import { ContextMenuControl } from "@/layouts/FlowChart/ContextMenu";
 
 /**
  * @description item in palette
@@ -260,32 +261,17 @@ const nodeRotateTemplate = () => {
     )
 }
 /**
- * @description [template: link-selection] selection adornment template for link
- */
-const linkSelectTemplate = () => {
-    return $make(
-        Adornment, 'Link',
-        $make(Shape, {
-            // isPanelMain declares that this Shape shares the Link.geometry
-            isPanelMain: true,
-            fill: null,
-            stroke: 'deepskyblue',
-            // use selection object's strokeWidth
-            strokeWidth: 0
-        })
-    )
-}
-/**
  * @description [template: node] template for node
  */
-const nodeTemplate = () => {
+const nodeTemplate = (ctxMenu: HTMLInfo) => {
     return $make(
         Node, 'Spot',
         {
             locationSpot: Spot.Center,
             selectable: true, selectionAdornmentTemplate: nodeSelectTemplate(),
             resizable: true, resizeObjectName: 'PANEL', resizeAdornmentTemplate: nodeResizeTemplate(),
-            rotatable: true, rotateAdornmentTemplate: nodeRotateTemplate()
+            rotatable: true, rotateAdornmentTemplate: nodeRotateTemplate(),
+            contextMenu: ctxMenu
         },
         new Binding('location', 'loc', Point.parse).makeTwoWay(Point.stringify),
         new Binding('angle').makeTwoWay(),
@@ -336,6 +322,22 @@ const nodeTemplate = () => {
                 showPort(node, false)
             }
         }
+    )
+}
+/**
+ * @description [template: link-selection] selection adornment template for link
+ */
+const linkSelectTemplate = () => {
+    return $make(
+        Adornment, 'Link',
+        $make(Shape, {
+            // isPanelMain declares that this Shape shares the Link.geometry
+            isPanelMain: true,
+            fill: null,
+            stroke: 'deepskyblue',
+            // use selection object's strokeWidth
+            strokeWidth: 0
+        })
     )
 }
 /**
@@ -392,20 +394,34 @@ const linkTemplate = () => {
         )
     )
 }
+
+interface contextMenuProp {
+    show: (obj: GraphObject, diagram: Diagram, tool: Tool) => void
+    hide: (diagram: Diagram, tool: Tool) => void
+}
+
+const contextMenu = (prop: contextMenuProp) => {
+    return $make(HTMLInfo, {
+        show: prop.show,
+        hide: prop.hide
+    })
+}
 // endregion
 
 // region utils
 /**
  * @description create diagram with template and event bind
  */
-const createDiagram = (diagramEl: HTMLDivElement) => {
+const createDiagram = (diagramEl: HTMLDivElement, ctxMenu: HTMLInfo) => {
     // create basic diagram
     const _diagram = baseDiagram(diagramEl)
 
     // set node template (select、resize、rotate)
-    _diagram.nodeTemplate = nodeTemplate()
+    _diagram.nodeTemplate = nodeTemplate(ctxMenu)
     // set link template (select、resize)
     _diagram.linkTemplate = linkTemplate()
+    // bind context menu
+    _diagram.contextMenu = ctxMenu
 
     return _diagram
 }
@@ -435,12 +451,25 @@ class GojsOperate {
         { text: 'Comment', figure: BuildInFigure.RoundedRectangle, fill: null },
     ]
 
-    constructor(diagramEl: HTMLDivElement, paletteEl: HTMLDivElement) {
+    constructor(
+        diagramEl: HTMLDivElement,
+        paletteEl: HTMLDivElement,
+        ctxControl: ContextMenuControl
+    ) {
+        console.log(ctxControl)
         // create an empty model
         this.model = emptyModel()
-        console.log(this.model.toJson())
+        // generate context menu
+        const ctxMenu = contextMenu({
+            show: (a, b, c) => {
+                ctxControl('blank', [ 100, 100 ])
+            },
+            hide: (a, b) => {
+                ctxControl('hide', [ -1000, -1000 ])
+            }
+        })
         // create diagram
-        this.diagram = createDiagram(diagramEl)
+        this.diagram = createDiagram(diagramEl, ctxMenu)
         // bind model
         this.diagram.model = this.model
         // create palette
@@ -456,6 +485,7 @@ class GojsOperate {
         this.model = Model.fromJson(jsonStr)
         this.diagram.model = this.model
     }
+
     public toJson() {
         return this.model.toJson()
     }
