@@ -1,6 +1,6 @@
 import { useLayoutEffect, useRef } from "react";
 import { fabric } from "fabric";
-import { fabricOperate } from "@/scripts/CanvasOperate";
+import { fabricOperate } from "@/scripts/ImageParser.script";
 
 interface WorkspaceProp {
     onInit: (canvas: fabricOperate | null) => void

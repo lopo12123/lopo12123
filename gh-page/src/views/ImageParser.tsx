@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { fabricOperate } from "@/scripts/CanvasOperate";
+import { fabricOperate } from "@/scripts/ImageParser.script";
 import { useToastStore } from "@/scripts/ToastStore";
 import { Workspace } from "@/layouts/ImageParser/Workspace";
 import { InputNumber } from "primereact/inputnumber";
