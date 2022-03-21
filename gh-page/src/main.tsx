@@ -14,7 +14,6 @@ import { ReactSpaConverter } from "spa-converter/lib/ReactSpaConverter";
 // view
 import App from "./App";
 import { SubAppNameList } from "@/router";
-import { ElegantNeverDie } from "@/views/ElegantNeverDie";
 import { ImageParser } from "@/views/ImageParser";
 import { TestView } from "@/views/TestView";
 
@@ -28,10 +27,6 @@ ReactDOM.render(
             <Routes>
                 <Route path="/" element={ <App/> }>
                     <Route path="" element={
-                        <ElegantNeverDie/>
-                    }/>
-
-                    <Route path="test" element={
                         <TestView/>
                     }/>
 
