@@ -119,52 +119,41 @@ const baseDiagram = (el: HTMLDivElement) => {
                 $make(Shape, 'LineV', { stroke: 'gray', strokeWidth: 0.5, interval: 10 }),
             ),
             // 拖拽功能
-            draggingTool: {
-                // 不允许单独拖动线条
-                dragsLink: true,
-                // 吸附网格
-                isGridSnapEnabled: true
-            },
+            // 不允许拖拽线条
+            "draggingTool.dragsLink": false,
+            "draggingTool.isGridSnapEnabled": true,
             // 连线功能
-            linkingTool: {
-                // 不允许无连接的线
-                isUnconnectedLinkValid: true,
-                portGravity: 20
-            },
+            // 不允许无连接的线
+            "linkingTool.isUnconnectedLinkValid": true,
+            "linkingTool.portGravity": 20,
             // 编辑连线连接目标
-            relinkingTool: {
-                // 不允许无连接的线
-                isUnconnectedLinkValid: false,
-                portGravity: 20,
-                fromHandleArchetype: $make(Shape, 'Diamond', {
-                    segmentIndex: 0,
-                    cursor: 'pointer',
-                    desiredSize: new Size(8, 8),
-                    fill: 'lightblue',
-                    stroke: 'lightblue'
-                }),
-                toHandleArchetype: $make(Shape, 'Diamond', {
-                    segmentIndex: -1,
-                    cursor: 'pointer',
-                    desiredSize: new Size(8, 8),
-                    fill: 'lightblue',
-                    stroke: 'lightblue'
-                })
-            },
+            // 不允许无连接的线
+            "relinkingTool.isUnconnectedLinkValid": false,
+            "relinkingTool.portGravity": 20,
+            "relinkingTool.fromHandleArchetype": $make(Shape, 'Diamond', {
+                segmentIndex: 0,
+                cursor: 'pointer',
+                desiredSize: new Size(8, 8),
+                fill: 'lightblue',
+                stroke: 'lightblue'
+            }),
+            "relinkingTool.toHandleArchetype": $make(Shape, 'Diamond', {
+                segmentIndex: -1,
+                cursor: 'pointer',
+                desiredSize: new Size(8, 8),
+                fill: 'lightblue',
+                stroke: 'lightblue'
+            }),
             // 编辑连线转折
-            linkReshapingTool: {
-                handleArchetype: $make(Shape, 'Diamond', {
-                    desiredSize: new Size(7, 7),
-                    fill: 'lightblue',
-                    stroke: 'lightblue'
-                })
-            },
-            rotatingTool: {
-                handleAngle: 270,
-                handleDistance: 30,
-                snapAngleMultiple: 15,
-                snapAngleEpsilon: 15
-            },
+            "linkReshapingTool.handleArchetype": $make(Shape, 'Diamond', {
+                desiredSize: new Size(7, 7),
+                fill: 'lightblue',
+                stroke: 'lightblue'
+            }),
+            "rotatingTool.handleAngle": 270,
+            "rotatingTool.handleDistance": 30,
+            "rotatingTool.snapAngleMultiple": 15,
+            "rotatingTool.snapAngleEpsilon": 15,
             "undoManager.isEnabled": true
         }
     )
