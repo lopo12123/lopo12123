@@ -39,7 +39,8 @@ export default () => {
 
             <div ref={ paletteContainer }
                  style={ {
-                     position: 'relative',
+                     position: 'absolute',
+                     zIndex: '100',
                      width: '200px',
                      height: '100%',
                      backgroundColor: '#f5f5f5'
@@ -49,7 +50,7 @@ export default () => {
             <div ref={ diagramContainer }
                  style={ {
                      position: 'relative',
-                     width: 'calc(100% - 200px)',
+                     width: '100%',
                      height: '100%'
                  } }>
             </div>
