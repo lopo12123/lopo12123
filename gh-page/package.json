@@ -3,6 +3,7 @@
     "private": true,
     "version": "0.0.1",
     "scripts": {
+        "pregojs": "node ./pregojs.js",
         "dev:all": "vite --host --open",
         "build:all": "tsc && vite build && yarn workspaces run build"
     },
