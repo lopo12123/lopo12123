@@ -1,24 +1,29 @@
 import { useEffect, useState } from "react";
+import { MenuItem } from "primereact/menuitem";
 import { GojsLinkData, GojsNodeData, GojsOperate } from "@/scripts/FlowChart.script";
 
 // 菜单出现的位置类型
 type CtxMenuType = 'blank' | 'node' | 'link' | 'hide'
 // 菜单项类型
 type CtxMenuItemType =
+    'separate' |  // separate of menu
     'cut' | 'copy' | 'paste' | 'delete' |  // node/link operate
     'fill' | 'stroke' | 'text' |  // style operate
-    'zoom' | 'clear' |'download'  // diagram operate
-    // todo store/load json file
+    'zoom' | 'clear' | 'download'  // diagram operate
+// todo store/load json file
 
-interface CtxMenuItem {
-    label: string,
+export interface CtxMenuItem extends MenuItem {
     type: CtxMenuItemType
-    icon: string,
     fit: CtxMenuType[]
 }
 
 // 控制菜单类型及位置
-export type ContextMenuControl = (type: CtxMenuType, position: [ number, number ], objData: GojsNodeData | GojsLinkData | null) => void
+export type ContextMenuControl = (
+    type: CtxMenuType,
+    position: [ number, number ],
+    objData: GojsNodeData | GojsLinkData | null,
+    originEv: PointerEvent | null
+) => void
 
 // 接受的onload参数
 export type ContextMenuOnLoad = (controlFn: ContextMenuControl) => void
@@ -32,16 +37,54 @@ export interface ContextMenuProps {
 export const ContextMenu = (props: ContextMenuProps) => {
     // all items here, show or not depends on its 'fit'
     const allItems: CtxMenuItem[] = [
-        { type: 'cut', label: 'Cut', icon: '', fit: [ 'node', 'link' ] },
-        { type: 'copy', label: 'Copy', icon: '', fit: [ 'node', 'link' ] },
-        { type: 'paste', label: 'Paste', icon: '', fit: [ 'node', 'link', 'blank' ] },
-        { type: 'delete', label: 'Delete', icon: '', fit: [ 'node', 'link' ] },
-        { type: 'fill', label: 'Background Color', icon: '', fit: [ 'node' ] },
-        { type: 'stroke', label: 'Stroke Color', icon: '', fit: ['node', 'link'] },
-        { type: 'text', label: 'Font Color', icon: '', fit: ['node', 'link'] },
-        { type: 'zoom', label: 'Zoom to Fit', icon: '', fit: [ 'blank' ] },
-        { type: 'clear', label: 'Clear Canvas', icon: '', fit: [ 'blank' ] },
-        { type: 'download', label: 'Download Canvas', icon: '', fit: [ 'blank' ] }
+        {
+            type: 'cut', fit: [ 'node', 'link' ],
+            label: 'Cut', icon: ''
+        },
+        {
+            type: 'copy', fit: [ 'node', 'link' ],
+            label: 'Copy', icon: ''
+        },
+        {
+            type: 'paste', fit: [ 'node', 'link', 'blank' ],
+            label: 'Paste', icon: ''
+        },
+        {
+            type: 'delete', fit: [ 'node', 'link' ],
+            label: 'Delete', icon: ''
+        },
+        {
+            type: 'separate', fit: [],
+            separator: true
+        },
+        {
+            type: 'fill', fit: [ 'node' ],
+            label: 'Background Color', icon: ''
+        },
+        {
+            type: 'stroke', fit: [ 'node', 'link' ],
+            label: 'Stroke Color', icon: '',
+        },
+        {
+            type: 'text', fit: [ 'node', 'link' ],
+            label: 'Font Color', icon: ''
+        },
+        {
+            type: 'separate', fit: [],
+            separator: true
+        },
+        {
+            type: 'zoom', fit: [ 'blank' ],
+            label: 'Zoom to Fit', icon: ''
+        },
+        {
+            type: 'clear', fit: [ 'blank' ],
+            label: 'Clear Canvas', icon: ''
+        },
+        {
+            type: 'download', fit: [ 'blank' ],
+            label: 'Download Canvas', icon: ''
+        }
     ]
 
     const [ menuItems, setMenuItems ] = useState<CtxMenuItem[]>([])
@@ -54,8 +97,9 @@ export const ContextMenu = (props: ContextMenuProps) => {
      * @param type event type
      * @param position event position
      * @param objData event`s target`s data (equals null if clicked on blank)
+     * @param originEv origin event
      */
-    const controlFunction: ContextMenuControl = (type, position, objData) => {
+    const controlFunction: ContextMenuControl = (type, position, objData, originEv) => {
         if(type === 'hide') {
             setLastObjData(null)
             setVisible(false)
@@ -114,7 +158,7 @@ export const ContextMenu = (props: ContextMenuProps) => {
                 props.instance?.doDownload()
                 break
         }
-        controlFunction('hide', [-1000, -1000], null)
+        controlFunction('hide', [ -1000, -1000 ], null, null)
     }
 
     useEffect(() => {
@@ -135,6 +179,7 @@ export const ContextMenu = (props: ContextMenuProps) => {
             onContextMenu={ (e) => {
                 e.preventDefault()
             } }>
+
             {
                 menuItems.map((item) => {
                     return (
