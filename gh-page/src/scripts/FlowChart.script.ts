@@ -309,9 +309,9 @@ const nodeTemplate = (ctxMenu: HTMLInfo) => {
             // endregion
         ),
         // four small named ports, one on each side:
-        makePort('T', Spot.Top, false, true),
+        makePort('T', Spot.Top, true, true),
         makePort('R', Spot.Right, true, true),
-        makePort('B', Spot.Bottom, true, false),
+        makePort('B', Spot.Bottom, true, true),
         makePort('L', Spot.Left, true, true),
         // handle mouse enter/leave events to show/hide the ports
         {
