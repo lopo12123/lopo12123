@@ -124,13 +124,16 @@ const showPort = (node: GraphObject, show: boolean) => {
  * @description generate an empty model
  */
 const emptyModel = () => {
-    return Model.fromJson(JSON.stringify({
+    const _model = Model.fromJson(JSON.stringify({
         class: 'GraphLinkModel',
         linkFromPortIdProperty: 'fromPort',
         linkToPortIdProperty: 'toPort',
         nodeDataArray: [],
         linkDataArray: []
     }))
+    _model.name = 'diagram'
+
+    return _model
 }
 /**
  * @description create a diagram on specific element
@@ -461,14 +464,21 @@ const createDiagram = (diagramEl: HTMLDivElement, ctxMenu: HTMLInfo) => {
 
     return _diagram
 }
-const createPalette = (paletteEl: HTMLDivElement, diagram: Diagram, items: PaletteItem[]) => {
+const createPalette = (paletteEl: HTMLDivElement, ctxMenu: HTMLInfo, diagram: Diagram, items: PaletteItem[]) => {
     // generate a palette instance
     return $make(
         Palette, paletteEl,
         {
+            name: 'palette',
+            contextMenu: ctxMenu,
             maxSelectionCount: 1,
             nodeTemplateMap: diagram.nodeTemplateMap,
-            model: new GraphLinksModel(items)
+            model: new GraphLinksModel(items, [], {
+                // set a name to identify 'palette',
+                // so that can avoid calling callback
+                // when do context-click on its node
+                name: 'palette'
+            })
         }
     )
 }
@@ -502,6 +512,13 @@ class GojsOperate {
         // generate context menu
         const ctxMenu = contextMenu({
             show: (obj, diagram, tool) => {
+                // avoid calling context callback when the event`s source is 'palette' rather then 'diagram'
+                const diagramName = diagram.model.name as ('palette' | 'diagram')
+                if(diagramName === 'palette') {
+                    (diagram.contextMenu as HTMLInfo)?.hide?.(diagram, tool)
+                    return
+                }
+
                 const mousePt = diagram.lastInput.viewPoint
                 const originEvent = diagram.lastInput.event as PointerEvent
 
@@ -529,7 +546,7 @@ class GojsOperate {
         // bind model
         this.model = emptyModel()
         // create palette
-        this.palette = createPalette(paletteEl, this.diagram, this.paletteItemList)
+        this.palette = createPalette(paletteEl, ctxMenu, this.diagram, this.paletteItemList)
 
         // event listener
         // this.diagram.addDiagramListener('Modified', (e) => {
