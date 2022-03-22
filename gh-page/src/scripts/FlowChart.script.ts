@@ -306,12 +306,13 @@ const nodeTemplate = (ctxMenu: HTMLInfo) => {
                     fromLinkable: true, toLinkable: true,
                     cursor: 'pointer',
                     // default color (can be changed by new Binding('fill'))
-                    fill: 'white',
-                    strokeWidth: 2
+                    fill: 'transparent',
+                    strokeWidth: 2,
                 },
                 // custom color
                 new Binding('fill'),
-                new Binding('figure')
+                new Binding('figure'),
+                new Binding('stroke')
             ),
             // endregion
             // region 内部文字
@@ -321,9 +322,10 @@ const nodeTemplate = (ctxMenu: HTMLInfo) => {
                     margin: 8,
                     maxSize: new Size(160, NaN),
                     wrap: TextBlock.WrapFit,
-                    editable: true
+                    editable: true,
                 },
-                new Binding('text').makeTwoWay()
+                new Binding('text').makeTwoWay(),
+                new Binding('stroke', 'textColor')
             )
             // endregion
         ),
@@ -415,6 +417,7 @@ const linkTemplate = (ctxMenu: HTMLInfo) => {
                     editable: true
                 },
                 new Binding('text').makeTwoWay(),
+                new Binding('stroke', 'textColor')
             )
             // endregion
         )
@@ -568,6 +571,13 @@ class GojsOperate {
      */
     public doSetStroke(dataObj: GojsNodeData | GojsLinkData, val: string) {
         this.model.setDataProperty(dataObj, 'stroke', val)
+    }
+
+    /**
+     * @description set node/link`s text color
+     */
+    public doSetTextColor(dataObj: GojsNodeData | GojsLinkData, val: string) {
+        this.model.setDataProperty(dataObj, 'textColor', val)
     }
 
     /**

@@ -6,7 +6,7 @@ type CtxMenuType = 'blank' | 'node' | 'link' | 'hide'
 // 菜单项类型
 type CtxMenuItemType =
     'cut' | 'copy' | 'paste' | 'delete' |  // node/link operate
-    'fill' | 'stroke' |  // style operate
+    'fill' | 'stroke' | 'text' |  // style operate
     'zoom' | 'clear' |'download'  // diagram operate
     // todo store/load json file
 
@@ -38,6 +38,7 @@ export const ContextMenu = (props: ContextMenuProps) => {
         { type: 'delete', label: 'Delete', icon: '', fit: [ 'node', 'link' ] },
         { type: 'fill', label: 'Background Color', icon: '', fit: [ 'node' ] },
         { type: 'stroke', label: 'Stroke Color', icon: '', fit: ['node', 'link'] },
+        { type: 'text', label: 'Font Color', icon: '', fit: ['node', 'link'] },
         { type: 'zoom', label: 'Zoom to Fit', icon: '', fit: [ 'blank' ] },
         { type: 'clear', label: 'Clear Canvas', icon: '', fit: [ 'blank' ] },
         { type: 'download', label: 'Download Canvas', icon: '', fit: [ 'blank' ] }
@@ -96,6 +97,11 @@ export const ContextMenu = (props: ContextMenuProps) => {
             case 'stroke':
                 if(!!lastObjData) {
                     props.instance?.doSetStroke(lastObjData, '#cccccc')
+                }
+                break
+            case 'text':
+                if(!!lastObjData) {
+                    props.instance?.doSetTextColor(lastObjData, '#cccccc')
                 }
                 break
             case 'zoom':
