@@ -1,5 +1,5 @@
 import { useLayoutEffect, useRef, useState } from "react";
-import { ContextMenu, ContextMenuControl } from "@/layouts/FlowChart/ContextMenu";
+import { ContextMenu, ContextMenuOnLoad } from "@/layouts/FlowChart/ContextMenu";
 import { GojsOperate } from "@/scripts/FlowChart.script";
 
 export default () => {
@@ -8,7 +8,8 @@ export default () => {
 
     const [ diagramObj, setDiagramObj ] = useState<GojsOperate | null>(null)
 
-    const doAfterOnLoad = (controlFn: ContextMenuControl) => {
+    // 子组件onLoad后调用
+    const doAfterOnLoad: ContextMenuOnLoad = (controlFn) => {
         if(
             !!diagramContainer.current
             && !!paletteContainer.current
@@ -17,15 +18,13 @@ export default () => {
             setDiagramObj(instance)
         }
     }
-    // useLayoutEffect(() => {
-    //     if(
-    //         !!diagramContainer.current
-    //         && !!paletteContainer.current
-    //     ) {
-    //         const instance = new GojsOperate(diagramContainer.current, paletteContainer.current, ctxControl)
-    //         setDiagramObj(instance)
-    //     }
-    // }, [])
+
+    // 清除子组件导致的副作用 - 解绑原有的diagram实例
+    useLayoutEffect(() => {
+        return () => {
+            diagramObj?.dispose()
+        }
+    }, [])
 
     return (
         <div style={ {
