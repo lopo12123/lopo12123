@@ -1,5 +1,5 @@
 import { useLayoutEffect, useRef, useState } from "react";
-import { ContextMenu, ContextMenuOnLoad } from "@/layouts/FlowChart/ContextMenu";
+import { ContextMenu, ContextMenuOnLoad } from "@/components/FlowChart/ContextMenu";
 import { GojsOperate } from "@/scripts/FlowChart.script";
 
 export default () => {
