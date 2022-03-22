@@ -71,6 +71,8 @@ const makePort = (name: 'T' | 'R' | 'B' | 'L', spot: Spot, output: boolean, inpu
         desiredSize: new Size(7, 7),
         // port position
         alignment: spot,
+        // just inside the Shape
+        alignmentFocus: spot,
         // port name
         portId: name,
         // declare where links may connect at this port
@@ -268,10 +270,10 @@ const nodeTemplate = (ctxMenu: HTMLInfo) => {
         Node, 'Spot',
         {
             locationSpot: Spot.Center,
+            contextMenu: ctxMenu,
             selectable: true, selectionAdornmentTemplate: nodeSelectTemplate(),
             resizable: true, resizeObjectName: 'PANEL', resizeAdornmentTemplate: nodeResizeTemplate(),
-            rotatable: true, rotateAdornmentTemplate: nodeRotateTemplate(),
-            contextMenu: ctxMenu
+            rotatable: true, rotateAdornmentTemplate: nodeRotateTemplate()
         },
         new Binding('location', 'loc', Point.parse).makeTwoWay(Point.stringify),
         new Binding('angle').makeTwoWay(),
@@ -288,7 +290,7 @@ const nodeTemplate = (ctxMenu: HTMLInfo) => {
                     cursor: 'pointer',
                     // default color (can be changed by new Binding('fill'))
                     fill: 'white',
-                    strokeWidth: 1
+                    strokeWidth: 2
                 },
                 // custom color
                 new Binding('fill'),
