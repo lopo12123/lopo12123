@@ -1,18 +1,24 @@
 import {
     Adornment,
     Binding,
-    Diagram, GraphLinksModel,
-    GraphObject, HTMLInfo, Link, Model,
-    Node, Palette,
+    Diagram,
+    GraphLinksModel,
+    GraphObject,
+    HTMLInfo,
+    Link,
+    Model,
+    Node,
+    Palette,
     Panel,
     Placeholder,
     Point,
     Shape,
     Size,
     Spot,
-    TextBlock, Tool
+    TextBlock,
+    Tool
 } from "gojs"
-import { ContextMenuControl } from "@/layouts/FlowChart/ContextMenu";
+import { ContextMenuControl } from "@/components/FlowChart/ContextMenu";
 
 /**
  * @description item in palette
@@ -442,7 +448,7 @@ const contextMenu = (prop: contextMenuProp) => {
  * @description create diagram with template and event bind
  */
 const createDiagram = (diagramEl: HTMLDivElement, ctxMenu: HTMLInfo) => {
-    // create basic diagram
+    // generate a basic diagram instance
     const _diagram = baseDiagram(diagramEl)
 
     // set node template (select、resize、rotate)
@@ -455,6 +461,7 @@ const createDiagram = (diagramEl: HTMLDivElement, ctxMenu: HTMLInfo) => {
     return _diagram
 }
 const createPalette = (paletteEl: HTMLDivElement, diagram: Diagram, items: PaletteItem[]) => {
+    // generate a palette instance
     return $make(
         Palette, paletteEl,
         {
@@ -495,23 +502,25 @@ class GojsOperate {
         const ctxMenu = contextMenu({
             show: (obj, diagram, tool) => {
                 const mousePt = diagram.lastInput.viewPoint
+                const originEvent = diagram.lastInput.event as PointerEvent
 
-                if(obj === null) ctxControl('blank', [ mousePt.x, mousePt.y ], null)
+                if(obj === null) ctxControl('blank', [ mousePt.x, mousePt.y ], null, originEvent)
 
                 else {
                     // @ts-ignore
                     const objData: GojsNodeData | GojsLinkData = obj.data
 
                     if(!objData.isNode) {
-                        ctxControl('link', [ mousePt.x, mousePt.y ], objData)
+                        ctxControl('link', [ mousePt.x, mousePt.y ], objData, originEvent)
                     }
                     else {
-                        ctxControl('node', [ mousePt.x, mousePt.y ], objData)
+                        ctxControl('node', [ mousePt.x, mousePt.y ], objData, originEvent)
                     }
                 }
             },
-            hide: (diagram, tool) => {
-                ctxControl('hide', [ -1000, -1000 ], null)
+            hide: (diagram) => {
+                const originEvent = diagram.lastInput.event as PointerEvent
+                ctxControl('hide', [ -1000, -1000 ], null, originEvent)
             }
         })
         // create diagram
