@@ -23,7 +23,7 @@ interface PaletteItem {
     // type of item
     figure: BuildInFigure
     // bg-color of item
-    fill: string | null
+    fill: string | 'transparent'  // ! use 'transparent' instead of null
 }
 
 /**
@@ -445,18 +445,19 @@ class GojsOperate {
     private readonly diagram: Diagram
     private readonly palette: Palette
 
-    private get model () {
+    private get model() {
         return this.diagram.model
     }
-    private set model (val: Model) {
+
+    private set model(val: Model) {
         this.diagram.model = val
     }
 
     private readonly paletteItemList = [
-        { text: 'Start', figure: BuildInFigure.Circle, fill: null },
-        { text: 'Progress', figure: BuildInFigure.Rectangle, fill: null },
-        { text: 'Branch', figure: BuildInFigure.Diamond, fill: null },
-        { text: 'Comment', figure: BuildInFigure.RoundedRectangle, fill: null },
+        { text: 'Start', figure: BuildInFigure.Circle, fill: 'transparent' },
+        { text: 'Progress', figure: BuildInFigure.Rectangle, fill: 'transparent' },
+        { text: 'Branch', figure: BuildInFigure.Diamond, fill: 'transparent' },
+        { text: 'Comment', figure: BuildInFigure.RoundedRectangle, fill: 'transparent' },
     ]
 
     constructor(
@@ -468,7 +469,11 @@ class GojsOperate {
         const ctxMenu = contextMenu({
             show: (obj, diagram, tool) => {
                 const mousePt = diagram.lastInput.viewPoint
-                ctxControl('blank', [ mousePt.x, mousePt.y ])
+
+                console.log(obj)
+                if(obj === null) ctxControl('blank', [ mousePt.x, mousePt.y ])
+
+                else ctxControl('node', [ mousePt.x, mousePt.y ])
             },
             hide: (diagram, tool) => {
                 ctxControl('hide', [ -1000, -1000 ])
@@ -481,9 +486,6 @@ class GojsOperate {
         // create palette
         this.palette = createPalette(paletteEl, this.diagram, this.paletteItemList)
 
-        setTimeout(() => {
-            this.dispose()
-        }, 3000)
         // event listener
         // this.diagram.addDiagramListener('Modified', (e) => {
         //     console.log(e)
@@ -505,10 +507,23 @@ class GojsOperate {
         return this.model?.toJson() ?? ''
     }
 
+    /**
+     * @description zoom to fit
+     */
+    public zoomToFit() {
+        this.diagram.zoomToFit()
+    }
+
+    /**
+     * @description clear diagram
+     */
     public clear() {
         this.diagram.clear()
     }
 
+    /**
+     * @description destroy diagram instance and unbind with dom
+     */
     public dispose() {
         this.diagram.div = null
         this.palette.div = null
