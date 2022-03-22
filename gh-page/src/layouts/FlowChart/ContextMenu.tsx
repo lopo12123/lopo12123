@@ -16,15 +16,12 @@ interface CtxMenuItem {
 }
 
 // 控制菜单类型及位置
-export interface ContextMenuControl {
-    (type: CtxMenuType, position: [ number, number ]): void
-}
+export type ContextMenuControl = (type: CtxMenuType, position: [ number, number ]) => void
 
-interface ContextMenuProps {
-    onLoad: (controlFn: ContextMenuControl) => void
-}
+// 接受的onload参数
+export type ContextMenuOnLoad = (controlFn: ContextMenuControl) => void
 
-export const ContextMenu = (props: ContextMenuProps) => {
+export const ContextMenu = (props: { onLoad: ContextMenuOnLoad }) => {
     // all items here, show or not depends on its 'fit'
     const allItems: CtxMenuItem[] = [
         { key: '1', label: 'Cut', type: 'cut', icon: '', fit: [ 'node', 'link' ] },
@@ -42,6 +39,12 @@ export const ContextMenu = (props: ContextMenuProps) => {
                 setMenuItems(allItems)
                 setVisible(true)
                 setPosition(position)
+                break
+            case 'node':
+
+                break
+            case 'link':
+
                 break
             case 'hide':
                 setVisible(false)
@@ -69,7 +72,7 @@ export const ContextMenu = (props: ContextMenuProps) => {
             {
                 menuItems.map((item) => {
                     return (
-                        <div key={item.key}>
+                        <div key={ item.key }>
                             { item.label }
                         </div>
                     )
