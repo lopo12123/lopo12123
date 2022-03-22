@@ -23,6 +23,7 @@ export default () => {
     useLayoutEffect(() => {
         return () => {
             diagramObj?.dispose()
+            setDiagramObj(null)
         }
     }, [])
 
@@ -54,7 +55,7 @@ export default () => {
                  } }>
             </div>
 
-            <ContextMenu onLoad={ doAfterOnLoad }/>
+            <ContextMenu onLoad={ doAfterOnLoad } instance={ diagramObj }/>
         </div>
     )
 }
