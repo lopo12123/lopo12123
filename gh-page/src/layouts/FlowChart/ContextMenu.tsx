@@ -1,26 +1,45 @@
-import { Dispatch, SetStateAction, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
+
+// 菜单出现的位置类型
+type CtxMenuType = 'blank' | 'node' | 'link' | 'hide'
+// 菜单项类型
+type CtxMenuItemType =
+    'cut' | 'copy' | 'paste' | 'delete' |  // node/link operate
+    'zoom' | 'download' | 'clear'  // diagram operate
+
+interface CtxMenuItem {
+    key: string
+    label: string,
+    type: CtxMenuItemType
+    icon: string,
+    fit: CtxMenuType[]
+}
+
+// 控制菜单类型及位置
+export interface ContextMenuControl {
+    (type: CtxMenuType, position: [ number, number ]): void
+}
 
 interface ContextMenuProps {
     onLoad: (controlFn: ContextMenuControl) => void
 }
 
-type CtxMenuEvent = 'blank' | 'node' | 'link' | 'hide'
-
-export interface ContextMenuControl {
-    (type: CtxMenuEvent, position: [ number, number ]): void
-}
-
-// const AllMenuItems = []
-
 export const ContextMenu = (props: ContextMenuProps) => {
+    // all items here, show or not depends on its 'fit'
+    const allItems: CtxMenuItem[] = [
+        { key: '1', label: 'Cut', type: 'cut', icon: '', fit: [ 'node', 'link' ] },
+        { key: '2', label: 'Copy', type: 'copy', icon: '', fit: [ 'node', 'link' ] },
+        { key: '3', label: 'paste', type: 'paste', icon: '', fit: [ 'blank' ] }
+    ]
+
+    const [ menuItems, setMenuItems ] = useState<CtxMenuItem[]>([])
     const [ visible, setVisible ] = useState(false)
     const [ position, setPosition ] = useState<[ number, number ]>([ -1000, -1000 ])
-
-    const [ menuItems, setMenuItems ] = useState([])
 
     const controlFunction: ContextMenuControl = (type, position) => {
         switch(type) {
             case 'blank':
+                setMenuItems(allItems)
                 setVisible(true)
                 setPosition(position)
                 break
@@ -31,7 +50,7 @@ export const ContextMenu = (props: ContextMenuProps) => {
         }
     }
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         props.onLoad(controlFunction)
     }, [])
 
@@ -47,12 +66,15 @@ export const ContextMenu = (props: ContextMenuProps) => {
             onContextMenu={ (e) => {
                 e.preventDefault()
             } }>
-            <div>
-                item1
-            </div>
-            <div>
-                item2
-            </div>
+            {
+                menuItems.map((item) => {
+                    return (
+                        <div key={item.key}>
+                            { item.label }
+                        </div>
+                    )
+                })
+            }
         </div>
     )
 }
