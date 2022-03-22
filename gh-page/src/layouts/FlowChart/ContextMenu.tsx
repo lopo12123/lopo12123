@@ -108,6 +108,7 @@ export const ContextMenu = (props: ContextMenuProps) => {
                 props.instance?.doDownload()
                 break
         }
+        controlFunction('hide', [-1000, -1000], null)
     }
 
     useEffect(() => {
@@ -118,9 +119,11 @@ export const ContextMenu = (props: ContextMenuProps) => {
         <div
             style={ {
                 position: 'absolute',
+                zIndex: '1000',
                 left: position[0] + 5,
                 top: position[1] + 5,
-                zIndex: '1000',
+                width: '200px',
+                border: 'solid 1px #777777',
                 display: visible ? 'block' : 'none'
             } }
             onContextMenu={ (e) => {
