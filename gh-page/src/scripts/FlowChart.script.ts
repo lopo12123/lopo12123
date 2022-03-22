@@ -269,8 +269,8 @@ const nodeTemplate = (ctxMenu: HTMLInfo) => {
     return $make(
         Node, 'Spot',
         {
-            locationSpot: Spot.Center,
             contextMenu: ctxMenu,
+            locationSpot: Spot.Center,
             selectable: true, selectionAdornmentTemplate: nodeSelectTemplate(),
             resizable: true, resizeObjectName: 'PANEL', resizeAdornmentTemplate: nodeResizeTemplate(),
             rotatable: true, rotateAdornmentTemplate: nodeRotateTemplate()
@@ -345,10 +345,11 @@ const linkSelectTemplate = () => {
 /**
  * @description [template: link] template for link
  */
-const linkTemplate = () => {
+const linkTemplate = (ctxMenu: HTMLInfo) => {
     return $make(
         Link,
         {
+            contextMenu: ctxMenu,
             routing: Link.AvoidsNodes,
             curve: Link.JumpOver,
             corner: 5,
@@ -421,7 +422,7 @@ const createDiagram = (diagramEl: HTMLDivElement, ctxMenu: HTMLInfo) => {
     // set node template (select、resize、rotate)
     _diagram.nodeTemplate = nodeTemplate(ctxMenu)
     // set link template (select、resize)
-    _diagram.linkTemplate = linkTemplate()
+    _diagram.linkTemplate = linkTemplate(ctxMenu)
     // bind context menu
     _diagram.contextMenu = ctxMenu
 
@@ -444,7 +445,12 @@ class GojsOperate {
     private readonly diagram: Diagram
     private readonly palette: Palette
 
-    private model: Model
+    private get model () {
+        return this.diagram.model
+    }
+    private set model (val: Model) {
+        this.diagram.model = val
+    }
 
     private readonly paletteItemList = [
         { text: 'Start', figure: BuildInFigure.Circle, fill: null },
@@ -458,8 +464,6 @@ class GojsOperate {
         paletteEl: HTMLDivElement,
         ctxControl: ContextMenuControl
     ) {
-        // create an empty model
-        this.model = emptyModel()
         // generate context menu
         const ctxMenu = contextMenu({
             show: (obj, diagram, tool) => {
@@ -473,23 +477,41 @@ class GojsOperate {
         // create diagram
         this.diagram = createDiagram(diagramEl, ctxMenu)
         // bind model
-        this.diagram.model = this.model
+        this.model = emptyModel()
         // create palette
         this.palette = createPalette(paletteEl, this.diagram, this.paletteItemList)
 
+        setTimeout(() => {
+            this.dispose()
+        }, 3000)
         // event listener
         // this.diagram.addDiagramListener('Modified', (e) => {
         //     console.log(e)
         // })
     }
 
+    /**
+     * @description load json data to modal
+     */
     public fromJson(jsonStr: string) {
         this.model = Model.fromJson(jsonStr)
         this.diagram.model = this.model
     }
 
+    /**
+     * @description return json data from modal
+     */
     public toJson() {
-        return this.model.toJson()
+        return this.model?.toJson() ?? ''
+    }
+
+    public clear() {
+        this.diagram.clear()
+    }
+
+    public dispose() {
+        this.diagram.div = null
+        this.palette.div = null
     }
 }
 
