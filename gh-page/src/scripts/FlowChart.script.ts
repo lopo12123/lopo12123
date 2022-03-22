@@ -18,12 +18,29 @@ import { ContextMenuControl } from "@/layouts/FlowChart/ContextMenu";
  * @description item in palette
  */
 interface PaletteItem {
+    isNode: true
     // text in item
     text: string
     // type of item
     figure: BuildInFigure
     // bg-color of item
     fill: string | 'transparent'  // ! use 'transparent' instead of null
+}
+
+/**
+ * @description data on items (node)
+ */
+export type GojsNodeData = PaletteItem & { key: number, __gohashid: number }
+/**
+ * @description data on items (link)
+ */
+export type GojsLinkData = {
+    isNode: undefined
+    from: number  // from key
+    to: number  // to key
+    fromPort: '' | 'T' | 'R' | 'B' | 'L'  // from port
+    toPort: '' | 'T' | 'R' | 'B' | 'L'  // to port
+    __gohashid: number
 }
 
 /**
@@ -335,7 +352,7 @@ const linkSelectTemplate = () => {
         $make(Shape, {
             // isPanelMain declares that this Shape shares the Link.geometry
             isPanelMain: true,
-            fill: null,
+            fill: 'transparent',
             stroke: 'deepskyblue',
             // use selection object's strokeWidth
             strokeWidth: 0
@@ -364,9 +381,16 @@ const linkTemplate = (ctxMenu: HTMLInfo) => {
         },
         new Binding('points').makeTwoWay(),
         // 连线的形状
-        $make(Shape, { isPanelMain: true, strokeWidth: 2 }),
+        $make(
+            Shape, { isPanelMain: true, strokeWidth: 2, stroke: '#999999' },
+            new Binding('stroke')
+        ),
         // 箭头
-        $make(Shape, { toArrow: 'Standard', stroke: null }),
+        $make(
+            Shape, { toArrow: 'Standard', stroke: '#999999', fill: '#999999' },
+            new Binding('fill', 'stroke'),
+            new Binding('stroke'),
+        ),
         // 连线上的文字块
         $make(
             Panel, 'Auto',
@@ -391,7 +415,6 @@ const linkTemplate = (ctxMenu: HTMLInfo) => {
                     editable: true
                 },
                 new Binding('text').makeTwoWay(),
-                new Binding('stroke')
             )
             // endregion
         )
@@ -453,11 +476,11 @@ class GojsOperate {
         this.diagram.model = val
     }
 
-    private readonly paletteItemList = [
-        { text: 'Start', figure: BuildInFigure.Circle, fill: 'transparent' },
-        { text: 'Progress', figure: BuildInFigure.Rectangle, fill: 'transparent' },
-        { text: 'Branch', figure: BuildInFigure.Diamond, fill: 'transparent' },
-        { text: 'Comment', figure: BuildInFigure.RoundedRectangle, fill: 'transparent' },
+    private readonly paletteItemList: PaletteItem[] = [
+        { isNode: true, text: 'Start', figure: BuildInFigure.Circle, fill: 'transparent' },
+        { isNode: true, text: 'Progress', figure: BuildInFigure.Rectangle, fill: 'transparent' },
+        { isNode: true, text: 'Branch', figure: BuildInFigure.Diamond, fill: 'transparent' },
+        { isNode: true, text: 'Comment', figure: BuildInFigure.RoundedRectangle, fill: 'transparent' },
     ]
 
     constructor(
@@ -470,13 +493,22 @@ class GojsOperate {
             show: (obj, diagram, tool) => {
                 const mousePt = diagram.lastInput.viewPoint
 
-                console.log(obj)
-                if(obj === null) ctxControl('blank', [ mousePt.x, mousePt.y ])
+                if(obj === null) ctxControl('blank', [ mousePt.x, mousePt.y ], null)
 
-                else ctxControl('node', [ mousePt.x, mousePt.y ])
+                else {
+                    // @ts-ignore
+                    const objData: GojsNodeData | GojsLinkData = obj.data
+
+                    if(!objData.isNode) {
+                        ctxControl('link', [ mousePt.x, mousePt.y ], objData)
+                    }
+                    else {
+                        ctxControl('node', [ mousePt.x, mousePt.y ], objData)
+                    }
+                }
             },
             hide: (diagram, tool) => {
-                ctxControl('hide', [ -1000, -1000 ])
+                ctxControl('hide', [ -1000, -1000 ], null)
             }
         })
         // create diagram
@@ -492,8 +524,81 @@ class GojsOperate {
         // })
     }
 
+    // region commands
     /**
-     * @description load json data to modal
+     * @description do cut
+     */
+    public doCut() {
+        this.diagram.commandHandler.canCutSelection()
+        && this.diagram.commandHandler.cutSelection()
+    }
+
+    /**
+     * @description do copy
+     */
+    public doCopy() {
+        this.diagram.commandHandler.canCopySelection()
+        && this.diagram.commandHandler.copySelection()
+    }
+
+    /**
+     * @description do paste
+     */
+    public doPaste(pos: [ number, number ]) {
+        this.diagram.commandHandler.canPasteSelection()
+        && this.diagram.commandHandler.pasteSelection(new Point(...pos))
+    }
+
+    /**
+     * @description do delete
+     */
+    public doDelete() {
+        this.diagram.commandHandler.deleteSelection()
+    }
+
+    /**
+     * @description set node`s fill (background color)
+     */
+    public doSetFill(dataObj: GojsNodeData, val: string) {
+        this.model.setDataProperty(dataObj, 'fill', val)
+    }
+
+    /**
+     * @description set node/link`s stroke (border color)
+     */
+    public doSetStroke(dataObj: GojsNodeData | GojsLinkData, val: string) {
+        this.model.setDataProperty(dataObj, 'stroke', val)
+    }
+
+    /**
+     * @description zoom to fit
+     */
+    public doZoomToFit() {
+        this.diagram.commandHandler.canZoomToFit()
+        && this.diagram.commandHandler.zoomToFit()
+    }
+
+    /**
+     * @description clear diagram
+     */
+    public doClear() {
+        this.diagram.clear()
+    }
+
+    /**
+     * @description download the canvas as png
+     */
+    public doDownload() {
+        this.diagram.makeImage({
+            callback: (data) => {
+                console.log(data)
+            }
+        })
+    }
+    // endregion
+
+    /**
+     * @description load json data to model
      */
     public fromJson(jsonStr: string) {
         this.model = Model.fromJson(jsonStr)
@@ -501,24 +606,10 @@ class GojsOperate {
     }
 
     /**
-     * @description return json data from modal
+     * @description return json data from model
      */
     public toJson() {
         return this.model?.toJson() ?? ''
-    }
-
-    /**
-     * @description zoom to fit
-     */
-    public zoomToFit() {
-        this.diagram.zoomToFit()
-    }
-
-    /**
-     * @description clear diagram
-     */
-    public clear() {
-        this.diagram.clear()
     }
 
     /**
