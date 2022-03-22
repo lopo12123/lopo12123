@@ -38,6 +38,7 @@ export default () => {
         } }>
 
             <div ref={ paletteContainer }
+                 className="custom-canvas-container"
                  style={ {
                      position: 'absolute',
                      zIndex: '100',
@@ -48,6 +49,7 @@ export default () => {
             </div>
 
             <div ref={ diagramContainer }
+                 className="custom-canvas-container"
                  style={ {
                      position: 'relative',
                      width: '100%',
