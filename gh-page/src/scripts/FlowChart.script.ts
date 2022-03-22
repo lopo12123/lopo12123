@@ -379,6 +379,7 @@ const linkTemplate = (ctxMenu: HTMLInfo) => {
             curve: Link.JumpOver,
             corner: 5,
             toShortLength: 4,
+            cursor: 'pointer',
             // select adornment
             selectable: true,
             selectionAdornmentTemplate: linkSelectTemplate(),
