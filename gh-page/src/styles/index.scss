@@ -36,6 +36,11 @@ img {
 .custom-rgb {
     animation: kf-rgb 3s infinite;
 }
+.custom-canvas-container {
+    canvas {
+        outline: none!important;
+    }
+}
 .disable-drag {
     -webkit-user-drag: none!important;
 }
