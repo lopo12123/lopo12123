@@ -90,7 +90,7 @@ export type GojsLinkData = {
 
 // region interface with store/load
 /**
- * @description
+ * @description the structure of JSON.parse(myDiagram.model.toJson())
  */
 interface ModelObj {
     readonly class: 'GraphLinksModel'
@@ -775,14 +775,6 @@ class GojsOperate {
         // endregion
     }
 
-    /**
-     * @description load json data to model
-     */
-    private fromJson(jsonStr: string) {
-        this.model = Model.fromJson(jsonStr)
-        this.diagram.model = this.model
-    }
-
     // region commands
     /**
      * @description do cut
@@ -844,10 +836,59 @@ class GojsOperate {
         })
     }
 
+    /**
+     * @description load data from file to reload the model data
+     */
     public doLoad() {
+        // create a selector
+        const fileSelector = document.createElement('input')
+        fileSelector.type = 'file'
 
+        // set callback for file select event
+        fileSelector.onchange = () => {
+            const file = fileSelector.files?.[0]
+            // do nothing if file is undefined
+            if(!!file) {
+                // verify the suffix of file
+                if(file.name.split('.').reverse()[0] !== 'fc') {
+                    useToastStore().warn('Incorrect file')
+                    fileSelector.onchange = null
+                }
+                // read file
+                else {
+                    const reader = new FileReader()
+                    reader.onload = () => {
+                        const fileObj: StoreFileObj = JSON.parse(reader.result as string)
+                        const doSha = SHA256(fileObj.modelJson)+''
+
+                        // verify file sha
+                        if(doSha !== fileObj.sha) {
+                            useToastStore().warn('This file has been tampered with')
+                        }
+                        // now the file is correct
+                        else {
+                            this.model = Model.fromJson(fileObj.modelJson)
+                            useToastStore().success(`Diagram reloaded (last modified: ${fileObj.date})`)
+                        }
+
+                        fileSelector.onchange = null
+                    }
+                    reader.onerror = () => {
+                        useToastStore().error('Some error occurred when reading this file')
+                        fileSelector.onchange = null
+                    }
+                    reader.readAsText(file)
+                }
+            }
+        }
+
+        // show selector
+        fileSelector.click()
     }
 
+    /**
+     * @description store the data of model into a file
+     */
     public doStore() {
         useToastStore().info('Generating')
         try {
@@ -866,7 +907,8 @@ class GojsOperate {
             // create anchor element and automatically click it to download file
             const aTag = document.createElement('a')
             aTag.href = `data:text/plain;base64,${file64}`
-            aTag.download = `diagram_${dateStr.replace(/[-/ ]/g, '.')}.fc`
+            console.log(dateStr)
+            aTag.download = `diagram_${dateStr.replace(/[-/ ]/g, '.').replace(/[:]/g, '')}.fc`
             aTag.click()
             useToastStore().success('Done')
         } catch (e: any) {
