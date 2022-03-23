@@ -31,8 +31,12 @@ interface PaletteItem {
     text: string
     // type of item
     figure: BuildInFigure
-    // bg-color of item
-    fill: string | 'transparent'  // ! use 'transparent' instead of null
+    // background-color of item (#rrggbb)
+    fill: string
+    // border-color of item (#rrggbb)
+    stroke: string
+    // border-width of item (number)
+    strokeWidth: number
 }
 
 /**
@@ -322,8 +326,9 @@ const nodeTemplate = (ctxMenu: HTMLInfo) => {
                 },
                 // custom color
                 new Binding('fill'),
+                new Binding('stroke'),
                 new Binding('figure'),
-                new Binding('stroke')
+                new Binding('strokeWidth')
             ),
             // endregion
             // region 内部文字
@@ -410,8 +415,8 @@ const linkTemplate = (ctxMenu: HTMLInfo) => {
             Panel, 'Auto',
             // region 外框
             $make(
-                Shape, 'RoundedRectangle',
-                { fill: null, stroke: '#999999', minSize: new Size(40, NaN) },
+                Shape, 'Rectangle',
+                { fill: null, stroke: '#343434', strokeWidth: 0.5, minSize: new Size(40, NaN) },
                 // 不选中时使此文本框不可见
                 new Binding('visible', 'isSelected').ofObject()
             ),
@@ -486,6 +491,7 @@ const createPalette = (paletteEl: HTMLDivElement, ctxMenu: HTMLInfo, diagram: Di
             contextMenu: ctxMenu,
             maxSelectionCount: 1,
             nodeTemplateMap: diagram.nodeTemplateMap,
+            linkTemplate: linkTemplate(ctxMenu),
             model: new GraphLinksModel(items, [], {
                 // set a name to identify 'palette',
                 // so that can avoid calling callback
@@ -503,7 +509,7 @@ const createInspector = (inspectorEl: HTMLDivElement, diagram: Diagram) => {
     // get id (or set it manually if it`s not exist)
     let elId = inspectorEl.id
     if(!elId || elId.trim() === '') {
-        inspectorEl.id = `inspector-${Date.now()}`
+        inspectorEl.id = `inspector-${ Date.now() }`
         elId = inspectorEl.id
     }
 
@@ -521,29 +527,40 @@ const createInspector = (inspectorEl: HTMLDivElement, diagram: Diagram) => {
             isNode: { show: false },
             loc: { show: false },
             size: { show: false },
+            points: { show: false },
 
             // set read-only
-            key: { show: true, readOnly: true },
+            key: { show: Inspector.showIfPresent, readOnly: true },
 
-            // identify type of items
-            fill: {
-                show: Inspector.showIfPresent,
-                type: 'color',
-            },
-            stroke: {
-                show: Inspector.showIfPresent,
-                type: 'color'
-            },
-            text: {
-                show: true,
-                type: 'string'
-            },
+            // both nodes and links
+            text: { show: true, type: 'string' },
+            fill: { show: Inspector.showIfPresent, type: 'color' },
+            stroke: { show: Inspector.showIfPresent, type: 'color' },
+            strokeWidth: { show: Inspector.showIfPresent, type: 'number' },
+            // nodes only
             figure: {
                 show: Inspector.showIfPresent,
                 type: 'select',
                 choices: [
                     'Square', 'Rectangle', 'RoundedRectangle',
                     'Circle', 'Ellipse', 'Diamond',
+                ]
+            },
+            // links only
+            fromPort: {
+                show: Inspector.showIfPresent,
+                type: 'select',
+                choices: [
+                    // '' means it will automatically find the shortest way to connect
+                    '', 'T', 'R', 'B', 'L'
+                ]
+            },
+            toPort: {
+                show: Inspector.showIfPresent,
+                type: 'select',
+                choices: [
+                    // '' means it will automatically find the shortest way to connect
+                    '', 'T', 'R', 'B', 'L'
                 ]
             }
         }
@@ -565,10 +582,38 @@ class GojsOperate {
     }
 
     private readonly paletteItemList: PaletteItem[] = [
-        { isNode: true, text: 'Start', figure: BuildInFigure.Circle, fill: 'transparent' },
-        { isNode: true, text: 'Progress', figure: BuildInFigure.Rectangle, fill: 'transparent' },
-        { isNode: true, text: 'Branch', figure: BuildInFigure.Diamond, fill: 'transparent' },
-        { isNode: true, text: 'Comment', figure: BuildInFigure.RoundedRectangle, fill: 'transparent' },
+        {
+            isNode: true,
+            text: 'Start',
+            figure: BuildInFigure.Circle,
+            fill: '#ffffff',
+            stroke: '#000000',
+            strokeWidth: 2
+        },
+        {
+            isNode: true,
+            text: 'Progress',
+            figure: BuildInFigure.Rectangle,
+            fill: '#ffffff',
+            stroke: '#000000',
+            strokeWidth: 2
+        },
+        {
+            isNode: true,
+            text: 'Branch',
+            figure: BuildInFigure.Diamond,
+            fill: '#ffffff',
+            stroke: '#000000',
+            strokeWidth: 2
+        },
+        {
+            isNode: true,
+            text: 'Comment',
+            figure: BuildInFigure.RoundedRectangle,
+            fill: '#ffffff',
+            stroke: '#000000',
+            strokeWidth: 2
+        },
     ]
 
     constructor(
@@ -586,6 +631,8 @@ class GojsOperate {
                     (diagram.contextMenu as HTMLInfo)?.hide?.(diagram, tool)
                     return
                 }
+
+                console.log(obj?.data)
 
                 const mousePt = diagram.lastInput.viewPoint
                 const originEvent = diagram.lastInput.event as PointerEvent
