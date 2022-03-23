@@ -5,11 +5,10 @@ import { GojsLinkData, GojsNodeData, GojsOperate } from "@/scripts/FlowChart.scr
 // 菜单出现的位置类型
 type CtxMenuType = 'blank' | 'node' | 'link' | 'hide'
 // 菜单项类型
-type CtxMenuItemType =
-    'separate' |  // separate of menu
+type CtxMenuItemType = 'separate' |  // separate of menu
     'cut' | 'copy' | 'paste' | 'delete' |  // node/link operate
-    'fill' | 'stroke' | 'text' |  // style operate
-    'zoom' | 'clear' | 'download'  // diagram operate
+    'zoom' | 'clear' | 'download' |  // diagram operate
+    'load' | 'store'  // store/load operate
 // todo store/load json file
 
 export interface CtxMenuItem extends MenuItem {
@@ -58,22 +57,6 @@ export const ContextMenu = (props: ContextMenuProps) => {
             separator: true
         },
         {
-            type: 'fill', fit: [ 'node' ],
-            label: 'Background Color', icon: ''
-        },
-        {
-            type: 'stroke', fit: [ 'node', 'link' ],
-            label: 'Stroke Color', icon: '',
-        },
-        {
-            type: 'text', fit: [ 'node', 'link' ],
-            label: 'Font Color', icon: ''
-        },
-        {
-            type: 'separate', fit: [],
-            separator: true
-        },
-        {
             type: 'zoom', fit: [ 'blank' ],
             label: 'Zoom to Fit', icon: ''
         },
@@ -83,7 +66,19 @@ export const ContextMenu = (props: ContextMenuProps) => {
         },
         {
             type: 'download', fit: [ 'blank' ],
-            label: 'Download Canvas', icon: ''
+            label: 'Download diagram', icon: ''
+        },
+        {
+            type: 'separate', fit: [],
+            separator: true
+        },
+        {
+            type: 'load', fit: [ 'blank' ],
+            label: 'Load diagram from file', icon: ''
+        },
+        {
+            type: 'store', fit: ['blank'],
+            label: 'store diagram to file', icon: ''
         }
     ]
 
@@ -133,21 +128,6 @@ export const ContextMenu = (props: ContextMenuProps) => {
             case 'delete':
                 props.instance?.doDelete()
                 break
-            case 'fill':
-                if(!!lastObjData && lastObjData.isNode) {
-                    props.instance?.doSetFill(lastObjData, '#cccccc')
-                }
-                break
-            case 'stroke':
-                if(!!lastObjData) {
-                    props.instance?.doSetStroke(lastObjData, '#cccccc')
-                }
-                break
-            case 'text':
-                if(!!lastObjData) {
-                    props.instance?.doSetTextColor(lastObjData, '#cccccc')
-                }
-                break
             case 'zoom':
                 props.instance?.doZoomToFit()
                 break
@@ -156,6 +136,12 @@ export const ContextMenu = (props: ContextMenuProps) => {
                 break
             case 'download':
                 props.instance?.doDownload()
+                break
+            case 'load':
+                props.instance?.doLoad()
+                break
+            case 'store':
+                props.instance?.doStore()
                 break
         }
         controlFunction('hide', [ -1000, -1000 ], null, null)
