@@ -600,7 +600,7 @@ class GojsOperate {
         {
             isNode: true,
             text: 'Start',
-            textColor: '#333333',
+            textColor: '#cccccc',
             figure: BuildInFigure.Circle,
             fill: '#ffffff',
             stroke: '#000000',
@@ -609,7 +609,7 @@ class GojsOperate {
         {
             isNode: true,
             text: 'Progress',
-            textColor: '#333333',
+            textColor: '#cccccc',
             figure: BuildInFigure.Rectangle,
             fill: '#ffffff',
             stroke: '#000000',
@@ -618,7 +618,7 @@ class GojsOperate {
         {
             isNode: true,
             text: 'Branch',
-            textColor: '#333333',
+            textColor: '#cccccc',
             figure: BuildInFigure.Diamond,
             fill: '#ffffff',
             stroke: '#000000',
@@ -627,7 +627,7 @@ class GojsOperate {
         {
             isNode: true,
             text: 'Comment',
-            textColor: '#333333',
+            textColor: '#cccccc',
             figure: BuildInFigure.RoundedRectangle,
             fill: '#ffffff',
             stroke: '#000000',
@@ -636,7 +636,7 @@ class GojsOperate {
         {
             isNode: true,
             text: 'Text',
-            textColor: '#333333',
+            textColor: '#cccccc',
             figure: BuildInFigure.BarH,
             fill: 'transparent',
             stroke: '#ffffff',
@@ -646,7 +646,7 @@ class GojsOperate {
         {
             isNode: true,
             text: 'Port',
-            textColor: '#333333',
+            textColor: '#cccccc',
             figure: BuildInFigure.Triangle,
             fill: '#ffffff',
             stroke: '#000000',
