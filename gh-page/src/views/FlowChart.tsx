@@ -3,18 +3,20 @@ import { ContextMenu, ContextMenuOnLoad } from "@/components/FlowChart/ContextMe
 import { GojsOperate } from "@/scripts/FlowChart.script";
 
 export default () => {
-    const paletteContainer = useRef<HTMLDivElement>(null)
     const diagramContainer = useRef<HTMLDivElement>(null)
+    const paletteContainer = useRef<HTMLDivElement>(null)
+    const inspectorContainer = useRef<HTMLDivElement>(null)
 
     const [ diagramObj, setDiagramObj ] = useState<GojsOperate | null>(null)
 
     // 子组件onLoad后调用
     const doAfterOnLoad: ContextMenuOnLoad = (controlFn) => {
         if(
-            !!diagramContainer.current
-            && !!paletteContainer.current
+            !!diagramContainer.current &&
+            !!paletteContainer.current &&
+            !!inspectorContainer.current
         ) {
-            const instance = new GojsOperate(diagramContainer.current, paletteContainer.current, controlFn)
+            const instance = new GojsOperate(diagramContainer.current, paletteContainer.current, inspectorContainer.current, controlFn)
             setDiagramObj(instance)
         }
     }
@@ -37,6 +39,15 @@ export default () => {
             justifyContent: 'space-between'
         } }>
 
+            <div ref={ diagramContainer }
+                 className="custom-canvas-container"
+                 style={ {
+                     position: 'relative',
+                     width: '100%',
+                     height: '100%'
+                 } }>
+            </div>
+
             <div ref={ paletteContainer }
                  className="custom-canvas-container"
                  style={ {
@@ -44,16 +55,21 @@ export default () => {
                      zIndex: '100',
                      width: '200px',
                      height: '100%',
+                     top: '0',
+                     left: '0',
                      backgroundColor: '#f5f5f5'
                  } }>
             </div>
 
-            <div ref={ diagramContainer }
-                 className="custom-canvas-container"
+            <div ref={ inspectorContainer }
                  style={ {
-                     position: 'relative',
-                     width: '100%',
-                     height: '100%'
+                     position: 'absolute',
+                     zIndex: '200',
+                     width: '200px',
+                     height: '100%',
+                     top: '50px',
+                     right: '50px',
+                     backgroundColor: '#f5f5f5'
                  } }>
             </div>
 
