@@ -441,6 +441,66 @@ const linkTemplate = (ctxMenu: HTMLInfo) => {
         )
     )
 }
+/**
+ * @description [static: palette] palette items (config)
+ */
+const paletteItems: PaletteItem[] = [
+    {
+        isNode: true,
+        text: 'Start',
+        textColor: '#cccccc',
+        figure: 'Circle',
+        fill: '#ffffff',
+        stroke: '#000000',
+        strokeWidth: 2
+    },
+    {
+        isNode: true,
+        text: 'Progress',
+        textColor: '#cccccc',
+        figure: 'Rectangle',
+        fill: '#ffffff',
+        stroke: '#000000',
+        strokeWidth: 2
+    },
+    {
+        isNode: true,
+        text: 'Branch',
+        textColor: '#cccccc',
+        figure: 'Diamond',
+        fill: '#ffffff',
+        stroke: '#000000',
+        strokeWidth: 2
+    },
+    {
+        isNode: true,
+        text: 'Comment',
+        textColor: '#cccccc',
+        figure: 'RoundedRectangle',
+        fill: '#ffffff',
+        stroke: '#000000',
+        strokeWidth: 2
+    },
+    {
+        isNode: true,
+        text: 'Text',
+        textColor: '#cccccc',
+        figure: 'Rectangle',
+        fill: 'transparent',
+        stroke: 'transparent',
+        strokeWidth: 0,
+        hidden: [ 'fill', 'figure', 'stroke', 'strokeWidth' ]
+    },
+    {
+        isNode: true,
+        text: 'Port',
+        textColor: '#cccccc',
+        figure: 'Triangle',
+        fill: '#ffffff',
+        stroke: '#000000',
+        strokeWidth: 2
+    }
+]
 // endregion
 
 // region utils
@@ -482,7 +542,7 @@ const createDiagram = (diagramEl: HTMLDivElement, ctxMenu: HTMLInfo) => {
 /**
  * @description create palette with template and event bind
  */
-const createPalette = (paletteEl: HTMLDivElement, ctxMenu: HTMLInfo, diagram: Diagram, items: PaletteItem[]) => {
+const createPalette = (paletteEl: HTMLDivElement, ctxMenu: HTMLInfo, diagram: Diagram) => {
     // create a palette instance
     return $make(
         Palette, paletteEl,
@@ -491,7 +551,7 @@ const createPalette = (paletteEl: HTMLDivElement, ctxMenu: HTMLInfo, diagram: Di
             contextMenu: ctxMenu,
             maxSelectionCount: 1,
             nodeTemplateMap: diagram.nodeTemplateMap,
-            model: new GraphLinksModel(items, [], {
+            model: new GraphLinksModel(paletteItems, [], {
                 // set a name to identify 'palette',
                 // so that can avoid calling callback
                 // when do context-click on its node
@@ -599,64 +659,6 @@ class GojsOperate {
         this.diagram.model = val
     }
 
-    private readonly paletteItemList: PaletteItem[] = [
-        {
-            isNode: true,
-            text: 'Start',
-            textColor: '#cccccc',
-            figure: 'Circle',
-            fill: '#ffffff',
-            stroke: '#000000',
-            strokeWidth: 2
-        },
-        {
-            isNode: true,
-            text: 'Progress',
-            textColor: '#cccccc',
-            figure: 'Rectangle',
-            fill: '#ffffff',
-            stroke: '#000000',
-            strokeWidth: 2
-        },
-        {
-            isNode: true,
-            text: 'Branch',
-            textColor: '#cccccc',
-            figure: 'Diamond',
-            fill: '#ffffff',
-            stroke: '#000000',
-            strokeWidth: 2
-        },
-        {
-            isNode: true,
-            text: 'Comment',
-            textColor: '#cccccc',
-            figure: 'RoundedRectangle',
-            fill: '#ffffff',
-            stroke: '#000000',
-            strokeWidth: 2
-        },
-        {
-            isNode: true,
-            text: 'Text',
-            textColor: '#cccccc',
-            figure: 'Rectangle',
-            fill: 'transparent',
-            stroke: 'transparent',
-            strokeWidth: 0,
-            hidden: [ 'fill', 'figure', 'stroke', 'strokeWidth' ]
-        },
-        {
-            isNode: true,
-            text: 'Port',
-            textColor: '#cccccc',
-            figure: 'Triangle',
-            fill: '#ffffff',
-            stroke: '#000000',
-            strokeWidth: 2
-        }
-    ]
-
     constructor(
         diagramEl: HTMLDivElement,
         paletteEl: HTMLDivElement,
@@ -703,7 +705,7 @@ class GojsOperate {
         this.model = emptyModel()
 
         // create palette
-        this.palette = createPalette(paletteEl, ctxMenu, this.diagram, this.paletteItemList)
+        this.palette = createPalette(paletteEl, ctxMenu, this.diagram)
 
         // create inspector
         createInspector(inspectorEl, this.diagram)
@@ -717,6 +719,21 @@ class GojsOperate {
         })
         // 2. when the model has been changed, ...
         // endregion
+    }
+
+    /**
+     * @description load json data to model
+     */
+    private fromJson(jsonStr: string) {
+        this.model = Model.fromJson(jsonStr)
+        this.diagram.model = this.model
+    }
+
+    /**
+     * @description return json data from model
+     */
+    private toJson() {
+        return this.model?.toJson() ?? ''
     }
 
     // region commands
@@ -802,21 +819,6 @@ class GojsOperate {
     }
 
     // endregion
-
-    /**
-     * @description load json data to model
-     */
-    public fromJson(jsonStr: string) {
-        this.model = Model.fromJson(jsonStr)
-        this.diagram.model = this.model
-    }
-
-    /**
-     * @description return json data from model
-     */
-    public toJson() {
-        return this.model?.toJson() ?? ''
-    }
 
     /**
      * @description destroy diagram instance and unbind with dom
