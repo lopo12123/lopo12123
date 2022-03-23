@@ -10,6 +10,7 @@ import {
     Node,
     Palette,
     Panel,
+    Part,
     Placeholder,
     Point,
     Shape,
@@ -29,6 +30,8 @@ interface PaletteItem {
     isNode: true
     // text in item
     text: string
+    // text color
+    textColor: string
     // type of item
     figure: BuildInFigure
     // background-color of item (#rrggbb)
@@ -37,7 +40,11 @@ interface PaletteItem {
     stroke: string
     // border-width of item (number)
     strokeWidth: number
+    // [optional] item that need to be hide
+    hidden?: Exclude<keyof PaletteItem, 'hidden' | 'isNode'>[]
 }
+
+// infer get key
 
 /**
  * @description data on items (node)
@@ -322,7 +329,7 @@ const nodeTemplate = (ctxMenu: HTMLInfo) => {
                     toLinkable: true, toLinkableSelfNode: true, toLinkableDuplicates: true,
                     cursor: 'pointer',
                     // default color (can be changed by new Binding('fill'))
-                    fill: 'transparent',
+                    fill: 'white',
                     strokeWidth: 2,
                 },
                 // custom color
@@ -429,7 +436,7 @@ const linkTemplate = (ctxMenu: HTMLInfo) => {
                     textAlign: 'center',
                     font: '10pt helvetica, arial, sans-serif',
                     // 连线文字颜色
-                    stroke: '#777777',
+                    stroke: '#999999',
                     margin: 5,
                     minSize: new Size(40, NaN),
                     editable: true
@@ -533,7 +540,16 @@ const createInspector = (inspectorEl: HTMLDivElement, diagram: Diagram) => {
 
             // both nodes and links
             text: { show: true, type: 'string' },
-            fill: { show: Inspector.showIfPresent, type: 'color' },
+            textColor: {
+                show: Inspector.showIfPresent,
+                type: 'color'
+            },
+            fill: {
+                show: (data: Part) => {
+                    return data.data.fill && (!data.data.hidden || !data.data.hidden.includes('fill'))
+                },
+                type: 'color'
+            },
             stroke: { show: Inspector.showIfPresent, type: 'color' },
             strokeWidth: { show: Inspector.showIfPresent, type: 'number' },
             // nodes only
@@ -584,6 +600,7 @@ class GojsOperate {
         {
             isNode: true,
             text: 'Start',
+            textColor: '#333333',
             figure: BuildInFigure.Circle,
             fill: '#ffffff',
             stroke: '#000000',
@@ -592,6 +609,7 @@ class GojsOperate {
         {
             isNode: true,
             text: 'Progress',
+            textColor: '#333333',
             figure: BuildInFigure.Rectangle,
             fill: '#ffffff',
             stroke: '#000000',
@@ -600,6 +618,7 @@ class GojsOperate {
         {
             isNode: true,
             text: 'Branch',
+            textColor: '#333333',
             figure: BuildInFigure.Diamond,
             fill: '#ffffff',
             stroke: '#000000',
@@ -608,11 +627,31 @@ class GojsOperate {
         {
             isNode: true,
             text: 'Comment',
+            textColor: '#333333',
             figure: BuildInFigure.RoundedRectangle,
             fill: '#ffffff',
             stroke: '#000000',
             strokeWidth: 2
         },
+        {
+            isNode: true,
+            text: 'Text',
+            textColor: '#333333',
+            figure: BuildInFigure.BarH,
+            fill: 'transparent',
+            stroke: '#ffffff',
+            strokeWidth: 0,
+            hidden: [ 'fill', 'figure' ]
+        },
+        {
+            isNode: true,
+            text: 'Port',
+            textColor: '#333333',
+            figure: BuildInFigure.Triangle,
+            fill: '#ffffff',
+            stroke: '#000000',
+            strokeWidth: 2
+        }
     ]
 
     constructor(
@@ -630,6 +669,8 @@ class GojsOperate {
                     (diagram.contextMenu as HTMLInfo)?.hide?.(diagram, tool)
                     return
                 }
+
+                console.log(obj?.data)
 
                 const mousePt = diagram.lastInput.viewPoint
                 const originEvent = diagram.lastInput.event as PointerEvent
@@ -670,7 +711,8 @@ class GojsOperate {
         // 1. when a link is drawn, manually set its text to '' (default: undefined)
         this.diagram.addDiagramListener('LinkDrawn', (e) => {
             e.subject.data.text = ''
-            this.diagram.select(null)
+            e.subject.data.textColor = '#999999'
+            e.subject.data.stroke = '#999999'
         })
         // 2. when the model has been changed, ...
         // endregion
