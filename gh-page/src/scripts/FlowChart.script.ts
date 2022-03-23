@@ -318,7 +318,8 @@ const nodeTemplate = (ctxMenu: HTMLInfo) => {
                 Shape, 'Rectangle', {
                     // the default port: if no spot on link data, use closest side
                     portId: '',
-                    fromLinkable: true, toLinkable: true,
+                    fromLinkable: true, fromLinkableSelfNode: true, fromLinkableDuplicates: true,
+                    toLinkable: true, toLinkableSelfNode: true, toLinkableDuplicates: true,
                     cursor: 'pointer',
                     // default color (can be changed by new Binding('fill'))
                     fill: 'transparent',
@@ -431,7 +432,6 @@ const linkTemplate = (ctxMenu: HTMLInfo) => {
                     stroke: '#777777',
                     margin: 5,
                     minSize: new Size(40, NaN),
-                    text: '',  // default text is empty('') better then undefined
                     editable: true
                 },
                 new Binding('text').makeTwoWay(),
@@ -491,7 +491,6 @@ const createPalette = (paletteEl: HTMLDivElement, ctxMenu: HTMLInfo, diagram: Di
             contextMenu: ctxMenu,
             maxSelectionCount: 1,
             nodeTemplateMap: diagram.nodeTemplateMap,
-            linkTemplate: linkTemplate(ctxMenu),
             model: new GraphLinksModel(items, [], {
                 // set a name to identify 'palette',
                 // so that can avoid calling callback
@@ -632,8 +631,6 @@ class GojsOperate {
                     return
                 }
 
-                console.log(obj?.data)
-
                 const mousePt = diagram.lastInput.viewPoint
                 const originEvent = diagram.lastInput.event as PointerEvent
 
@@ -669,10 +666,14 @@ class GojsOperate {
         // create inspector
         createInspector(inspectorEl, this.diagram)
 
-        // event listener
-        // this.diagram.addDiagramListener('Modified', (e) => {
-        //     console.log(e)
-        // })
+        // region event listener
+        // 1. when a link is drawn, manually set its text to '' (default: undefined)
+        this.diagram.addDiagramListener('LinkDrawn', (e) => {
+            e.subject.data.text = ''
+            this.diagram.select(null)
+        })
+        // 2. when the model has been changed, ...
+        // endregion
     }
 
     // region commands
