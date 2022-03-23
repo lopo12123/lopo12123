@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { MenuItem } from "primereact/menuitem";
 import { GojsLinkData, GojsNodeData, GojsOperate } from "@/scripts/FlowChart.script";
+import { useToastStore } from "@/scripts/ToastStore";
 
 // 菜单出现的位置类型
 type CtxMenuType = 'blank' | 'node' | 'link' | 'hide'
@@ -123,7 +124,8 @@ export const ContextMenu = (props: ContextMenuProps) => {
                 break
             case 'paste':
                 console.log(position)
-                props.instance?.doPaste(position)
+                useToastStore().warn('Some bug with paste, i`ll do it later.')
+                // props.instance?.doPaste(position)
                 break
             case 'delete':
                 props.instance?.doDelete()
