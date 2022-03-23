@@ -1,3 +1,4 @@
+import SHA256 from "crypto-js/sha256";
 import {
     Adornment,
     Binding,
@@ -25,7 +26,9 @@ import { Inspector } from "gojs/extensionsJSM/DataInspector";
 // import "gojs/extensionsJSM/Figures";
 
 import { ContextMenuControl } from "@/components/FlowChart/ContextMenu";
+import { useToastStore } from "@/scripts/ToastStore";
 
+// region [figure]
 /**
  * @description figures: build-in
  */
@@ -35,14 +38,18 @@ const Figure_BuildIn = [
     'Triangle', 'Diamond', 'LineH', 'LineV', 'None',
     'BarH', 'BarV', 'MinusLine', 'PlusLine', 'XLine'
 ] as const
+type Figure_BuildInType = (typeof Figure_BuildIn)[number]
 
 /**
  * @description figures: extension
  */
-const Figure_Extension = [
-    // todo dynamic import figures
-]
+// const Figure_Extension = [
+//     todo dynamic import figures
+// ]
+// endregion
 
+// region [palette] palette
+type PortTypes = '' | 'T' | 'R' | 'B' | 'L'
 /**
  * @description item in palette
  */
@@ -53,7 +60,7 @@ interface PaletteItem {
     // text color
     textColor: string
     // type of item
-    figure: (typeof Figure_BuildIn)[number]
+    figure: Figure_BuildInType
     // background-color of item (#rrggbb)
     fill: string
     // border-color of item (#rrggbb)
@@ -75,10 +82,57 @@ export type GojsLinkData = {
     isNode: undefined
     from: number  // from key
     to: number  // to key
-    fromPort: '' | 'T' | 'R' | 'B' | 'L'  // from port
-    toPort: '' | 'T' | 'R' | 'B' | 'L'  // to port
+    fromPort: PortTypes  // from port
+    toPort: PortTypes  // to port
     __gohashid: number
 }
+// endregion
+
+// region interface with store/load
+/**
+ * @description
+ */
+interface ModelObj {
+    readonly class: 'GraphLinksModel'
+    readonly name: 'diagram'
+    readonly linkFromPortIdProperty: 'fromPort'
+    readonly linkToPortIdProperty: 'toPort'
+    nodeDataArray: {
+        readonly isNode: true
+        text: string
+        textColor: string
+        figure: Figure_BuildInType
+        fill: string
+        stroke: string
+        strokeWidth: number
+        key: number
+        loc: string
+    }[]
+    linkDataArray: {
+        text: string
+        textColor: string
+        stroke: string
+        points: number[]  // number of items in even, like [x1, y1, x2, y2, ...]
+        from: number
+        to: number
+        fromPort: PortTypes
+        toPort: PortTypes
+    }[]
+}
+
+/**
+ * @description the object structure in store file
+ */
+interface StoreFileObj {
+    // sha256 of modelJson
+    sha: string
+    // YY-M[M]-D[D] hh:mm:ss
+    date: string
+    // value of myDiagram.model.toJson()
+    modelJson: string
+}
+
+// endregion
 
 // alias for gojs.GraphObject.make
 const $make = GraphObject.make
@@ -91,7 +145,7 @@ const $make = GraphObject.make
  * @param output if the port can output
  * @param input if the port can input
  */
-const makePort = (name: 'T' | 'R' | 'B' | 'L', spot: Spot, output: boolean, input: boolean) => {
+const makePort = (name: Exclude<PortTypes, ''>, spot: Spot, output: boolean, input: boolean) => {
     return $make(Shape, 'Circle', {
         // default is not seen
         fill: null, stroke: null,
@@ -729,13 +783,6 @@ class GojsOperate {
         this.diagram.model = this.model
     }
 
-    /**
-     * @description return json data from model
-     */
-    private toJson() {
-        return this.model?.toJson() ?? ''
-    }
-
     // region commands
     /**
      * @description do cut
@@ -769,27 +816,6 @@ class GojsOperate {
     }
 
     /**
-     * @description set node`s fill (background color)
-     */
-    public doSetFill(dataObj: GojsNodeData, val: string) {
-        this.model.setDataProperty(dataObj, 'fill', val)
-    }
-
-    /**
-     * @description set node/link`s stroke (border color)
-     */
-    public doSetStroke(dataObj: GojsNodeData | GojsLinkData, val: string) {
-        this.model.setDataProperty(dataObj, 'stroke', val)
-    }
-
-    /**
-     * @description set node/link`s text color
-     */
-    public doSetTextColor(dataObj: GojsNodeData | GojsLinkData, val: string) {
-        this.model.setDataProperty(dataObj, 'textColor', val)
-    }
-
-    /**
      * @description zoom to fit
      */
     public doZoomToFit() {
@@ -816,6 +842,36 @@ class GojsOperate {
                 aTag.click()
             }
         })
+    }
+
+    public doLoad() {
+
+    }
+
+    public doStore() {
+        useToastStore().info('Generating')
+        try {
+            // generate the file object
+            const modelJsonStr = this.model.toJson()
+            const dateStr = (new Date().toLocaleDateString().replace(/[/]/g, '-')) + ' ' + (new Date().toLocaleTimeString())
+            const fileObj: StoreFileObj = {
+                sha: SHA256(modelJsonStr)+'',
+                date: dateStr,
+                modelJson: modelJsonStr
+            }
+
+            // get the base64 string of the json string of file object
+            const file64 = window.btoa(JSON.stringify(fileObj))
+
+            // create anchor element and automatically click it to download file
+            const aTag = document.createElement('a')
+            aTag.href = `data:text/plain;base64,${file64}`
+            aTag.download = `diagram_${dateStr.replace(/[-/ ]/g, '.')}.fc`
+            aTag.click()
+            useToastStore().success('Done')
+        } catch (e: any) {
+            useToastStore().error('Error: ', e.toString())
+        }
     }
 
     // endregion
