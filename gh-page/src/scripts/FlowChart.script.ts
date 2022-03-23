@@ -19,9 +19,29 @@ import {
     TextBlock,
     Tool
 } from "gojs"
-// extension of gojs
+// gojs extension: Inspector
 import { Inspector } from "gojs/extensionsJSM/DataInspector";
+// gojs extension: figure (just load the file then use)
+// import "gojs/extensionsJSM/Figures";
+
 import { ContextMenuControl } from "@/components/FlowChart/ContextMenu";
+
+/**
+ * @description figures: build-in
+ */
+const Figure_BuildIn = [
+    'Rectangle', 'Square', 'RoundedRectangle', 'Border', 'Ellipse',
+    'Circle', 'TriangleRight', 'TriangleDown', 'TriangleLeft', 'TriangleUp',
+    'Triangle', 'Diamond', 'LineH', 'LineV', 'None',
+    'BarH', 'BarV', 'MinusLine', 'PlusLine', 'XLine'
+] as const
+
+/**
+ * @description figures: extension
+ */
+const Figure_Extension = [
+    // todo dynamic import figures
+]
 
 /**
  * @description item in palette
@@ -33,7 +53,7 @@ interface PaletteItem {
     // text color
     textColor: string
     // type of item
-    figure: BuildInFigure
+    figure: (typeof Figure_BuildIn)[number]
     // background-color of item (#rrggbb)
     fill: string
     // border-color of item (#rrggbb)
@@ -43,8 +63,6 @@ interface PaletteItem {
     // [optional] item that need to be hide
     hidden?: Exclude<keyof PaletteItem, 'hidden' | 'isNode'>[]
 }
-
-// infer get key
 
 /**
  * @description data on items (node)
@@ -60,32 +78,6 @@ export type GojsLinkData = {
     fromPort: '' | 'T' | 'R' | 'B' | 'L'  // from port
     toPort: '' | 'T' | 'R' | 'B' | 'L'  // to port
     __gohashid: number
-}
-
-/**
- * @description enum of build-in figures
- */
-const enum BuildInFigure {
-    "Rectangle" = "Rectangle",
-    "Square" = "Square",
-    "RoundedRectangle" = "RoundedRectangle",
-    "Border" = "Border",
-    "Ellipse" = "Ellipse",
-    "Circle" = "Circle",
-    "TriangleRight" = "TriangleRight",
-    "TriangleDown" = "TriangleDown",
-    "TriangleLeft" = "TriangleLeft",
-    "TriangleUp" = "TriangleUp",
-    "Triangle" = "Triangle",
-    "Diamond" = "Diamond",
-    "LineH" = "LineH",
-    "LineV" = "LineV",
-    "None" = "None",
-    "BarH" = "BarH",
-    "BarV" = "BarV",
-    "MinusLine" = "MinusLine",
-    "PlusLine" = "PlusLine",
-    "XLine" = "XLine"
 }
 
 // alias for gojs.GraphObject.make
@@ -410,6 +402,7 @@ const linkTemplate = (ctxMenu: HTMLInfo) => {
         // 连线的形状
         $make(
             Shape, { isPanelMain: true, strokeWidth: 2, stroke: '#999999' },
+            new Binding('fill', 'stroke'),
             new Binding('stroke')
         ),
         // 箭头
@@ -534,6 +527,7 @@ const createInspector = (inspectorEl: HTMLDivElement, diagram: Diagram) => {
             loc: { show: false },
             size: { show: false },
             points: { show: false },
+            hidden: { show: false },
 
             // set read-only
             key: { show: Inspector.showIfPresent, readOnly: true },
@@ -550,16 +544,25 @@ const createInspector = (inspectorEl: HTMLDivElement, diagram: Diagram) => {
                 },
                 type: 'color'
             },
-            stroke: { show: Inspector.showIfPresent, type: 'color' },
-            strokeWidth: { show: Inspector.showIfPresent, type: 'number' },
+            stroke: {
+                show: (data: Part) => {
+                    return data.data.strokeWidth && (!data.data.hidden || !data.data.hidden.includes('strokeWidth'))
+                },
+                type: 'color'
+            },
+            strokeWidth: {
+                show: (data: Part) => {
+                    return data.data.strokeWidth && (!data.data.hidden || !data.data.hidden.includes('strokeWidth'))
+                },
+                type: 'number'
+            },
             // nodes only
             figure: {
-                show: Inspector.showIfPresent,
+                show: (data: Part) => {
+                    return data.data.figure && (!data.data.hidden || !data.data.hidden.includes('figure'))
+                },
                 type: 'select',
-                choices: [
-                    'Square', 'Rectangle', 'RoundedRectangle',
-                    'Circle', 'Ellipse', 'Diamond',
-                ]
+                choices: Figure_BuildIn
             },
             // links only
             fromPort: {
@@ -601,7 +604,7 @@ class GojsOperate {
             isNode: true,
             text: 'Start',
             textColor: '#cccccc',
-            figure: BuildInFigure.Circle,
+            figure: 'Circle',
             fill: '#ffffff',
             stroke: '#000000',
             strokeWidth: 2
@@ -610,7 +613,7 @@ class GojsOperate {
             isNode: true,
             text: 'Progress',
             textColor: '#cccccc',
-            figure: BuildInFigure.Rectangle,
+            figure: 'Rectangle',
             fill: '#ffffff',
             stroke: '#000000',
             strokeWidth: 2
@@ -619,7 +622,7 @@ class GojsOperate {
             isNode: true,
             text: 'Branch',
             textColor: '#cccccc',
-            figure: BuildInFigure.Diamond,
+            figure: 'Diamond',
             fill: '#ffffff',
             stroke: '#000000',
             strokeWidth: 2
@@ -628,7 +631,7 @@ class GojsOperate {
             isNode: true,
             text: 'Comment',
             textColor: '#cccccc',
-            figure: BuildInFigure.RoundedRectangle,
+            figure: 'RoundedRectangle',
             fill: '#ffffff',
             stroke: '#000000',
             strokeWidth: 2
@@ -637,17 +640,17 @@ class GojsOperate {
             isNode: true,
             text: 'Text',
             textColor: '#cccccc',
-            figure: BuildInFigure.BarH,
+            figure: 'Rectangle',
             fill: 'transparent',
-            stroke: '#ffffff',
+            stroke: 'transparent',
             strokeWidth: 0,
-            hidden: [ 'fill', 'figure' ]
+            hidden: [ 'fill', 'figure', 'stroke', 'strokeWidth' ]
         },
         {
             isNode: true,
             text: 'Port',
             textColor: '#cccccc',
-            figure: BuildInFigure.Triangle,
+            figure: 'Triangle',
             fill: '#ffffff',
             stroke: '#000000',
             strokeWidth: 2
@@ -669,8 +672,6 @@ class GojsOperate {
                     (diagram.contextMenu as HTMLInfo)?.hide?.(diagram, tool)
                     return
                 }
-
-                console.log(obj?.data)
 
                 const mousePt = diagram.lastInput.viewPoint
                 const originEvent = diagram.lastInput.event as PointerEvent
@@ -790,9 +791,12 @@ class GojsOperate {
      * @description download the canvas as png
      */
     public doDownload() {
-        this.diagram.makeImage({
-            callback: (data) => {
-                console.log(data)
+        this.diagram.makeImageData({
+            callback: (dataUrl) => {
+                const aTag = document.createElement('a')
+                aTag.download = `canvas_${ Date.now() }.png`
+                aTag.href = dataUrl
+                aTag.click()
             }
         })
     }
