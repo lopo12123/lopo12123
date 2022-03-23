@@ -4537,7 +4537,7 @@ var _export_sfc = (sfc, props) => {
   }
   return target;
 };
-const _withScopeId = (n2) => (pushScopeId("data-v-73220abf"), n2 = n2(), popScopeId(), n2);
+const _withScopeId = (n2) => (pushScopeId("data-v-8203a322"), n2 = n2(), popScopeId(), n2);
 const _hoisted_1$1 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBaseVNode("p", null, [
   /* @__PURE__ */ createTextVNode(" Recommended IDE setup: "),
   /* @__PURE__ */ createBaseVNode("a", {
@@ -4592,7 +4592,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
     };
   }
 });
-var HelloWorld = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-73220abf"]]);
+var HelloWorld = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-8203a322"]]);
 var App_vue_vue_type_style_index_0_lang = "";
 const _hoisted_1 = /* @__PURE__ */ createBaseVNode("img", {
   alt: "Vue logo",
