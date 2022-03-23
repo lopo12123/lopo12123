@@ -18,6 +18,8 @@ import {
     TextBlock,
     Tool
 } from "gojs"
+// extension of gojs
+import { Inspector } from "gojs/extensionsJSM/DataInspector";
 import { ContextMenuControl } from "@/components/FlowChart/ContextMenu";
 
 /**
@@ -121,7 +123,7 @@ const showPort = (node: GraphObject, show: boolean) => {
 
 // region core
 /**
- * @description generate an empty model
+ * @description create an empty model
  */
 const emptyModel = () => {
     const _model = Model.fromJson(JSON.stringify({
@@ -206,7 +208,7 @@ const nodeSelectTemplate = () => {
  */
 const nodeResizeTemplate = () => {
     return $make(
-        Adornment, 'Spot', { locationSpot: Spot.Right },
+        Adornment, 'Spot', { locationSpot: Spot.Center },
         $make(Placeholder),
         $make(Shape, {
             alignment: Spot.TopLeft,
@@ -424,6 +426,7 @@ const linkTemplate = (ctxMenu: HTMLInfo) => {
                     stroke: '#777777',
                     margin: 5,
                     minSize: new Size(40, NaN),
+                    text: '',  // default text is empty('') better then undefined
                     editable: true
                 },
                 new Binding('text').makeTwoWay(),
@@ -433,26 +436,32 @@ const linkTemplate = (ctxMenu: HTMLInfo) => {
         )
     )
 }
+// endregion
 
+// region utils
+/**
+ * @description props of contextMenu(HTMLInfo)
+ */
 interface contextMenuProp {
     show: (obj: GraphObject, diagram: Diagram, tool: Tool) => void
     hide: (diagram: Diagram, tool: Tool) => void
 }
 
-const contextMenu = (prop: contextMenuProp) => {
+/**
+ * @description create HTMLInfo as context menu
+ */
+const createContextMenu = (prop: contextMenuProp) => {
     return $make(HTMLInfo, {
         show: prop.show,
         hide: prop.hide
     })
 }
-// endregion
 
-// region utils
 /**
  * @description create diagram with template and event bind
  */
 const createDiagram = (diagramEl: HTMLDivElement, ctxMenu: HTMLInfo) => {
-    // generate a basic diagram instance
+    // create a basic diagram instance
     const _diagram = baseDiagram(diagramEl)
 
     // set node template (select、resize、rotate)
@@ -464,8 +473,12 @@ const createDiagram = (diagramEl: HTMLDivElement, ctxMenu: HTMLInfo) => {
 
     return _diagram
 }
+
+/**
+ * @description create palette with template and event bind
+ */
 const createPalette = (paletteEl: HTMLDivElement, ctxMenu: HTMLInfo, diagram: Diagram, items: PaletteItem[]) => {
-    // generate a palette instance
+    // create a palette instance
     return $make(
         Palette, paletteEl,
         {
@@ -481,6 +494,60 @@ const createPalette = (paletteEl: HTMLDivElement, ctxMenu: HTMLInfo, diagram: Di
             })
         }
     )
+}
+
+/**
+ * @description create inspector for given diagram
+ */
+const createInspector = (inspectorEl: HTMLDivElement, diagram: Diagram) => {
+    // get id (or set it manually if it`s not exist)
+    let elId = inspectorEl.id
+    if(!elId || elId.trim() === '') {
+        inspectorEl.id = `inspector-${Date.now()}`
+        elId = inspectorEl.id
+    }
+
+    // @ts-ignore [Here. Of course they are the same].
+    // param: diagram
+    // require: import("~/node_modules/gojs/release/go.d.ts").Diagram
+    // accept: import("~/node_modules/gojs/release/go-module.d.ts").Diagram
+    //
+    // However, when a private item with the same name in two class,
+    // the are supposed to be the same type from an 'interface' or a 'type',
+    // otherwise they are different even if they are all 'string' or anything else.
+    return new Inspector(elId, diagram, {
+        properties: {
+            // hide some items
+            isNode: { show: false },
+            loc: { show: false },
+            size: { show: false },
+
+            // set read-only
+            key: { show: true, readOnly: true },
+
+            // identify type of items
+            fill: {
+                show: Inspector.showIfPresent,
+                type: 'color',
+            },
+            stroke: {
+                show: Inspector.showIfPresent,
+                type: 'color'
+            },
+            text: {
+                show: true,
+                type: 'string'
+            },
+            figure: {
+                show: Inspector.showIfPresent,
+                type: 'select',
+                choices: [
+                    'Square', 'Rectangle', 'RoundedRectangle',
+                    'Circle', 'Ellipse', 'Diamond',
+                ]
+            }
+        }
+    })
 }
 
 // endregion
@@ -507,10 +574,11 @@ class GojsOperate {
     constructor(
         diagramEl: HTMLDivElement,
         paletteEl: HTMLDivElement,
+        inspectorEl: HTMLDivElement,
         ctxControl: ContextMenuControl
     ) {
-        // generate context menu
-        const ctxMenu = contextMenu({
+        // create context menu
+        const ctxMenu = createContextMenu({
             show: (obj, diagram, tool) => {
                 // avoid calling context callback when the event`s source is 'palette' rather then 'diagram'
                 const diagramName = diagram.model.name as ('palette' | 'diagram')
@@ -541,12 +609,18 @@ class GojsOperate {
                 ctxControl('hide', [ -1000, -1000 ], null, originEvent)
             }
         })
+
         // create diagram
         this.diagram = createDiagram(diagramEl, ctxMenu)
+
         // bind model
         this.model = emptyModel()
+
         // create palette
         this.palette = createPalette(paletteEl, ctxMenu, this.diagram, this.paletteItemList)
+
+        // create inspector
+        createInspector(inspectorEl, this.diagram)
 
         // event listener
         // this.diagram.addDiagramListener('Modified', (e) => {
@@ -632,6 +706,7 @@ class GojsOperate {
             }
         })
     }
+
     // endregion
 
     /**
