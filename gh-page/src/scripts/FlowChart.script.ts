@@ -19,7 +19,7 @@ import {
     Spot,
     TextBlock,
     Tool
-} from "gojs"
+} from "gojs";
 // gojs extension: Inspector
 import { Inspector } from "gojs/extensionsJSM/DataInspector";
 // gojs extension: figure (just load the file then use)
