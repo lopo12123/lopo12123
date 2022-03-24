@@ -730,25 +730,23 @@ class GojsOperate {
                 }
 
                 const mousePt = diagram.lastInput.viewPoint
-                const originEvent = diagram.lastInput.event as PointerEvent
 
-                if(obj === null) ctxControl('blank', [ mousePt.x, mousePt.y ], null, originEvent)
+                if(obj === null) ctxControl('blank', [ mousePt.x, mousePt.y ])
 
                 else {
                     // @ts-ignore
                     const objData: GojsNodeData | GojsLinkData = obj.data
 
                     if(!objData.isNode) {
-                        ctxControl('link', [ mousePt.x, mousePt.y ], objData, originEvent)
+                        ctxControl('link', [ mousePt.x, mousePt.y ])
                     }
                     else {
-                        ctxControl('node', [ mousePt.x, mousePt.y ], objData, originEvent)
+                        ctxControl('node', [ mousePt.x, mousePt.y ])
                     }
                 }
             },
-            hide: (diagram) => {
-                const originEvent = diagram.lastInput.event as PointerEvent
-                ctxControl('hide', [ -1000, -1000 ], null, originEvent)
+            hide: () => {
+                ctxControl('hide', [ -1000, -1000 ])
             }
         })
 
@@ -795,9 +793,13 @@ class GojsOperate {
     /**
      * @description do paste
      */
-    public doPaste(pos: [ number, number ]) {
-        this.diagram.commandHandler.canPasteSelection()
-        && this.diagram.commandHandler.pasteSelection(new Point(...pos))
+    public doPaste() {
+        if(!this.diagram.commandHandler.canPasteSelection()) {
+            useToastStore().warn('Paste cannot be performed because there is no source')
+        }
+        else {
+            this.diagram.commandHandler.pasteSelection(this.diagram.lastInput.documentPoint)
+        }
     }
 
     /**

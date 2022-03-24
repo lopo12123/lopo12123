@@ -20,9 +20,7 @@ export interface CtxMenuItem {
 // 控制菜单类型及位置
 export type ContextMenuControl = (
     type: CtxMenuType,
-    position: [ number, number ],
-    objData: GojsNodeData | GojsLinkData | null,
-    originEv: PointerEvent | null
+    position: [ number, number ]
 ) => void
 
 // 接受的onload参数
@@ -32,10 +30,10 @@ const AllMenuItem: { [k in CtxMenuItemType]: any } = {
     separate: { type: 'separate', separator: true },
     cut: { type: 'cut', label: 'cut', icon: 'pi pi-box' },
     copy: { type: 'copy', label: 'copy', icon: 'pi pi-copy' },
-    paste: { type: 'paste', label: 'paste', icon: 'pi pi-file' },
+    paste: { type: 'paste', label: 'paste node', icon: 'pi pi-file' },
     delete: { type: 'delete', label: 'delete', icon: 'pi pi-trash' },
-    zoom: { type: 'zoom', label: 'zoom to Fit', icon: 'pi pi-window-minimize' },
-    clear: { type: 'clear', label: 'clear Canvas', icon: 'pi pi-desktop' },
+    zoom: { type: 'zoom', label: 'zoom to fit', icon: 'pi pi-window-minimize' },
+    clear: { type: 'clear', label: 'clear canvas', icon: 'pi pi-desktop' },
     download: { type: 'download', label: 'download diagram (as png)', icon: 'pi pi-download' },
     load: { type: 'load', label: 'load diagram (from file)', icon: 'pi pi-image' },
     store: { type: 'store', label: 'store diagram (to file)', icon: 'pi pi-save' },
@@ -78,10 +76,9 @@ export const ContextMenu = (props: ContextMenuProps) => {
      * @description callback for contextClick on diagram
      * @param type event type
      * @param position event position
-     * @param objData event`s target`s data (equals null if clicked on blank)
      * @param originEv origin event
      */
-    const controlFunction: ContextMenuControl = (type, position, objData, originEv) => {
+    const controlFunction: ContextMenuControl = (type, position) => {
         if(type === 'hide') {
             setVisible(false)
             setPosition(position)
@@ -105,9 +102,7 @@ export const ContextMenu = (props: ContextMenuProps) => {
                 props.instance?.doCopy()
                 break
             case 'paste':
-                console.log(position)
-                useToastStore().warn('Some bug with paste, i`ll do it later.')
-                // props.instance?.doPaste(position)
+                props.instance?.doPaste()
                 break
             case 'delete':
                 props.instance?.doDelete()
@@ -128,7 +123,7 @@ export const ContextMenu = (props: ContextMenuProps) => {
                 props.instance?.doStore()
                 break
         }
-        controlFunction('hide', [ -1000, -1000 ], null, null)
+        controlFunction('hide', [ -1000, -1000 ])
     }
 
     useEffect(() => {
