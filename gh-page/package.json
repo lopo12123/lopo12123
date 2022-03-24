@@ -1,7 +1,7 @@
 {
     "name": "lopo12123",
     "private": true,
-    "version": "0.0.1",
+    "version": "0.0.2",
     "scripts": {
         "pregojs": "node ./pregojs.js",
         "dev:all": "vite --host --open",
