@@ -6,6 +6,16 @@ import vue from "@vitejs/plugin-vue";
 export default defineConfig({
     base: './',
     plugins: [ react(), vue() ],
+    css: {
+        modules: {
+            localsConvention: 'camelCaseOnly'
+        },
+        preprocessorOptions: {
+            scss: {
+                javascriptEnabled: true
+            }
+        }
+    },
     server: {
         port: 8910
     },
