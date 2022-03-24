@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { GojsLinkData, GojsNodeData, GojsOperate } from "@/scripts/FlowChart.script";
-import { useToastStore } from "@/scripts/ToastStore";
+import { GojsOperate } from "@/scripts/FlowChart.script";
 
 // 菜单出现的位置类型
 type CtxMenuType = 'blank' | 'node' | 'link' | 'hide'
@@ -76,7 +75,6 @@ export const ContextMenu = (props: ContextMenuProps) => {
      * @description callback for contextClick on diagram
      * @param type event type
      * @param position event position
-     * @param originEv origin event
      */
     const controlFunction: ContextMenuControl = (type, position) => {
         if(type === 'hide') {
