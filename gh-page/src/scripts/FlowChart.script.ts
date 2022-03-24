@@ -502,7 +502,7 @@ const paletteItems: PaletteItem[] = [
     {
         isNode: true,
         text: 'Start',
-        textColor: '#cccccc',
+        textColor: '#777777',
         figure: 'Circle',
         fill: '#ffffff',
         stroke: '#000000',
@@ -511,7 +511,7 @@ const paletteItems: PaletteItem[] = [
     {
         isNode: true,
         text: 'Progress',
-        textColor: '#cccccc',
+        textColor: '#777777',
         figure: 'Rectangle',
         fill: '#ffffff',
         stroke: '#000000',
@@ -520,7 +520,7 @@ const paletteItems: PaletteItem[] = [
     {
         isNode: true,
         text: 'Branch',
-        textColor: '#cccccc',
+        textColor: '#777777',
         figure: 'Diamond',
         fill: '#ffffff',
         stroke: '#000000',
@@ -529,7 +529,7 @@ const paletteItems: PaletteItem[] = [
     {
         isNode: true,
         text: 'Comment',
-        textColor: '#cccccc',
+        textColor: '#777777',
         figure: 'RoundedRectangle',
         fill: '#ffffff',
         stroke: '#000000',
@@ -538,7 +538,7 @@ const paletteItems: PaletteItem[] = [
     {
         isNode: true,
         text: 'Text',
-        textColor: '#cccccc',
+        textColor: '#777777',
         figure: 'Rectangle',
         fill: 'transparent',
         stroke: 'transparent',
@@ -548,7 +548,7 @@ const paletteItems: PaletteItem[] = [
     {
         isNode: true,
         text: 'Port',
-        textColor: '#cccccc',
+        textColor: '#777777',
         figure: 'Triangle',
         fill: '#ffffff',
         stroke: '#000000',

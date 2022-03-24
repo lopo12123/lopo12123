@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { GojsOperate } from "@/scripts/FlowChart.script";
+import { createSafeEffect } from "@/scripts/effect.hook";
 
 // 菜单出现的位置类型
 type CtxMenuType = 'blank' | 'node' | 'link' | 'hide'
