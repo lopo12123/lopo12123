@@ -47,6 +47,7 @@ export interface EnableDragProp {
         left?: string
     }
 }
+
 /**
  * @description enable free drag for a JSXElement
  * <br/>add the a name of 'drag-controller' to the inner wrapped element
@@ -79,7 +80,7 @@ export const EnableDrag = ({ innerEl, initPos }: EnableDragProp): JSX.Element =>
         return () => {
             controller.removeEventListener('mousedown', drag_MousedownCB)
         }
-    }, [])
+    }, [ dragId ])
 
     return (
         <div ref={ dragBoxRef } data-drag-id={ dragId }
