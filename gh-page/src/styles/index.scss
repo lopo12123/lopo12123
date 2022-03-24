@@ -41,6 +41,11 @@ img {
         outline: none!important;
     }
 }
+.custom-hover-highlight {
+    &:hover {
+        background-color: #eeeeee;
+    }
+}
 .disable-drag {
     -webkit-user-drag: none!important;
 }
