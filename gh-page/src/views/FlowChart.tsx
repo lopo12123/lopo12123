@@ -10,6 +10,7 @@ export default () => {
     const inspectorContainer = useRef<HTMLDivElement>(null)
 
     const [ diagramObj, setDiagramObj ] = useState<GojsOperate | null>(null)
+    const [ inspectorVisible, setInspectorVisible ] = useState(true)
 
     // 子组件onLoad后调用
     const doAfterOnLoad: ContextMenuOnLoad = (controlFn) => {
@@ -55,11 +56,12 @@ export default () => {
                  style={ {
                      position: 'absolute',
                      zIndex: '100',
-                     width: '200px',
+                     width: '199px',
                      height: '100%',
                      top: '0',
                      left: '0',
-                     backgroundColor: '#f5f5f5'
+                     borderRight: 'solid 2px #777777',
+                     backgroundColor: '#fefefe'
                  } }>
             </div>
 
@@ -78,14 +80,41 @@ export default () => {
                                 <div className="drag-controller"
                                      style={ {
                                          position: 'relative',
-                                         width: 'calc(100% - 10px)',
+                                         width: 'calc(100% - 20px)',
                                          height: '10px',
-                                         margin: '5px',
-                                         borderRadius: '5px',
-                                         backgroundColor: '#aaaaaa'
+                                         margin: '10px',
+                                         display: 'flex',
+                                         alignItems: 'center',
+                                         justifyContent: 'space-between'
                                      } }>
+                                    <i className={ inspectorVisible ? 'pi pi-eye' : 'pi pi-eye-slash' }
+                                       title={ `${inspectorVisible ? 'hide' : 'show'} inspector` }
+                                       style={ {
+                                           position: 'relative',
+                                           width: '10px',
+                                           textAlign: 'center',
+                                           color: '#aaaaaa',
+                                           fontWeight: 'bold',
+                                           cursor: 'pointer'
+                                       } }
+                                       onClick={ () => {
+                                           setInspectorVisible(!inspectorVisible)
+                                       } }/>
+                                    <div style={ {
+                                        position: 'relative',
+                                        width: 'calc(100% - 30px)',
+                                        height: '10px',
+                                        margin: '5px',
+                                        borderRadius: '5px',
+                                        backgroundColor: '#aaaaaa'
+                                    } }>
+                                    </div>
                                 </div>
-                                <div className={ Styles.inspectorPanel }>
+
+                                <div className={ Styles.inspectorPanel }
+                                     style={ {
+                                         display: inspectorVisible ? 'block' : 'none'
+                                     } }>
                                     <div ref={ inspectorContainer }/>
                                 </div>
                             </div>
