@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { MenuItem } from "primereact/menuitem";
 import { GojsLinkData, GojsNodeData, GojsOperate } from "@/scripts/FlowChart.script";
 import { useToastStore } from "@/scripts/ToastStore";
 
@@ -10,11 +9,12 @@ type CtxMenuItemType = 'separate' |  // separate of menu
     'cut' | 'copy' | 'paste' | 'delete' |  // node/link operate
     'zoom' | 'clear' | 'download' |  // diagram operate
     'load' | 'store'  // store/load operate
-// todo store/load json file
 
-export interface CtxMenuItem extends MenuItem {
+export interface CtxMenuItem {
     type: CtxMenuItemType
-    fit: CtxMenuType[]
+    label?: string
+    icon?: string
+    separator?: boolean
 }
 
 // 控制菜单类型及位置
@@ -28,6 +28,19 @@ export type ContextMenuControl = (
 // 接受的onload参数
 export type ContextMenuOnLoad = (controlFn: ContextMenuControl) => void
 
+const AllMenuItem: { [k in CtxMenuItemType]: any } = {
+    separate: { type: 'separate', separator: true },
+    cut: { type: 'cut', label: 'cut', icon: 'pi pi-box' },
+    copy: { type: 'copy', label: 'copy', icon: 'pi pi-copy' },
+    paste: { type: 'paste', label: 'paste', icon: 'pi pi-file' },
+    delete: { type: 'delete', label: 'delete', icon: 'pi pi-trash' },
+    zoom: { type: 'zoom', label: 'zoom to Fit', icon: 'pi pi-window-minimize' },
+    clear: { type: 'clear', label: 'clear Canvas', icon: 'pi pi-desktop' },
+    download: { type: 'download', label: 'download diagram (as png)', icon: 'pi pi-download' },
+    load: { type: 'load', label: 'load diagram (from file)', icon: 'pi pi-image' },
+    store: { type: 'store', label: 'store diagram (to file)', icon: 'pi pi-save' },
+}
+
 // 全部参数
 export interface ContextMenuProps {
     onLoad: ContextMenuOnLoad
@@ -35,58 +48,31 @@ export interface ContextMenuProps {
 }
 
 export const ContextMenu = (props: ContextMenuProps) => {
-    // all items here, show or not depends on its 'fit'
-    const allItems: CtxMenuItem[] = [
-        {
-            type: 'cut', fit: [ 'node', 'link' ],
-            label: 'Cut', icon: ''
-        },
-        {
-            type: 'copy', fit: [ 'node', 'link' ],
-            label: 'Copy', icon: ''
-        },
-        {
-            type: 'paste', fit: [ 'node', 'link', 'blank' ],
-            label: 'Paste', icon: ''
-        },
-        {
-            type: 'delete', fit: [ 'node', 'link' ],
-            label: 'Delete', icon: ''
-        },
-        {
-            type: 'separate', fit: [],
-            separator: true
-        },
-        {
-            type: 'zoom', fit: [ 'blank' ],
-            label: 'Zoom to Fit', icon: ''
-        },
-        {
-            type: 'clear', fit: [ 'blank' ],
-            label: 'Clear Canvas', icon: ''
-        },
-        {
-            type: 'download', fit: [ 'blank' ],
-            label: 'Download diagram', icon: ''
-        },
-        {
-            type: 'separate', fit: [],
-            separator: true
-        },
-        {
-            type: 'load', fit: [ 'blank' ],
-            label: 'Load diagram from file', icon: ''
-        },
-        {
-            type: 'store', fit: ['blank'],
-            label: 'store diagram to file', icon: ''
-        }
-    ]
+    const MenuItemMap: { [k in Exclude<CtxMenuType, 'hide'>]: CtxMenuItem[] } = {
+        node: [
+            AllMenuItem.cut,
+            AllMenuItem.copy,
+            AllMenuItem.paste,
+            AllMenuItem.delete
+        ],
+        link: [
+            AllMenuItem.delete
+        ],
+        blank: [
+            AllMenuItem.paste,
+            AllMenuItem.separate,
+            AllMenuItem.zoom,
+            AllMenuItem.clear,
+            AllMenuItem.download,
+            AllMenuItem.separate,
+            AllMenuItem.load,
+            AllMenuItem.store
+        ]
+    }
 
     const [ menuItems, setMenuItems ] = useState<CtxMenuItem[]>([])
     const [ visible, setVisible ] = useState(false)
     const [ position, setPosition ] = useState<[ number, number ]>([ -1000, -1000 ])
-    const [ lastObjData, setLastObjData ] = useState<GojsNodeData | GojsLinkData | null>(null)
 
     /**
      * @description callback for contextClick on diagram
@@ -97,15 +83,11 @@ export const ContextMenu = (props: ContextMenuProps) => {
      */
     const controlFunction: ContextMenuControl = (type, position, objData, originEv) => {
         if(type === 'hide') {
-            setLastObjData(null)
             setVisible(false)
             setPosition(position)
         }
         else {
-            setMenuItems(allItems.filter((item) => {
-                return item.fit.includes(type)
-            }))
-            setLastObjData(objData)
+            setMenuItems(MenuItemMap[type])
             setVisible(true)
             setPosition(position)
         }
@@ -161,23 +143,51 @@ export const ContextMenu = (props: ContextMenuProps) => {
                 left: position[0] + 5,
                 top: position[1] + 5,
                 width: '200px',
-                border: 'solid 1px #777777',
+                padding: '10px',
+                border: 'solid 2px #aaaaaa',
+                borderRadius: '10px',
+                backgroundColor: '#ffffff',
                 display: visible ? 'block' : 'none'
             } }
             onContextMenu={ (e) => {
                 e.preventDefault()
             } }>
-
             {
-                menuItems.map((item) => {
-                    return (
-                        <div key={ item.type }
-                             onClick={ () => {
-                                 doMenuCmd(item.type)
-                             } }>
-                            { item.label }
-                        </div>
-                    )
+                menuItems.map((item, index) => {
+                    if(item.separator) {
+                        return (
+                            <div key={ index }
+                                 style={ {
+                                     position: 'relative',
+                                     width: 'calc(100% - 10px)',
+                                     height: '1px',
+                                     margin: '5px',
+                                     backgroundColor: '#777777'
+                                 } }/>
+                        )
+                    }
+                    else {
+                        return (
+                            <div key={ index }
+                                 className="custom-hover-highlight"
+                                 style={ {
+                                     position: 'relative',
+                                     width: '100%',
+                                     height: '30px',
+                                     display: 'flex',
+                                     alignItems: 'center',
+                                     justifyContent: 'flex-start'
+                                 } }
+                                 onClick={ () => {
+                                     doMenuCmd(item.type)
+                                 } }>
+                                <i className={ item.icon } style={ { margin: '0 5px' } }/>
+                                <span style={ {
+                                    fontSize: '12px'
+                                } }>{ item.label }</span>
+                            </div>
+                        )
+                    }
                 })
             }
         </div>
