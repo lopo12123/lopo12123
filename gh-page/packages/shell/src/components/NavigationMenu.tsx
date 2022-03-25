@@ -2,16 +2,50 @@ import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ContextMenu } from "primereact/contextmenu";
 import { Tooltip } from "primereact/tooltip";
-import type { MenuItem } from "primereact/menuitem";
-import { MiscItemList, navigateToMisc, navigateToSubApp, navigateToTool, SubAppNameList, ToolNameList } from "@/router";
 import { useToastStore } from "@/scripts/ToastStore";
+import { spaMenuList, SpaMenuItem } from "@/router/spaNavigate";
+
+import { MiscItemList, navigateToMisc, navigateToSubApp, navigateToTool, SubAppNameList, ToolNameList } from "@/router";
+import { MenuItem } from "primereact/menuitem";
 
 export default function NavigationMenu() {
     const navigate = useNavigate()
     const useToast = useToastStore()
 
     const ctxMenuRef = useRef<ContextMenu>(null)
-    const ctxMenuConfig: MenuItem[] = [
+    const [ ctxOpen, setCtxOpen ] = useState(false)
+    const [ inMenu, setInMenu ] = useState(false)
+
+    const fullMenu: MenuItem[] = [
+        {
+            label: 'What do you want?',
+            disabled: true
+        },
+        {
+            label: 'Home',
+            icon: 'pi pi-home',
+            command() {
+                navigate('/')
+            }
+        },
+        ...spaMenuList,
+        {
+            label: 'Star Me',
+            icon: 'pi pi-star',
+            command: () => {
+                window.open('https://github.com/lopo12123/lopo12123', '_blank')
+            }
+        },
+        {
+            label: 'Noting',
+            icon: 'pi pi-power-off',
+            command() {
+                useToast.replyCancel()
+            }
+        }
+    ]
+
+    const ctxMenuConfig: any[] = [
         {
             label: 'What do you want?',
             disabled: true
@@ -78,9 +112,6 @@ export default function NavigationMenu() {
         }
     ]
 
-    const [ ctxOpen, setCtxOpen ] = useState(false)
-    const [ inMenu, setInMenu ] = useState(false)
-
     return (
         <div>
             <div className="drag-controller"
@@ -129,7 +160,7 @@ export default function NavigationMenu() {
             </div>
 
             <ContextMenu ref={ ctxMenuRef }
-                         model={ ctxMenuConfig }
+                         model={ fullMenu }
                          onShow={ () => {
                              setCtxOpen(true)
                          } }
@@ -137,6 +168,7 @@ export default function NavigationMenu() {
                              setCtxOpen(false)
                              setInMenu(false)
                          } }/>
+
             <Tooltip target="#navigate-menu" mouseTrack mouseTrackTop={ 20 } position="bottom"/>
         </div>
     )

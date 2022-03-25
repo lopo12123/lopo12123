@@ -13,10 +13,10 @@ import { ReactSpaConverter } from "spa-converter/lib/ReactSpaConverter";
 
 // view
 import { SubAppNameList } from "@/router";
+import { spaMenuList } from "@/router/spaNavigate";
 import App from "./App";
 
 const ImageParser = lazy(() => import("@/views/ImageParser"));
-const FlowChart = lazy(() => import("@/views/FlowChart"));
 
 import { TestView } from "@/views/TestView";
 
@@ -43,31 +43,55 @@ ReactDOM.render(
                 <Routes>
                     <Route path="/" element={ <App/> }>
                         <Route path="" element={
-                            <TestView/>
+                            <TestView label="label" icon="icon"/>
                         }/>
 
+                        {
+                            spaMenuList.map((group, groupIndex) => {
+                                return (
+                                    <Route path={ group.path } key={ `group-${ groupIndex }` }>
+                                        {
+                                            group.items?.map((spa, spaIndex) => {
+                                                return (
+                                                    <Route path={ spa.path } key={ `spa-${ spaIndex }` }
+                                                           element={
+                                                               <TestView label={ spa.label ?? 'no-label' }
+                                                                         icon={ spa.icon ?? 'no-icon' }/>
+                                                           }/>
+                                                )
+                                            })
+                                        }
+                                    </Route>
+                                )
+                            })
+                        }
                         {/* region tools */ }
-                        <Route path="tool">
-                            <Route path="image-parser" element={ <ImageParser/> }/>
-                            <Route path="flow-chart" element={ <FlowChart/> }/>
-                        </Route>
+                        {/*<Route path="tool">*/ }
+                        {/*    <Route path="image-parser" element={ <ImageParser/> }/>*/ }
+                        {/*    /!*<Route path="flow-chart" element={ <FlowChart/> }/>*/ }
+                        {/*    <Route path="flow-chart" element={*/ }
+                        {/*        <ReactSpaConverter key="flow-chart" entryPath={*/ }
+                        {/*            SpaEntry.replace('{SPA_NAME}', 'flow-chart')*/ }
+                        {/*        }/>*/ }
+                        {/*    }/>*/ }
+                        {/*</Route>*/ }
                         {/* endregion */ }
 
                         {/* region sub-app */ }
-                        <Route path="sub-app">
-                            {
-                                SubAppNameList.map((name, index) => {
-                                    return (
-                                        <Route path={ name } key={ index }
-                                               element={
-                                                   <ReactSpaConverter key={ name } entryPath={
-                                                       SpaEntry.replace('{SPA_NAME}', name)
-                                                   }/>
-                                               }/>
-                                    )
-                                })
-                            }
-                        </Route>
+                        {/*<Route path="sub-app">*/ }
+                        {/*    {*/ }
+                        {/*        SubAppNameList.map((name, index) => {*/ }
+                        {/*            return (*/ }
+                        {/*                <Route path={ name } key={ index }*/ }
+                        {/*                       element={*/ }
+                        {/*                           <ReactSpaConverter key={ name } entryPath={*/ }
+                        {/*                               SpaEntry.replace('{SPA_NAME}', name)*/ }
+                        {/*                           }/>*/ }
+                        {/*                       }/>*/ }
+                        {/*            )*/ }
+                        {/*        })*/ }
+                        {/*    }*/ }
+                        {/*</Route>*/ }
                         {/* endregion */ }
                     </Route>
                 </Routes>
