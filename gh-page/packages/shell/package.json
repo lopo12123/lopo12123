@@ -20,7 +20,7 @@
         "react-router-dom": "^6.2.2",
         "react-transition-group": "^4.4.2",
         "sass": "^1.49.9",
-        "spa-converter": "^1.0.0",
+        "spa-converter": "^1.0.1",
         "uuid": "^8.3.2",
         "vue": "^3.2.25"
     },
