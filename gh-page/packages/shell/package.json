@@ -3,13 +3,9 @@
     "private": true,
     "version": "0.0.2",
     "scripts": {
-        "dev:all": "vite --host --open",
-        "build:all": "tsc && vite build && yarn workspaces run build"
+        "dev:shell": "vite --host --open",
+        "build:shell": "tsc && vite build && yarn workspaces run build"
     },
-    "workspaces": [
-        "packages/vite-react-ts",
-        "packages/vite-vue-ts"
-    ],
     "dependencies": {
         "@types/uuid": "^8.3.4",
         "axios-canceller": "^1.0.1",
