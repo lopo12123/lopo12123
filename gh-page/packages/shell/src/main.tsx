@@ -14,9 +14,10 @@ import { ReactSpaConverter } from "spa-converter/lib/ReactSpaConverter";
 // view
 import { useSpaMenu } from "./router/spaNavigate";
 import App from "./App";
+import { LoadingElement } from "@shell/components/misc/LoadingElement";
 
 // todo refactor to spa
-const ImageParser = lazy(() => import("./views/ImageParser"));
+// const ImageParser = lazy(() => import("./views/ImageParser"));
 
 import { TestView } from "./views/TestView";
 
@@ -37,13 +38,14 @@ ReactDOM.render(
                         alignItems: 'center',
                         justifyContent: 'center'
                     } }>
-                        loading
+                        <LoadingElement/>
                     </div>
                 }>
                 <Routes>
                     <Route path="/" element={ <App/> }>
                         <Route path="" element={
-                            <TestView label="label" icon="icon"/>
+                            <LoadingElement/>
+                            // <TestView label="label" icon="icon"/>
                         }/>
 
                         {
@@ -55,9 +57,12 @@ ReactDOM.render(
                                                 return (
                                                     <Route path={ spa.path } key={ `spa-${ spaIndex }` }
                                                            element={
-                                                               <ReactSpaConverter key={ spa.path } entryPath={
-                                                                   SpaEntry.replace('{SPA_NAME}', spa.path)
-                                                               }/>
+                                                               <ReactSpaConverter
+                                                                   key={ spa.path }
+                                                                   entryPath={
+                                                                       SpaEntry.replace('{SPA_NAME}', spa.path)
+                                                                   }
+                                                                   loadingDisplay={ <LoadingElement/> }/>
                                                            }/>
                                                 )
                                             })
