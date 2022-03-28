@@ -35,6 +35,16 @@ export default function NavigationMenu() {
             }
         },
         {
+            label: 'Some Issues',
+            icon: 'pi ',
+            command() {
+                const aTag = document.createElement('a')
+                const subject = '"Issues of flow chart"'
+                aTag.href = `mailto:lopo@zju.edu.cn?subject=${subject}`
+                aTag.click()
+            }
+        },
+        {
             label: 'Noting',
             icon: 'pi pi-power-off',
             command() {
