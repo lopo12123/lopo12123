@@ -52,7 +52,8 @@ type Figure_BuildInType = (typeof Figure_BuildIn)[number]
 type PortTypes = '' | 'T' | 'R' | 'B' | 'L'
 
 const FontFamilys = [
-    "Times New Roman", "Consolas"
+    "Times New Roman", "Consolas", "helvetica", "lab",
+    "Microsoft YaHei"
 ] as const
 type FontTypes = (typeof FontFamilys)[number]
 
@@ -502,7 +503,7 @@ const linkTemplate = (ctxMenu: HTMLInfo) => {
                 TextBlock,
                 {
                     textAlign: 'center',
-                    font: '10pt helvetica, arial, sans-serif',
+                    font: '10pt "Times New Roman", Times, serif',
                     // 连线文字颜色
                     stroke: '#999999',
                     margin: 5,
@@ -684,7 +685,8 @@ const createInspector = (inspectorEl: HTMLDivElement, diagram: Diagram) => {
             },
             fontFamily: {
                 show: Inspector.showIfPresent,
-                type: 'fontFamily'
+                type: 'select',
+                choices: FontFamilys
             },
             fill: {
                 show: (data: Part) => {
