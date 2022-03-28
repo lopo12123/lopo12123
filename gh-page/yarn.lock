@@ -2147,10 +2147,10 @@ sourcemap-codec@^1.4.8:
   resolved "https://registry.yarnpkg.com/sourcemap-codec/-/sourcemap-codec-1.4.8.tgz#ea804bd94857402e6992d05a38ef1ae35a9ab4c4"
   integrity sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA==
 
-spa-converter@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/spa-converter/-/spa-converter-1.0.1.tgz#2e8d19fb83e917108edf5dd0a37e1b148a816bc5"
-  integrity sha512-wXAz2h2pF94iFwZjt/gNq4w7wNQtd4HWKJ///5sh2jQyeXWc7/v4U+11jUqy0nR+s/eRwznytzLWW3kma0QvNA==
+spa-converter@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/spa-converter/-/spa-converter-1.0.2.tgz#e0b4d3a0f1ac816d738b8ad2e8d8dbc972384ee5"
+  integrity sha512-g9dBmVXFNpVdnD7FAdomBnlK4aw9jOCtV+5cfw6YperCLC1NhHltW0fhysLWCYdTVroNk0Pc3pFQiinCjBdqBw==
   dependencies:
     uuid "^8.3.2"
 
