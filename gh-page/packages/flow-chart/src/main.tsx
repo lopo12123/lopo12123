@@ -5,7 +5,7 @@ import "./styles/index.scss";
 
 import { StrictMode } from "react";
 import { render } from "react-dom";
-import FlowChart from "@/views/FlowChart";
+import FlowChart from "@flowChart/views/FlowChart";
 
 render(
     <StrictMode>
