@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { GojsOperate } from "@/scripts/flowChart.script";
+import { GojsOperate } from "@flowChart/scripts/flowChart.script";
 
 // 菜单出现的位置类型
 type CtxMenuType = 'blank' | 'node' | 'link' | 'hide'

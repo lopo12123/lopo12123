@@ -1,7 +1,7 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import { UseAxios } from "axios-canceller";
-import { useToastStore } from "@/scripts/ToastStore";
-import { MessagesHoverSwitch } from "@/components/misc/MessagesHoverSwitch";
+import { useToastStore } from "@shell/scripts/ToastStore";
+import { MessagesHoverSwitch } from "@shell/components/misc/MessagesHoverSwitch";
 
 interface Principal {
     id: string  // uuid
