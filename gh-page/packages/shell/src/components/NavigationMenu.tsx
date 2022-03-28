@@ -1,12 +1,10 @@
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ContextMenu } from "primereact/contextmenu";
+import { MenuItem } from "primereact/menuitem";
 import { Tooltip } from "primereact/tooltip";
 import { useToastStore } from "@/scripts/ToastStore";
-import { spaMenuList, SpaMenuItem } from "@/router/spaNavigate";
-
-import { MiscItemList, navigateToMisc, navigateToSubApp, navigateToTool, SubAppNameList, ToolNameList } from "@/router";
-import { MenuItem } from "primereact/menuitem";
+import { useSpaMenu } from "@/router/spaNavigate";
 
 export default function NavigationMenu() {
     const navigate = useNavigate()
@@ -28,74 +26,7 @@ export default function NavigationMenu() {
                 navigate('/')
             }
         },
-        ...spaMenuList,
-        {
-            label: 'Star Me',
-            icon: 'pi pi-star',
-            command: () => {
-                window.open('https://github.com/lopo12123/lopo12123', '_blank')
-            }
-        },
-        {
-            label: 'Noting',
-            icon: 'pi pi-power-off',
-            command() {
-                useToast.replyCancel()
-            }
-        }
-    ]
-
-    const ctxMenuConfig: any[] = [
-        {
-            label: 'What do you want?',
-            disabled: true
-        },
-        {
-            label: 'Home',
-            icon: 'pi pi-home',
-            command() {
-                navigate('/')
-            }
-        },
-        {
-            label: 'Sub App',
-            icon: 'pi pi-database',
-            items: SubAppNameList.map((subApp) => {
-                return {
-                    label: subApp,
-                    icon: 'pi pi-book',
-                    command() {
-                        navigateToSubApp(navigate, subApp)
-                    }
-                }
-            })
-        },
-        {
-            label: 'Tool',
-            icon: 'pi pi-box',
-            items: ToolNameList.map((tool) => {
-                return {
-                    label: tool.label,
-                    icon: tool.icon,
-                    command() {
-                        navigateToTool(navigate, tool.path)
-                    }
-                }
-            })
-        },
-        {
-            label: 'Misc',
-            icon: 'pi pi-hashtag',
-            items: MiscItemList.map((misc) => {
-                return {
-                    label: misc.label,
-                    icon: misc.icon,
-                    command() {
-                        navigateToMisc(navigate, misc.path)
-                    }
-                }
-            })
-        },
+        ...useSpaMenu(navigate),
         {
             label: 'Star Me',
             icon: 'pi pi-star',
