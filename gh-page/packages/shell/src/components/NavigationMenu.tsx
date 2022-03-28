@@ -28,15 +28,15 @@ export default function NavigationMenu() {
         },
         ...useSpaMenu(navigate),
         {
-            label: 'Star Me',
+            label: 'star',
             icon: 'pi pi-star',
             command: () => {
                 window.open('https://github.com/lopo12123/lopo12123', '_blank')
             }
         },
         {
-            label: 'Some Issues',
-            icon: 'pi ',
+            label: 'some issues',
+            icon: 'pi pi-envelope',
             command() {
                 const aTag = document.createElement('a')
                 const subject = '"Issues of flow chart"'
