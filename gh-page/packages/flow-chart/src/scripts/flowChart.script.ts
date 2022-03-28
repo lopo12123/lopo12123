@@ -25,8 +25,8 @@ import { Inspector } from "gojs/extensionsJSM/DataInspector";
 // gojs extension: figure (just load the file then use)
 // import "gojs/extensionsJSM/Figures";
 
-import { ContextMenuControl } from "@/components/ContextMenu";
-import { useToastStore } from "@/scripts/ToastStore";
+import { ContextMenuControl } from "@flowChart/components/ContextMenu";
+import { useToastStore } from "@flowChart/scripts/ToastStore";
 
 // region [figure]
 /**
@@ -50,8 +50,12 @@ type Figure_BuildInType = (typeof Figure_BuildIn)[number]
 
 // region [palette] palette
 type PortTypes = '' | 'T' | 'R' | 'B' | 'L'
-const FontFamilys = ["Times New Roman"] as const
+
+const FontFamilys = [
+    "Times New Roman", "Consolas"
+] as const
 type FontTypes = (typeof FontFamilys)[number]
+
 /**
  * @description item in palette
  */
@@ -411,7 +415,7 @@ const nodeTemplate = (ctxMenu: HTMLInfo) => {
                 new Binding('text').makeTwoWay(),
                 new Binding('stroke', 'textColor'),
                 new Binding('font', 'fontFamily', (val) => {
-                    return `bold 11pt ${val}`
+                    return `bold 11pt ${ val }`
                 })
             )
             // endregion
@@ -506,7 +510,10 @@ const linkTemplate = (ctxMenu: HTMLInfo) => {
                     editable: true
                 },
                 new Binding('text').makeTwoWay(),
-                new Binding('stroke', 'textColor')
+                new Binding('stroke', 'textColor'),
+                new Binding('font', 'fontFamily', (val) => {
+                    return `bold 11pt ${ val }`
+                })
             )
             // endregion
         )
@@ -889,7 +896,7 @@ class GojsOperate {
                     const reader = new FileReader()
                     reader.onload = () => {
                         const fileObj: StoreFileObj = JSON.parse(reader.result as string)
-                        const doSha = SHA256(fileObj.modelJson)+''
+                        const doSha = SHA256(fileObj.modelJson) + ''
 
                         // verify file sha
                         if(doSha !== fileObj.sha) {
@@ -898,7 +905,7 @@ class GojsOperate {
                         // now the file is correct
                         else {
                             this.model = Model.fromJson(fileObj.modelJson)
-                            useToastStore().success(`Diagram reloaded (last modified: ${fileObj.date})`)
+                            useToastStore().success(`Diagram reloaded (last modified: ${ fileObj.date })`)
                         }
 
                         fileSelector.onchange = null
@@ -926,7 +933,7 @@ class GojsOperate {
             const modelJsonStr = this.model.toJson()
             const dateStr = (new Date().toLocaleDateString().replace(/[/]/g, '-')) + ' ' + (new Date().toLocaleTimeString())
             const fileObj: StoreFileObj = {
-                sha: SHA256(modelJsonStr)+'',
+                sha: SHA256(modelJsonStr) + '',
                 date: dateStr,
                 modelJson: modelJsonStr
             }
@@ -936,9 +943,9 @@ class GojsOperate {
 
             // create anchor element and automatically click it to download file
             const aTag = document.createElement('a')
-            aTag.href = `data:text/plain;base64,${file64}`
+            aTag.href = `data:text/plain;base64,${ file64 }`
             console.log(dateStr)
-            aTag.download = `diagram_${dateStr.replace(/[-/ ]/g, '.').replace(/[:]/g, '')}.fc`
+            aTag.download = `diagram_${ dateStr.replace(/[-/ ]/g, '.').replace(/[:]/g, '') }.fc`
             aTag.click()
             useToastStore().success('Done')
         } catch (e: any) {
