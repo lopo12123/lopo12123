@@ -9,7 +9,8 @@ export default defineConfig({
     root: path.resolve('../../'),
     resolve: {
         alias: {
-            "@": path.resolve('./src'),
+            "@shell": path.resolve('./src'),
+            "@flowChart": path.resolve('../flow-chart/src')
         }
     },
     envDir: path.resolve('./'),

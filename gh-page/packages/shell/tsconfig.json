@@ -19,10 +19,13 @@
         "isolatedModules": true,
         "noEmit": true,
         "jsx": "react-jsx",
-        "baseUrl": ".",
+        "baseUrl": "./",
         "paths": {
-            "@/*": [
+            "@shell/*": [
                 "src/*"
+            ],
+            "@flowChart/*": [
+                "../flow-chart/src"
             ]
         }
     },
