@@ -50,6 +50,8 @@ type Figure_BuildInType = (typeof Figure_BuildIn)[number]
 
 // region [palette] palette
 type PortTypes = '' | 'T' | 'R' | 'B' | 'L'
+const FontFamilys = ["Times New Roman"] as const
+type FontTypes = (typeof FontFamilys)[number]
 /**
  * @description item in palette
  */
@@ -59,6 +61,8 @@ interface PaletteItem {
     text: string
     // text color
     textColor: string
+    // font family
+    fontFamily: FontTypes
     // type of item
     figure: Figure_BuildInType
     // background-color of item (#rrggbb)
@@ -80,10 +84,20 @@ export type GojsNodeData = PaletteItem & { key: number, __gohashid: number }
  */
 export type GojsLinkData = {
     isNode: undefined
-    from: number  // from key
-    to: number  // to key
-    fromPort: PortTypes  // from port
-    toPort: PortTypes  // to port
+    // text
+    text: string
+    // text color
+    textColor: string
+    // font family
+    fontFamily: FontTypes
+    // from key
+    from: number
+    // to key
+    to: number
+    // from port
+    fromPort: PortTypes
+    // to port
+    toPort: PortTypes
     __gohashid: number
 }
 // endregion
@@ -388,14 +402,17 @@ const nodeTemplate = (ctxMenu: HTMLInfo) => {
             // region 内部文字
             $make(
                 TextBlock, {
-                    font: 'bold 11pt Helvetica, Arial, sans-serif',
+                    font: 'bold 11pt "Times New Roman", Times, serif',
                     margin: 8,
                     maxSize: new Size(160, NaN),
                     wrap: TextBlock.WrapFit,
                     editable: true,
                 },
                 new Binding('text').makeTwoWay(),
-                new Binding('stroke', 'textColor')
+                new Binding('stroke', 'textColor'),
+                new Binding('font', 'fontFamily', (val) => {
+                    return `bold 11pt ${val}`
+                })
             )
             // endregion
         ),
@@ -503,6 +520,7 @@ const paletteItems: PaletteItem[] = [
         isNode: true,
         text: 'Start',
         textColor: '#777777',
+        fontFamily: 'Times New Roman',
         figure: 'Circle',
         fill: '#ffffff',
         stroke: '#000000',
@@ -512,6 +530,7 @@ const paletteItems: PaletteItem[] = [
         isNode: true,
         text: 'Progress',
         textColor: '#777777',
+        fontFamily: 'Times New Roman',
         figure: 'Rectangle',
         fill: '#ffffff',
         stroke: '#000000',
@@ -521,6 +540,7 @@ const paletteItems: PaletteItem[] = [
         isNode: true,
         text: 'Branch',
         textColor: '#777777',
+        fontFamily: 'Times New Roman',
         figure: 'Diamond',
         fill: '#ffffff',
         stroke: '#000000',
@@ -530,6 +550,7 @@ const paletteItems: PaletteItem[] = [
         isNode: true,
         text: 'Comment',
         textColor: '#777777',
+        fontFamily: 'Times New Roman',
         figure: 'RoundedRectangle',
         fill: '#ffffff',
         stroke: '#000000',
@@ -539,6 +560,7 @@ const paletteItems: PaletteItem[] = [
         isNode: true,
         text: 'Text',
         textColor: '#777777',
+        fontFamily: 'Times New Roman',
         figure: 'Rectangle',
         fill: 'transparent',
         stroke: 'transparent',
@@ -549,6 +571,7 @@ const paletteItems: PaletteItem[] = [
         isNode: true,
         text: 'Port',
         textColor: '#777777',
+        fontFamily: 'Times New Roman',
         figure: 'Triangle',
         fill: '#ffffff',
         stroke: '#000000',
@@ -652,6 +675,10 @@ const createInspector = (inspectorEl: HTMLDivElement, diagram: Diagram) => {
                 show: Inspector.showIfPresent,
                 type: 'color'
             },
+            fontFamily: {
+                show: Inspector.showIfPresent,
+                type: 'fontFamily'
+            },
             fill: {
                 show: (data: Part) => {
                     return data.data.fill && (!data.data.hidden || !data.data.hidden.includes('fill'))
@@ -660,7 +687,7 @@ const createInspector = (inspectorEl: HTMLDivElement, diagram: Diagram) => {
             },
             stroke: {
                 show: (data: Part) => {
-                    return data.data.strokeWidth && (!data.data.hidden || !data.data.hidden.includes('strokeWidth'))
+                    return data.data.stroke && (!data.data.hidden || !data.data.hidden.includes('strokeWidth'))
                 },
                 type: 'color'
             },
@@ -768,6 +795,7 @@ class GojsOperate {
             e.subject.data.text = ''
             e.subject.data.textColor = '#999999'
             e.subject.data.stroke = '#999999'
+            e.subject.data.fontFamily = 'Times New Roman'
         })
         // 2. when the model has been changed, ...
         // endregion
@@ -870,7 +898,7 @@ class GojsOperate {
                         // now the file is correct
                         else {
                             this.model = Model.fromJson(fileObj.modelJson)
-                            useToastStore().success(`last modified: ${fileObj.date}`, 'Diagram reloaded')
+                            useToastStore().success(`Diagram reloaded (last modified: ${fileObj.date})`)
                         }
 
                         fileSelector.onchange = null
@@ -909,6 +937,7 @@ class GojsOperate {
             // create anchor element and automatically click it to download file
             const aTag = document.createElement('a')
             aTag.href = `data:text/plain;base64,${file64}`
+            console.log(dateStr)
             aTag.download = `diagram_${dateStr.replace(/[-/ ]/g, '.').replace(/[:]/g, '')}.fc`
             aTag.click()
             useToastStore().success('Done')
