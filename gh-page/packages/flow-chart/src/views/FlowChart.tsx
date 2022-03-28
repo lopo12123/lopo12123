@@ -1,10 +1,10 @@
 import { useLayoutEffect, useRef, useState } from "react";
-import { ContextMenu, ContextMenuOnLoad } from "@/components/ContextMenu";
-import { GojsOperate } from "@/scripts/flowChart.script";
-import { EnableDrag } from "@/components/EnableDrag";
-import Styles from "@/styles/flowchart.module.scss";
+import { ContextMenu, ContextMenuOnLoad } from "@flowChart/components/ContextMenu";
+import { GojsOperate } from "@flowChart/scripts/flowChart.script";
+import { EnableDrag } from "@flowChart/components/EnableDrag";
+import Styles from "@flowChart/styles/flowchart.module.scss";
 import { Toast } from "primereact/toast";
-import { useToastStore } from "@/scripts/ToastStore";
+import { useToastStore } from "@flowChart/scripts/ToastStore";
 
 export default () => {
     const toastRef = useRef<Toast>(null)
