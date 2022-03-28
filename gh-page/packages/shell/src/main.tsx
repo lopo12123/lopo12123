@@ -2,8 +2,8 @@
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
-import "@/fonts/fonts.scss";
-import "@/styles/index.scss";
+import "@shell/fonts/fonts.scss";
+import "@shell/styles/index.scss";
 
 // core
 import { StrictMode, Suspense, lazy } from "react";
@@ -12,13 +12,13 @@ import { HashRouter, Route, Routes } from "react-router-dom";
 import { ReactSpaConverter } from "spa-converter/lib/ReactSpaConverter";
 
 // view
-import { useSpaMenu } from "@/router/spaNavigate";
+import { useSpaMenu } from "./router/spaNavigate";
 import App from "./App";
 
 // todo refactor to spa
-const ImageParser = lazy(() => import("@/views/ImageParser"));
+const ImageParser = lazy(() => import("./views/ImageParser"));
 
-import { TestView } from "@/views/TestView";
+import { TestView } from "./views/TestView";
 
 const SpaEntry: string = import.meta.env.DEV
     ? import.meta.env.VITE_APP_SUB_SPA_ENTRY__DEV
