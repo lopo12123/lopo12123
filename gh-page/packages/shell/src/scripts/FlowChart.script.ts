@@ -660,7 +660,7 @@ const createInspector = (inspectorEl: HTMLDivElement, diagram: Diagram) => {
             },
             stroke: {
                 show: (data: Part) => {
-                    return data.data.strokeWidth && (!data.data.hidden || !data.data.hidden.includes('strokeWidth'))
+                    return data.data.stroke && (!data.data.hidden || !data.data.hidden.includes('strokeWidth'))
                 },
                 type: 'color'
             },
