@@ -12,10 +12,10 @@ import { HashRouter, Route, Routes } from "react-router-dom";
 import { ReactSpaConverter } from "spa-converter/lib/ReactSpaConverter";
 
 // view
-import { SubAppNameList } from "@/router";
-import { spaMenuList } from "@/router/spaNavigate";
+import { useSpaMenu } from "@/router/spaNavigate";
 import App from "./App";
 
+// todo refactor to spa
 const ImageParser = lazy(() => import("@/views/ImageParser"));
 
 import { TestView } from "@/views/TestView";
@@ -47,7 +47,7 @@ ReactDOM.render(
                         }/>
 
                         {
-                            spaMenuList.map((group, groupIndex) => {
+                            useSpaMenu().map((group, groupIndex) => {
                                 return (
                                     <Route path={ group.path } key={ `group-${ groupIndex }` }>
                                         {
@@ -55,8 +55,9 @@ ReactDOM.render(
                                                 return (
                                                     <Route path={ spa.path } key={ `spa-${ spaIndex }` }
                                                            element={
-                                                               <TestView label={ spa.label ?? 'no-label' }
-                                                                         icon={ spa.icon ?? 'no-icon' }/>
+                                                               <ReactSpaConverter key={ spa.path } entryPath={
+                                                                   SpaEntry.replace('{SPA_NAME}', spa.path)
+                                                               }/>
                                                            }/>
                                                 )
                                             })
@@ -65,34 +66,6 @@ ReactDOM.render(
                                 )
                             })
                         }
-                        {/* region tools */ }
-                        {/*<Route path="tool">*/ }
-                        {/*    <Route path="image-parser" element={ <ImageParser/> }/>*/ }
-                        {/*    /!*<Route path="flow-chart" element={ <FlowChart/> }/>*/ }
-                        {/*    <Route path="flow-chart" element={*/ }
-                        {/*        <ReactSpaConverter key="flow-chart" entryPath={*/ }
-                        {/*            SpaEntry.replace('{SPA_NAME}', 'flow-chart')*/ }
-                        {/*        }/>*/ }
-                        {/*    }/>*/ }
-                        {/*</Route>*/ }
-                        {/* endregion */ }
-
-                        {/* region sub-app */ }
-                        {/*<Route path="sub-app">*/ }
-                        {/*    {*/ }
-                        {/*        SubAppNameList.map((name, index) => {*/ }
-                        {/*            return (*/ }
-                        {/*                <Route path={ name } key={ index }*/ }
-                        {/*                       element={*/ }
-                        {/*                           <ReactSpaConverter key={ name } entryPath={*/ }
-                        {/*                               SpaEntry.replace('{SPA_NAME}', name)*/ }
-                        {/*                           }/>*/ }
-                        {/*                       }/>*/ }
-                        {/*            )*/ }
-                        {/*        })*/ }
-                        {/*    }*/ }
-                        {/*</Route>*/ }
-                        {/* endregion */ }
                     </Route>
                 </Routes>
             </Suspense>
