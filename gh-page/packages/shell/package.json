@@ -13,6 +13,8 @@
         "fabric": "^5.2.1",
         "gojs": "^2.2.5",
         "lopo-lib": "^2.0.2-fixed",
+        "mobx": "^6.5.0",
+        "mobx-react": "^7.3.0",
         "primeicons": "^5.0.0",
         "primereact": "^7.2.1",
         "react": "^17.0.2",
