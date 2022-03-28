@@ -10,8 +10,16 @@ export const LoadingElement = (props: LoadingElementProps) => {
             height: '30px',
             lineHeight: '30px'
         } }>
-            <i className="pi pi-spinner pi-spin"/>
-            { props.text ?? 'loading' }
+            <span className="custom-rgb">
+                <i className="pi pi-sync pi-spin"/>
+            </span>
+            <span className="custom-blink"
+                  style={ {
+                      marginLeft: '10px',
+                      fontFamily: 'consolas'
+                  } }>
+                { props.text ?? 'loading' }
+            </span>
         </div>
     )
 }
