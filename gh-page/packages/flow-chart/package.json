@@ -3,8 +3,8 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev:flowChart": "vite --host",
-    "build:flowChart": "tsc && vite build"
+    "dev": "vite --host",
+    "build": "tsc && vite build"
   },
   "dependencies": {
     "crypto-js": "^4.1.1",

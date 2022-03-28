@@ -4,8 +4,8 @@
     "version": "0.0.2",
     "scripts": {
         "pregojs": "node ./pregojs.js",
-        "dev:all": "vite --host --open",
-        "build:all": "tsc && vite build && yarn workspaces run build"
+        "dev:all": "yarn workspace shell run dev",
+        "build:all": "yarn workspace run build"
     },
     "workspaces": [
         "packages/shell",

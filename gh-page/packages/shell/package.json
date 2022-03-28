@@ -1,10 +1,10 @@
 {
-    "name": "lopo12123",
+    "name": "shell",
     "private": true,
     "version": "0.0.2",
     "scripts": {
-        "dev:shell": "vite --host --open",
-        "build:shell": "tsc && vite build && yarn workspaces run build"
+        "dev": "vite --host --open",
+        "build": "tsc && vite build"
     },
     "dependencies": {
         "@types/uuid": "^8.3.4",
