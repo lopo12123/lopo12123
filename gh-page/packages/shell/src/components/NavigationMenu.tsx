@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { ContextMenu } from "primereact/contextmenu";
 import { MenuItem } from "primereact/menuitem";
 import { Tooltip } from "primereact/tooltip";
-import { useToastStore } from "@/scripts/ToastStore";
-import { useSpaMenu } from "@/router/spaNavigate";
+import { useToastStore } from "@shell/scripts/ToastStore";
+import { useSpaMenu } from "@shell/router/spaNavigate";
 
 export default function NavigationMenu() {
     const navigate = useNavigate()
