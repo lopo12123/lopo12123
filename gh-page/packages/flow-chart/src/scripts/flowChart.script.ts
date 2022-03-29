@@ -20,8 +20,11 @@ import {
     TextBlock,
     Tool
 } from "gojs";
+
 // gojs extension: Inspector
 import { Inspector } from "gojs/extensionsJSM/DataInspector";
+// gojs extension: Inspector
+import { FreehandDrawingTool } from "gojs/extensionsJSM/FreehandDrawingTool";
 // gojs extension: figure (just load the file then use)
 // import "gojs/extensionsJSM/Figures";
 
@@ -76,6 +79,7 @@ interface PaletteItem {
     stroke: string
     // border-width of item (number)
     strokeWidth: number
+    // angle: string
     // [optional] item that need to be hide
     hidden?: Exclude<keyof PaletteItem, 'hidden' | 'isNode'>[]
 }
@@ -669,20 +673,19 @@ const createInspector = (inspectorEl: HTMLDivElement, diagram: Diagram) => {
         properties: {
             // hide some items
             isNode: { show: false },
-            loc: { show: false },
             size: { show: false },
+            loc: { show: false },
             points: { show: false },
+            geo: { show: false },
+            category: { show: false },
             hidden: { show: false },
 
             // set read-only
             key: { show: Inspector.showIfPresent, readOnly: true },
 
             // both nodes and links
-            text: { show: true, type: 'string' },
-            textColor: {
-                show: Inspector.showIfPresent,
-                type: 'color'
-            },
+            text: { show: Inspector.showIfPresent, type: 'string' },
+            textColor: { show: Inspector.showIfPresent, type: 'color' },
             fontFamily: {
                 show: Inspector.showIfPresent,
                 type: 'select',
@@ -735,11 +738,55 @@ const createInspector = (inspectorEl: HTMLDivElement, diagram: Diagram) => {
     })
 }
 
+/**
+ * @description create free-hand-drawer
+ */
+const createFreeHandDrawer = (diagram: Diagram) => {
+    const DrawingTemplate = $make(
+        Part,
+        {
+            locationSpot: Spot.Center,
+            isLayoutPositioned: false,
+            selectionAdorned: true, selectionObjectName: 'SHAPE', selectionAdornmentTemplate: nodeSelectTemplate(),
+            resizable: true, resizeObjectName: 'SHAPE',
+            rotatable: true, rotateObjectName: 'SHAPE',
+            reshapable: true,
+            cursor: 'pointer'
+        },
+        new Binding('location', 'loc', Point.parse).makeTwoWay(Point.stringify),
+        $make(
+            Shape, { name: 'SHAPE', fill: null, strokeWidth: 2 },
+            new Binding('desiredSize', 'size', Size.parse).makeTwoWay(Size.stringify),
+            new Binding('angle').makeTwoWay(),
+            new Binding('geometryString', 'geo').makeTwoWay(),
+            new Binding('stroke'),
+            new Binding('strokeWidth')
+        )
+    )
+
+    diagram.nodeTemplateMap.add('FreehandDrawing', DrawingTemplate)
+
+    const tool = new FreehandDrawingTool()
+    tool.isBackgroundOnly = false
+    tool.archetypePartData = {
+        category: 'FreehandDrawing',  // 必须项
+        stroke: '#777777',
+        strokeWidth: 2,
+        angle: 0
+    }
+    tool.isEnabled = false
+
+    diagram.toolManager.mouseMoveTools.insertAt(0, tool as any as Tool)
+
+    return tool
+}
+
 // endregion
 
 class GojsOperate {
     private readonly diagram: Diagram
     private readonly palette: Palette
+    private readonly drawTool: FreehandDrawingTool
 
     private get model() {
         return this.diagram.model
@@ -798,6 +845,9 @@ class GojsOperate {
         // create inspector
         createInspector(inspectorEl, this.diagram)
 
+        // create free-hand-drawer
+        this.drawTool = createFreeHandDrawer(this.diagram)
+
         // region event listener
         // 1. when a link is drawn, manually set its text to '' (default: undefined)
         this.diagram.addDiagramListener('LinkDrawn', (e) => {
@@ -844,6 +894,26 @@ class GojsOperate {
      */
     public doDelete() {
         this.diagram.commandHandler.deleteSelection()
+    }
+
+    /**
+     * @description enable drawer
+     */
+    public doDrawMode() {
+        this.drawTool.isEnabled
+            ? useToastStore().warn('already in draw mode')
+            : useToastStore().success('switch mode: DRAW')
+        this.drawTool.isEnabled = true
+    }
+
+    /**
+     * @description disable drawer
+     */
+    public doSelectMode() {
+        this.drawTool.isEnabled
+            ? useToastStore().success('switch mode: SELECT')
+            : useToastStore().warn('already in select mode')
+        this.drawTool.isEnabled = false
     }
 
     /**
