@@ -44,8 +44,8 @@ ReactDOM.render(
                 <Routes>
                     <Route path="/" element={ <App/> }>
                         <Route path="" element={
-                            <LoadingElement/>
-                            // <TestView label="label" icon="icon"/>
+                            // <LoadingElement/>
+                            <TestView/>
                         }/>
 
                         {
