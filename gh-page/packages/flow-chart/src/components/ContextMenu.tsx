@@ -6,6 +6,7 @@ type CtxMenuType = 'blank' | 'node' | 'link' | 'hide'
 // 菜单项类型
 type CtxMenuItemType = 'separate' |  // separate of menu
     'cut' | 'copy' | 'paste' | 'delete' |  // node/link operate
+    'draw' | 'select' |  // mode: draw / select
     'zoom' | 'clear' | 'download' |  // diagram operate
     'load' | 'store'  // store/load operate
 
@@ -25,12 +26,14 @@ export type ContextMenuControl = (
 // 接受的onload参数
 export type ContextMenuOnLoad = (controlFn: ContextMenuControl) => void
 
-const AllMenuItem: { [k in CtxMenuItemType]: any } = {
+const AllMenuItem: { [k in CtxMenuItemType]: CtxMenuItem } = {
     separate: { type: 'separate', separator: true },
     cut: { type: 'cut', label: 'cut', icon: 'pi pi-box' },
     copy: { type: 'copy', label: 'copy', icon: 'pi pi-copy' },
     paste: { type: 'paste', label: 'paste node', icon: 'pi pi-file' },
     delete: { type: 'delete', label: 'delete', icon: 'pi pi-trash' },
+    draw: { type: 'draw', label: 'start free draw', icon: 'pi pi-palette' },
+    select: { type: 'select', label: 'stop free draw', icon: 'pi pi-pencil' },
     zoom: { type: 'zoom', label: 'zoom to fit', icon: 'pi pi-window-minimize' },
     clear: { type: 'clear', label: 'clear canvas', icon: 'pi pi-desktop' },
     download: { type: 'download', label: 'download diagram (as png)', icon: 'pi pi-download' },
@@ -57,6 +60,9 @@ export const ContextMenu = (props: ContextMenuProps) => {
         ],
         blank: [
             AllMenuItem.paste,
+            AllMenuItem.separate,
+            AllMenuItem.draw,
+            AllMenuItem.select,
             AllMenuItem.separate,
             AllMenuItem.zoom,
             AllMenuItem.clear,
@@ -93,6 +99,8 @@ export const ContextMenu = (props: ContextMenuProps) => {
      */
     const doMenuCmd = (type: CtxMenuItemType) => {
         switch(type) {
+            case 'separate':
+                break
             case 'cut':
                 props.instance?.doCut()
                 break
@@ -104,6 +112,12 @@ export const ContextMenu = (props: ContextMenuProps) => {
                 break
             case 'delete':
                 props.instance?.doDelete()
+                break
+            case 'draw':
+                props.instance?.doDrawMode()
+                break
+            case 'select':
+                props.instance?.doSelectMode()
                 break
             case 'zoom':
                 props.instance?.doZoomToFit()
@@ -120,6 +134,10 @@ export const ContextMenu = (props: ContextMenuProps) => {
             case 'store':
                 props.instance?.doStore()
                 break
+            // just for type check here
+            // default:
+            //     const a: never = type
+            //     break
         }
         controlFunction('hide', [ -1000, -1000 ])
     }
