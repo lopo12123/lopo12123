@@ -1016,7 +1016,6 @@ class GojsOperate {
             // create anchor element and automatically click it to download file
             const aTag = document.createElement('a')
             aTag.href = `data:text/plain;base64,${ file64 }`
-            console.log(dateStr)
             aTag.download = `diagram_${ dateStr.replace(/[-/ ]/g, '.').replace(/[:]/g, '') }.fc`
             aTag.click()
             useToastStore().success('Done')
