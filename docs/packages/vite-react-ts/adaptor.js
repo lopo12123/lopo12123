@@ -6877,7 +6877,7 @@ function defineSpaApp(spaConstructor, injects) {
     return spaInstance;
   };
 }
-var main = defineSpaApp((container) => {
+var adaptor = defineSpaApp((container) => {
   return {
     mount() {
       ReactDOM.render(/* @__PURE__ */ jsx(App, {}), container);
@@ -6893,4 +6893,4 @@ var main = defineSpaApp((container) => {
     }
   };
 });
-export { main as default };
+export { adaptor as default };

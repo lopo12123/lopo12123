@@ -4550,7 +4550,7 @@ const _hoisted_1$1 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBa
     target: "_blank"
   }, "Volar")
 ], -1));
-const _hoisted_2 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBaseVNode("p", null, [
+const _hoisted_2$1 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBaseVNode("p", null, [
   /* @__PURE__ */ createTextVNode("See "),
   /* @__PURE__ */ createBaseVNode("code", null, "README.md"),
   /* @__PURE__ */ createTextVNode(" for more information.")
@@ -4581,7 +4581,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
       return openBlock(), createElementBlock(Fragment, null, [
         createBaseVNode("h1", null, toDisplayString(__props.msg), 1),
         _hoisted_1$1,
-        _hoisted_2,
+        _hoisted_2$1,
         _hoisted_3,
         createBaseVNode("button", {
           type: "button",
@@ -4594,17 +4594,18 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
 });
 var HelloWorld = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-8203a322"]]);
 var App_vue_vue_type_style_index_0_lang = "";
-const _hoisted_1 = /* @__PURE__ */ createBaseVNode("img", {
+const _hoisted_1 = { class: "app" };
+const _hoisted_2 = /* @__PURE__ */ createBaseVNode("img", {
   alt: "Vue logo",
   src: _imports_0
 }, null, -1);
 const _sfc_main = /* @__PURE__ */ defineComponent({
   setup(__props) {
     return (_ctx, _cache) => {
-      return openBlock(), createElementBlock(Fragment, null, [
-        _hoisted_1,
+      return openBlock(), createElementBlock("div", _hoisted_1, [
+        _hoisted_2,
         createVNode(HelloWorld, { msg: "Hello Vue 3 + TypeScript + Vite" })
-      ], 64);
+      ]);
     };
   }
 });
@@ -4974,7 +4975,7 @@ function defineSpaApp(spaConstructor, injects) {
     return spaInstance;
   };
 }
-var main = defineSpaApp((container) => {
+var adaptor = defineSpaApp((container) => {
   const app = createApp(_sfc_main);
   return {
     mount() {
@@ -4991,4 +4992,4 @@ var main = defineSpaApp((container) => {
     }
   };
 });
-export { main as default };
+export { adaptor as default };
