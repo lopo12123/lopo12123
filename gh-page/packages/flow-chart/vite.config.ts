@@ -32,7 +32,7 @@ export default defineConfig({
             formats: [ 'es' ],
             fileName: () => 'adaptor.js'
         },
-        outDir: "../../dist/packages/vite-react-ts",
+        outDir: "../../dist/packages/flow-chart",
         emptyOutDir: false
     }
 })
