@@ -45,7 +45,7 @@ export default () => {
             height: '100%'
         } }>
 
-            <Toast ref={toastRef}/>
+            <Toast ref={ toastRef }/>
 
             <div ref={ diagramContainer }
                  className="custom-canvas-container"
@@ -73,15 +73,19 @@ export default () => {
             <EnableDrag key="inspector-container"
                         initPos={ { left: '210px', top: '10px' } }
                         innerEl={
-                            <div style={ {
-                                position: 'relative',
-                                width: '300px',
-                                height: 'fit-content',
-                                border: 'solid 2px #aaaaaa',
-                                borderRadius: '10px',
-                                backgroundColor: '#ffffff',
-                                fontFamily: 'Fira Sans,Arial,sans-serif'
-                            } }>
+                            <div onContextMenu={ (e) => {
+                                e.preventDefault()
+                                e.stopPropagation()
+                            } }
+                                 style={ {
+                                     position: 'relative',
+                                     width: '300px',
+                                     height: 'fit-content',
+                                     border: 'solid 2px #aaaaaa',
+                                     borderRadius: '10px',
+                                     backgroundColor: '#ffffff',
+                                     fontFamily: 'Fira Sans,Arial,sans-serif'
+                                 } }>
                                 <div className="drag-controller"
                                      style={ {
                                          position: 'relative',
@@ -93,7 +97,7 @@ export default () => {
                                          justifyContent: 'space-between'
                                      } }>
                                     <i className={ inspectorVisible ? 'pi pi-eye' : 'pi pi-eye-slash' }
-                                       title={ `${inspectorVisible ? 'hide' : 'show'} inspector` }
+                                       title={ `${ inspectorVisible ? 'hide' : 'show' } inspector` }
                                        style={ {
                                            position: 'relative',
                                            width: '10px',
