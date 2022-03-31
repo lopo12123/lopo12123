@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite --host",
+    "dev:single": "vite --config single.config.ts",
     "build": "tsc && vite build"
   },
   "dependencies": {
