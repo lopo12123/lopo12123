@@ -11,6 +11,8 @@ import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
 import { LoadingElement } from "@/components/Misc/LoadingElement";
 
 // view
+import Adaptor from "@/Adaptor";
+
 const ProjectList = lazy(() => import("@/views/ProjectList"))
 
 // render
@@ -30,8 +32,10 @@ render(
                 </div>
             }>
                 <Routes>
-                    <Route path="/" element={ <Navigate to="/project-list"/> }/>
-                    <Route path="/project-list" element={ <ProjectList/> }/>
+                    <Route path="/" element={ <Adaptor/> }>
+                        <Route path="/" element={ <Navigate to="/project-list"/> }/>
+                        <Route path="/project-list" element={ <ProjectList/> }/>
+                    </Route>
                 </Routes>
             </Suspense>
         </HashRouter>
