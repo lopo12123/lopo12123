@@ -1,4 +1,4 @@
-import Styles from "./misc.module.scss";
+import Styles from "./LinkLabel.module.scss";
 
 const BuildInColor: { [k: string]: string } = {
     repository: '#f8ba3f',
