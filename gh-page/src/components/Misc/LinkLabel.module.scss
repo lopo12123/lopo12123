@@ -2,10 +2,12 @@
     position: relative;
     width: fit-content;
     height: 32px;
-    padding: 0 10px;
-    margin: 0 10px;
+    padding: 0 5px;
+    margin: 0 5px;
+    line-height: 32px;
     user-select: none;
     cursor: pointer;
+    display: inline-block;
 
     &:hover {
         text-decoration: underline;

@@ -4,6 +4,7 @@ import { Column } from "primereact/column";
 import { useEffect, useLayoutEffect, useState } from "react";
 import { useAxios } from "@/stores/useAxiosStore";
 import { useToast } from "@/stores/useToastStore";
+import LinkLabel from "@/components/Misc/LinkLabel";
 
 interface TableItem {
     index: number
@@ -38,7 +39,8 @@ export default () => {
                 {
                     links.map((link, index) => {
                         return (
-                            <div key={ index }>{ link.type }</div>
+                            <LinkLabel key={index} {...link}/>
+                            // <div key={ index }>{ link.type }</div>
                         )
                     })
                 }
