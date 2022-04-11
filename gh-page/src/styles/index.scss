@@ -23,7 +23,41 @@ img {
 // endregion
 
 // region custom
+.custom-blink {
+    animation: kf-blink 3s infinite;
+}
+.custom-rgb {
+    animation: kf-rgb 3s infinite;
+}
 .custom-cursor {
     cursor: url("../assets/miku.png"), auto!important;
+}
+// endregion
+
+// region keyframes
+@keyframes kf-blink {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+@keyframes kf-rgb {
+    0% {
+        color: red;
+    }
+    33% {
+        color: green;
+    }
+    66% {
+        color: blue;
+    }
+    100% {
+        color: red;
+    }
 }
 // endregion
