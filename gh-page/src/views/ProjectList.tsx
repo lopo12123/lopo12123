@@ -1,7 +1,7 @@
 import Styles from "./ProjectList.module.scss";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { useAxios } from "@/stores/useAxiosStore";
 import { useToast } from "@/stores/useToastStore";
 import LinkLabel from "@/components/Misc/LinkLabel";
@@ -39,8 +39,7 @@ export default () => {
                 {
                     links.map((link, index) => {
                         return (
-                            <LinkLabel key={index} {...link}/>
-                            // <div key={ index }>{ link.type }</div>
+                            <LinkLabel key={index} {...link} background={true}/>
                         )
                     })
                 }
@@ -54,8 +53,8 @@ export default () => {
                        value={ tableData }
                        columnResizeMode="fit"
                        responsiveLayout="scroll">
-                <Column header="index" field="index" style={ { width: '100px' } }/>
-                <Column header="name" field="name" style={ { width: '100px' } }/>
+                <Column header="index" field="index" style={ { width: '100px', fontWeight: 'bold' } }/>
+                <Column header="name" field="name" style={ { width: '100px', fontWeight: 'bold' } }/>
                 <Column header="links" body={ LinkTemplate }/>
             </DataTable>
         </div>
