@@ -2,8 +2,10 @@
     position: relative;
     width: fit-content;
     height: 32px;
-    padding: 0 5px;
+    padding: 0 10px;
     margin: 0 5px;
+    border-radius: 5px;
+    font-weight: bold;
     line-height: 32px;
     user-select: none;
     cursor: pointer;

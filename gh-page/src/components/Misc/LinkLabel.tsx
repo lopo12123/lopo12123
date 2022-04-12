@@ -9,17 +9,19 @@ export interface LinkLabelProps {
     type: string
     url: string
     color?: string
+    background?: boolean
 }
 
 export default (props: LinkLabelProps) => {
     return (
-        <div className={Styles.linkLabel}
-            style={ {
-                color: (props.color ?? BuildInColor[props.type] ?? '#ffffff'),
-            } }
-            onClick={ () => {
-                window.open(props.url, '_blank')
-            } }>
+        <div className={ Styles.linkLabel }
+             style={ {
+                 color: (props.color ?? BuildInColor[props.type] ?? '#ffffff'),
+                 backgroundColor: props.background ? (props.color ?? BuildInColor[props.type] ?? '#ffffff')+'33' : 'transparent'
+             } }
+             onClick={ () => {
+                 window.open(props.url, '_blank')
+             } }>
             { props.type }
         </div>
     )
