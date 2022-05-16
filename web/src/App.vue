@@ -18,6 +18,7 @@ onMounted(() => {
         <div class="banner-container">
             <BaseBanner/>
         </div>
+
         <div class="view-container">
             <router-view/>
         </div>
