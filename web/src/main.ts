@@ -12,6 +12,9 @@ import { router } from "@/router";
 import PrimeVue from "primevue/config";
 import ToastService from "primevue/toastservice";
 
+// directive
+import { drag } from "@/scripts/v-drag";
+
 // view
 import App from "./App.vue";
 
@@ -19,4 +22,5 @@ createApp(App)
     .use(router)
     .use(PrimeVue)
     .use(ToastService)
+    .directive('drag', drag)
     .mount('#app')
