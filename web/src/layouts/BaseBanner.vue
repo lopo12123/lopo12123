@@ -70,6 +70,26 @@ const tiered_items = ref<MenuItem[]>([
                         }
                     }
                 ]
+            },
+            {
+                label: 'loco (git app)',
+                icon: 'iconfont icon-record',
+                items: [
+                    {
+                        label: 'download .exe',
+                        icon: 'pi pi-download',
+                        command() {
+                            window.open('https://github.com/lopo12123/loco/releases/tag/v0.0.1/loco-0.0.1-setup.exe')
+                        }
+                    },
+                    {
+                        label: 'repository',
+                        icon: 'pi pi-github',
+                        command() {
+                            window.open('https://github.com/lopo12123/loco')
+                        }
+                    }
+                ]
             }
         ]
     },
