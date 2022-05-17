@@ -19,9 +19,6 @@ const bread_other = computed(() => {
 // endregion
 
 // region tiered
-const open_in_new_tag = (url: string) => {
-    window.open(url, '__blank')
-}
 const tiered_ref = ref<TieredMenu | null>(null)
 const tiered_items = ref<MenuItem[]>([
     {
@@ -55,21 +52,21 @@ const tiered_items = ref<MenuItem[]>([
                         label: 'try it online',
                         icon: 'pi pi-bolt',
                         command() {
-                            open_in_new_tag('https://lopo12123.github.io/flow-chart')
+                            window.open('https://lopo12123.github.io/flow-chart')
                         }
                     },
                     {
                         label: 'download .exe',
                         icon: 'pi pi-download',
                         command() {
-
+                            window.open('https://github.com/lopo12123/flow-chart/releases/download/v0.0.1/flow-chart_setup_0.0.1.exe')
                         }
                     },
                     {
                         label: 'repository',
                         icon: 'pi pi-github',
                         command() {
-                            open_in_new_tag('https://github.com/lopo12123/flow-chart')
+                            window.open('https://github.com/lopo12123/flow-chart')
                         }
                     }
                 ]
@@ -88,14 +85,14 @@ const tiered_items = ref<MenuItem[]>([
                         label: 'npm',
                         icon: 'iconfont icon-npm1',
                         command() {
-                            open_in_new_tag('https://www.npmjs.com/package/axios-canceller')
+                            window.open('https://www.npmjs.com/package/axios-canceller')
                         }
                     },
                     {
                         label: 'repository',
                         icon: 'pi pi-github',
                         command() {
-                            open_in_new_tag('https://github.com/lopo12123/axios-canceller')
+                            window.open('https://github.com/lopo12123/axios-canceller')
                         }
                     }
                 ]
@@ -108,14 +105,14 @@ const tiered_items = ref<MenuItem[]>([
                         label: 'npm',
                         icon: 'iconfont icon-npm1',
                         command() {
-                            open_in_new_tag('https://www.npmjs.com/package/lopo-lib')
+                            window.open('https://www.npmjs.com/package/lopo-lib')
                         }
                     },
                     {
                         label: 'repository',
                         icon: 'pi pi-github',
                         command() {
-                            open_in_new_tag('https://github.com/lopo12123/lopo-lib')
+                            window.open('https://github.com/lopo12123/lopo-lib')
                         }
                     }
                 ]
@@ -128,19 +125,22 @@ const tiered_items = ref<MenuItem[]>([
                         label: 'npm',
                         icon: 'iconfont icon-npm1',
                         command() {
-                            open_in_new_tag('https://www.npmjs.com/package/diff-myers')
+                            window.open('https://www.npmjs.com/package/diff-myers')
                         }
                     },
                     {
                         label: 'repository',
                         icon: 'pi pi-github',
                         command() {
-                            open_in_new_tag('https://github.com/lopo12123/myers-diff')
+                            window.open('https://github.com/lopo12123/myers-diff')
                         }
                     }
                 ]
             }
         ]
+    },
+    {
+        separator: true
     },
     {
         label: 'links',
@@ -150,14 +150,14 @@ const tiered_items = ref<MenuItem[]>([
                 label: 'npm',
                 icon: 'iconfont icon-npm1',
                 command() {
-                    open_in_new_tag('https://www.npmjs.com/~lopo12123')
+                    window.open('https://www.npmjs.com/~lopo12123')
                 }
             },
             {
                 label: 'github',
                 icon: 'pi pi-github',
                 command() {
-                    open_in_new_tag('https://github.com/lopo12123')
+                    window.open('https://github.com/lopo12123')
                 }
             },
             {
