@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 import { computed, ref } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import Breadcrumb from "primevue/breadcrumb";
 import TieredMenu from "primevue/tieredmenu";
 import { MenuItem } from "primevue/menuitem";
 
+const router = useRouter()
 const route = useRoute()
 
 // region bread
@@ -18,24 +19,115 @@ const bread_other = computed(() => {
 // endregion
 
 // region tiered
+const open_in_new_tag = (url: string) => {
+    window.open(url, '__blank')
+}
 const tiered_ref = ref<TieredMenu | null>(null)
-const tiered_items: MenuItem[] = [
+const tiered_items = ref<MenuItem[]>([
     {
         label: 'Home',
         icon: 'pi pi-home',
+        command() {
+            router.push({ name: 'Home' })
+        }
     },
     {
-        separator: true
+        separator: true,
     },
     {
-        label: 'Github',
-        icon: 'pi pi-pencil'
+        label: 'npm libs',
+        icon: 'pi pi-box',
+        items: [
+            {
+                label: 'axios-canceller',
+                icon: 'pi pi-book',
+                items: [
+                    {
+                        label: 'npm',
+                        icon: 'iconfont icon-npm1',
+                        command() {
+                            open_in_new_tag('https://www.npmjs.com/package/axios-canceller')
+                        }
+                    },
+                    {
+                        label: 'repository',
+                        icon: 'pi pi-github',
+                        command() {
+                            open_in_new_tag('https://github.com/lopo12123/axios-canceller')
+                        }
+                    }
+                ]
+            },
+            {
+                label: 'lopo-lib',
+                icon: 'pi pi-book',
+                items: [
+                    {
+                        label: 'npm',
+                        icon: 'iconfont icon-npm1',
+                        command() {
+                            open_in_new_tag('https://www.npmjs.com/package/lopo-lib')
+                        }
+                    },
+                    {
+                        label: 'repository',
+                        icon: 'pi pi-github',
+                        command() {
+                            open_in_new_tag('https://github.com/lopo12123/lopo-lib')
+                        }
+                    }
+                ]
+            },
+            {
+                label: 'myers-diff',
+                icon: 'pi pi-book',
+                items: [
+                    {
+                        label: 'npm',
+                        icon: 'iconfont icon-npm1',
+                        command() {
+                            open_in_new_tag('https://www.npmjs.com/package/diff-myers')
+                        }
+                    },
+                    {
+                        label: 'repository',
+                        icon: 'pi pi-github',
+                        command() {
+                            open_in_new_tag('https://github.com/lopo12123/myers-diff')
+                        }
+                    }
+                ]
+            }
+        ]
     },
     {
-        label: 'Npm',
-        icon: 'pi pi-pencil'
+        label: 'outer links',
+        icon: 'pi pi-external-link',
+        items: [
+            {
+                label: 'github',
+                icon: 'pi pi-github',
+                command() {
+                    open_in_new_tag('https://github.com/lopo12123')
+                }
+            },
+            {
+                label: 'npm',
+                icon: 'iconfont icon-npm1',
+                command() {
+                    open_in_new_tag('https://www.npmjs.com/~lopo12123')
+                }
+            },
+            {
+                label: 'mail',
+                icon: 'pi pi-envelope',
+                command() {
+                    window.open('mailto:lopo@zju.edu.cn')
+                }
+            }
+        ]
     }
-]
+])
 const tiered_toggle = (e: MouseEvent) => {
     tiered_ref.value?.toggle(e)
 }
