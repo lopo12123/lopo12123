@@ -154,7 +154,8 @@ onBeforeUnmount(() => {
 
 <style lang="scss" scoped>
 .d3-clock {
-    position: relative;
+    position: absolute;
+    z-index: 1000;
     width: 150px;
     height: 150px;
 
@@ -165,10 +166,10 @@ onBeforeUnmount(() => {
     }
 
     #d3-canvas {
-        position: absolute;
-        z-index: -1;
+        position: relative;
         width: 100%;
         height: 100%;
+        user-select: none;
     }
 }
 </style>
