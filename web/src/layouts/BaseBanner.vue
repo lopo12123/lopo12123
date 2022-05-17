@@ -35,7 +35,49 @@ const tiered_items = ref<MenuItem[]>([
         separator: true,
     },
     {
-        label: 'npm libs',
+        label: 'docs',
+        icon: 'iconfont icon-record1',
+        items: [
+            {
+                label: '- EMPTY -'
+            }
+        ]
+    },
+    {
+        label: 'projects',
+        icon: 'pi pi-folder-open',
+        items: [
+            {
+                label: 'flow chart',
+                icon: 'iconfont icon-gongzuoliuchengtu',
+                items: [
+                    {
+                        label: 'try it online',
+                        icon: 'pi pi-bolt',
+                        command() {
+                            open_in_new_tag('https://lopo12123.github.io/flow-chart')
+                        }
+                    },
+                    {
+                        label: 'download .exe',
+                        icon: 'pi pi-download',
+                        command() {
+
+                        }
+                    },
+                    {
+                        label: 'repository',
+                        icon: 'pi pi-github',
+                        command() {
+                            open_in_new_tag('https://github.com/lopo12123/flow-chart')
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        label: 'packages',
         icon: 'pi pi-box',
         items: [
             {
@@ -101,21 +143,21 @@ const tiered_items = ref<MenuItem[]>([
         ]
     },
     {
-        label: 'outer links',
-        icon: 'pi pi-external-link',
+        label: 'links',
+        icon: 'pi pi-link',
         items: [
-            {
-                label: 'github',
-                icon: 'pi pi-github',
-                command() {
-                    open_in_new_tag('https://github.com/lopo12123')
-                }
-            },
             {
                 label: 'npm',
                 icon: 'iconfont icon-npm1',
                 command() {
                     open_in_new_tag('https://www.npmjs.com/~lopo12123')
+                }
+            },
+            {
+                label: 'github',
+                icon: 'pi pi-github',
+                command() {
+                    open_in_new_tag('https://github.com/lopo12123')
                 }
             },
             {
