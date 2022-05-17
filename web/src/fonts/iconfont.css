@@ -1,0 +1,79 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 3165751 */
+  src: url('iconfont.woff2?t=1652757702251') format('woff2'),
+       url('iconfont.woff?t=1652757702251') format('woff'),
+       url('iconfont.ttf?t=1652757702251') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-npm1:before {
+  content: "\e74e";
+}
+
+.icon-baocunweimoxingshujuji:before {
+  content: "\edb9";
+}
+
+.icon-baocunweishujuji:before {
+  content: "\edd2";
+}
+
+.icon-baocunweiexcel:before {
+  content: "\ee21";
+}
+
+.icon-web-icon-:before {
+  content: "\e6f0";
+}
+
+.icon-shouye-tongyong-:before {
+  content: "\e607";
+}
+
+.icon-qidao:before {
+  content: "\e678";
+}
+
+.icon-gongzuoliuchengtu:before {
+  content: "\e602";
+}
+
+.icon-mobang-:before {
+  content: "\e6a5";
+}
+
+.icon-sort:before {
+  content: "\e724";
+}
+
+.icon-record:before {
+  content: "\e605";
+}
+
+.icon-resize:before {
+  content: "\e718";
+}
+
+.icon-record1:before {
+  content: "\e659";
+}
+
+.icon-home:before {
+  content: "\e666";
+}
+
+.icon-Function:before {
+  content: "\e90e";
+}
+
+.icon-npm:before {
+  content: "\e71a";
+}
+
