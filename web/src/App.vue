@@ -4,6 +4,7 @@ import BaseBanner from "@/layouts/BaseBanner.vue";
 import Toast from "primevue/toast";
 import { useToast } from "primevue/usetoast";
 import { useToastStore } from "@/stores/store_toast";
+import D3Clock from "@/components/D3Clock.vue";
 
 const toast = useToast()
 onMounted(() => {
@@ -14,6 +15,8 @@ onMounted(() => {
 <template>
     <div class="app">
         <Toast/>
+
+        <D3Clock style="right: 100px; top: 100px"/>
 
         <div class="banner-container">
             <BaseBanner/>
