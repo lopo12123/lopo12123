@@ -1,11 +1,10 @@
 <script lang="ts" setup>
-import D3Clock from "@/components/D3Clock.vue";
+
 </script>
 
 <template>
     <div class="test">
-        test <br>
-        line2
+        test page
     </div>
 </template>
 
