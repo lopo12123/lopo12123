@@ -155,11 +155,18 @@ onBeforeUnmount(() => {
 <style lang="scss" scoped>
 .d3-clock {
     position: relative;
-    width: 100%;
-    height: 100%;
+    width: 150px;
+    height: 150px;
+
+    &:hover {
+        border-radius: 30px;
+        outline: solid 1px #ccc;
+        box-shadow: #ccc 3px 3px 5px;
+    }
 
     #d3-canvas {
-        position: relative;
+        position: absolute;
+        z-index: -1;
         width: 100%;
         height: 100%;
     }
