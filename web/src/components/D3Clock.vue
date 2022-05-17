@@ -147,7 +147,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-    <div class="d3-clock">
+    <div class="d3-clock draggable" v-drag>
         <div id="d3-canvas" ref="d3CanvasRef"/>
     </div>
 </template>
