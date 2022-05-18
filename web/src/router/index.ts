@@ -18,12 +18,31 @@ const routes: RouteRecordRaw[] = [
         component: Home,
         meta: { bread: [] }
     },
+
+    // region game
     {
-        path: '/two-zero-four-eight',
-        name: 'TwoZeroFourEight',
-        component: () => import("@/views/TwoZeroFourEight.vue"),
+        path: '/games',
+        name: 'Games',
+        component: () => import("@/views/Games/Games.vue"),
         meta: {
             bread: [
+                {
+                    label: 'games',
+                    to: { name: 'Games' }
+                }
+            ]
+        }
+    },
+    {
+        path: '/games/two-zero-four-eight',
+        name: 'TwoZeroFourEight',
+        component: () => import("@/views/Games/TwoZeroFourEight.vue"),
+        meta: {
+            bread: [
+                {
+                    label: 'games',
+                    to: { name: 'Games' }
+                },
                 {
                     label: '2048',
                     to: { name: 'TwoZeroFourEight' }
@@ -31,6 +50,7 @@ const routes: RouteRecordRaw[] = [
             ]
         }
     },
+    // endregion
     {
         path: '/test',
         name: 'Test',
