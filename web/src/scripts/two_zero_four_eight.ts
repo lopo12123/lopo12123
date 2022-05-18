@@ -2,7 +2,7 @@ class Two_zero_four_eight {
     readonly #size_x: number
     readonly #size_y: number
     #grid: number[][]
-    #max = 1
+    #max = 2
 
     /**
      * @description max number in the grid
@@ -25,7 +25,7 @@ class Two_zero_four_eight {
     /**
      * @description 空白处随机出现一个新数字, 并返回其坐标
      */
-    private auto_appear(val: number = 1): [ x: number, y: number ] {
+    private auto_appear(val: number = 2): [ x: number, y: number ] {
         const empty_ceil: [ number, number ][] = []
         for (let y = 0; y < this.#size_y; y++) {
             for (let x = 0; x < this.#size_x; x++) {
@@ -33,6 +33,8 @@ class Two_zero_four_eight {
                 else this.#max = Math.max(this.#max, this.#grid[y][x])
             }
         }
+        if(empty_ceil.length === 0) return [ -1, -1 ]
+
         const new_pos = empty_ceil[Math.floor(Math.random() * empty_ceil.length)]
         this.set_val(...new_pos, val)
         return new_pos
@@ -178,7 +180,7 @@ class Two_zero_four_eight {
      * @description return `false` and auto do appear if not end
      */
     apply_force(to: 'up' | 'right' | 'down' | 'left') {
-        switch(to) {
+        switch (to) {
             case 'up':
                 this.apply_force_up()
                 break
@@ -197,7 +199,7 @@ class Two_zero_four_eight {
 
         if(if_end) return true
         else {
-            this.auto_appear()
+            this.auto_appear(Math.random() < 0.5 ? 2 : 4)
             return false
         }
     }
@@ -243,7 +245,7 @@ class Two_zero_four_eight {
     /**
      * @description set grid[y][x] to val
      */
-    set_val(x: number, y: number, val: number = 1) {
+    set_val(x: number, y: number, val: number = 2) {
         this.#grid[y][x] = val
     }
 }
