@@ -250,33 +250,6 @@ class Two_zero_four_eight {
     }
 }
 
-const grid = new Two_zero_four_eight()
-// grid.set_val(0,2)
-// grid.set_val(1,2)
-// grid.set_val(2,2)
-// grid.set_val(3,2)
-// console.log('0: ', grid.have_a_look())
-// grid.force('down')
-// console.log('1: ', grid.have_a_look())
-// grid.force('down')
-// console.log('2: ', grid.have_a_look())
-// grid.force('down')
-// console.log('3: ', grid.have_a_look())
-
-// grid.set_val(2, 0)
-// grid.set_val(2, 1)
-// grid.set_val(2, 2)
-// grid.set_val(2, 3)
-// console.log('0: ', grid.have_a_look())
-// grid.apply_force('left')
-// console.log('1: ', grid.have_a_look())
-// grid.apply_force('left')
-// console.log('2: ', grid.have_a_look())
-// grid.apply_force('left')
-// console.log('3: ', grid.have_a_look())
-
-// grid.have_a_look()
-
 export {
     Two_zero_four_eight
 }
