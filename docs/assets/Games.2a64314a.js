@@ -1,0 +1,1 @@
+import{_ as e,o as _,c as s}from"./index.f8c81a88.js";const a={},c={class:"games"};function t(o,r){return _(),s("div",c)}var d=e(a,[["render",t],["__scopeId","data-v-495f4470"]]);export{d as default};
