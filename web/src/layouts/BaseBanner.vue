@@ -3,7 +3,7 @@ import { computed, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import Breadcrumb from "primevue/breadcrumb";
 import TieredMenu from "primevue/tieredmenu";
-import { MenuItem } from "primevue/menuitem";
+import type { MenuItem } from "primevue/menuitem";
 
 const router = useRouter()
 const route = useRoute()
