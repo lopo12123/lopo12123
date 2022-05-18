@@ -41,6 +41,19 @@ const tiered_items = ref<MenuItem[]>([
         ]
     },
     {
+        label: 'games',
+        icon: 'iconfont icon-game',
+        items: [
+            {
+                label: '2048',
+                icon: 'iconfont icon-mobang-',
+                to: {
+                    name: 'TwoZeroFourEight'
+                }
+            }
+        ]
+    },
+    {
         label: 'projects',
         icon: 'pi pi-folder-open',
         items: [
@@ -199,7 +212,7 @@ const tiered_toggle = (e: MouseEvent) => {
 <template>
     <div class="base-banner">
         <div class="tiered-container" @click="tiered_toggle">
-            <img class="lopo-blink" src="../assets/icon.png" alt="">
+            <i class="iconfont icon-logo lopo-blink"/>
             <TieredMenu ref="tiered_ref" :popup="true" :model="tiered_items"/>
         </div>
 
@@ -228,10 +241,14 @@ const tiered_toggle = (e: MouseEvent) => {
         align-items: center;
         justify-content: center;
 
-        img {
+        i {
             position: relative;
             width: 24px;
             height: 24px;
+            font-size: 24px;
+            line-height: 24px;
+            text-align: center;
+            color: #777;
         }
     }
 
