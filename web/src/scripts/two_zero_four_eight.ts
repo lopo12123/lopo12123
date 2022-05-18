@@ -1,6 +1,6 @@
 class Two_zero_four_eight {
-    readonly #size_x: number
-    readonly #size_y: number
+    #size_x: number
+    #size_y: number
     #grid: number[][]
     #max = 2
 
@@ -17,6 +17,20 @@ class Two_zero_four_eight {
 
         this.#size_x = x
         this.#size_y = y
+
+        this.auto_appear()
+        this.auto_appear()
+    }
+
+    /**
+     * @description 重置(可选重置尺寸)
+     */
+    reset(x?: number, y?: number) {
+        if(x) this.#size_x = x
+        if(y) this.#size_y = y
+
+        this.#grid = new Array(this.#size_y).fill(0)
+            .map(_ => new Array(this.#size_x).fill(0))
 
         this.auto_appear()
         this.auto_appear()
