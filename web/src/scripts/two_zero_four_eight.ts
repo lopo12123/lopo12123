@@ -4,6 +4,13 @@ class Two_zero_four_eight {
     #grid: number[][]
     #max = 1
 
+    /**
+     * @description max number in the grid
+     */
+    get max() {
+        return this.#max
+    }
+
     constructor(x: number = 4, y: number = 4) {
         this.#grid = new Array(y).fill(0)
             .map(_ => new Array(x).fill(0))
@@ -23,6 +30,7 @@ class Two_zero_four_eight {
         for (let y = 0; y < this.#size_y; y++) {
             for (let x = 0; x < this.#size_x; x++) {
                 if(this.#grid[y][x] === 0) empty_ceil.push([ x, y ])
+                else this.#max = Math.max(this.#max, this.#grid[y][x])
             }
         }
         const new_pos = empty_ceil[Math.floor(Math.random() * empty_ceil.length)]
@@ -253,17 +261,17 @@ const grid = new Two_zero_four_eight()
 // grid.force('down')
 // console.log('3: ', grid.have_a_look())
 
-grid.set_val(2, 0)
-grid.set_val(2, 1)
-grid.set_val(2, 2)
-grid.set_val(2, 3)
-console.log('0: ', grid.have_a_look())
-grid.apply_force('left')
-console.log('1: ', grid.have_a_look())
-grid.apply_force('left')
-console.log('2: ', grid.have_a_look())
-grid.apply_force('left')
-console.log('3: ', grid.have_a_look())
+// grid.set_val(2, 0)
+// grid.set_val(2, 1)
+// grid.set_val(2, 2)
+// grid.set_val(2, 3)
+// console.log('0: ', grid.have_a_look())
+// grid.apply_force('left')
+// console.log('1: ', grid.have_a_look())
+// grid.apply_force('left')
+// console.log('2: ', grid.have_a_look())
+// grid.apply_force('left')
+// console.log('3: ', grid.have_a_look())
 
 // grid.have_a_look()
 
