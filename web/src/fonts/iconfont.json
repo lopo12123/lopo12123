@@ -6,6 +6,41 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "1174",
+      "name": "用研",
+      "font_class": "logo",
+      "unicode": "e603",
+      "unicode_decimal": 58883
+    },
+    {
+      "icon_id": "248935",
+      "name": "tag",
+      "font_class": "tag",
+      "unicode": "e66c",
+      "unicode_decimal": 58988
+    },
+    {
+      "icon_id": "10902310",
+      "name": "设置",
+      "font_class": "set",
+      "unicode": "e609",
+      "unicode_decimal": 58889
+    },
+    {
+      "icon_id": "217335",
+      "name": "game",
+      "font_class": "game",
+      "unicode": "e627",
+      "unicode_decimal": 58919
+    },
+    {
+      "icon_id": "12037853",
+      "name": "11-28_202048",
+      "font_class": "hit",
+      "unicode": "e705",
+      "unicode_decimal": 59141
+    },
+    {
       "icon_id": "12579397",
       "name": "npm",
       "font_class": "npm1",
