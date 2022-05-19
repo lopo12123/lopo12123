@@ -50,6 +50,23 @@ const routes: RouteRecordRaw[] = [
             ]
         }
     },
+    {
+        path: '/games/mime-sweeper',
+        name: 'MimeSweeper',
+        component: () => import("@/views/Games/MimeSweeper.vue"),
+        meta: {
+            bread: [
+                {
+                    label: 'games',
+                    to: { name: 'Games' }
+                },
+                {
+                    label: 'mime-sweeper',
+                    to: { name: 'MimeSweeper' }
+                }
+            ]
+        }
+    },
     // endregion
     {
         path: '/test',
