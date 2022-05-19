@@ -47,9 +47,9 @@ const label_color = (num: number) => {
 </script>
 
 <template>
-    <div class="mime-sweeper">
+    <div class="mine-sweeper">
         <div class="banner-area">
-            mime-sweeper <br>
+            mine-sweeper <br>
         </div>
 
         <div class="ground-area">
@@ -77,7 +77,7 @@ const label_color = (num: number) => {
 </template>
 
 <style lang="scss" scoped>
-.mime-sweeper {
+.mine-sweeper {
     position: relative;
     width: 100%;
     height: 100%;

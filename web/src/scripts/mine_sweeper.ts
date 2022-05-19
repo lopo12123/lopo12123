@@ -1,6 +1,6 @@
 const enum BlockState {
     /** 雷 */
-    mime = -6,
+    mine = -6,
     /** 安全 */
     safe = -5,
     /** 旗子 - 雷 */
@@ -61,7 +61,7 @@ class Mine_sweeper {
         let idx_of_mine
         while (remain > 0) {
             idx_of_mine = Math.floor(Math.random() * arr.length)
-            this.#ground[Math.floor(arr[idx_of_mine] / this.#x_len)][arr[idx_of_mine] % this.#x_len] = BlockState.mime
+            this.#ground[Math.floor(arr[idx_of_mine] / this.#x_len)][arr[idx_of_mine] % this.#x_len] = BlockState.mine
             arr.splice(idx_of_mine, 1)
             remain -= 1
         }
@@ -86,7 +86,7 @@ class Mine_sweeper {
         let count = 0
         for (let p_y = Math.max(0, y - 1); p_y <= Math.min(this.#y_len - 1, y + 1); p_y++) {
             for (let p_x = Math.max(0, x - 1); p_x <= Math.min(this.#x_len - 1, x + 1); p_x++) {
-                if(this.#ground[p_y][p_x] === BlockState.mime
+                if(this.#ground[p_y][p_x] === BlockState.mine
                     || this.#ground[p_y][p_x] === BlockState.flag_mine
                     || this.#ground[p_y][p_x] === BlockState.unknown_mine) count += 1
             }
@@ -108,7 +108,7 @@ class Mine_sweeper {
             || real_thing === BlockState.unknown_safe
             || real_thing === BlockState.unknown_mine) return false
         // 遇到雷直接结束
-        else if(real_thing === BlockState.mime) return true
+        else if(real_thing === BlockState.mine) return true
         // 否则递归挖开并统计周围的雷数量
         else {
             this.#ground[y][x] = this.count_around(x, y)
@@ -125,9 +125,9 @@ class Mine_sweeper {
         // 已显示 - 直接返回
         if(real_thing >= 0) return
         // 雷
-        else if(real_thing === BlockState.mime) this.#ground[y][x] = BlockState.flag_mine
+        else if(real_thing === BlockState.mine) this.#ground[y][x] = BlockState.flag_mine
         else if(real_thing === BlockState.flag_mine) this.#ground[y][x] = BlockState.unknown_mine
-        else if(real_thing === BlockState.unknown_mine) this.#ground[y][x] = BlockState.mime
+        else if(real_thing === BlockState.unknown_mine) this.#ground[y][x] = BlockState.mine
         // 安全
         else if(real_thing === BlockState.safe) this.#ground[y][x] = BlockState.flag_safe
         else if(real_thing === BlockState.flag_safe) this.#ground[y][x] = BlockState.unknown_safe

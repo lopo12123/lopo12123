@@ -51,9 +51,9 @@ const routes: RouteRecordRaw[] = [
         }
     },
     {
-        path: '/games/mime-sweeper',
-        name: 'MimeSweeper',
-        component: () => import("@/views/Games/MimeSweeper.vue"),
+        path: '/games/mine-sweeper',
+        name: 'MineSweeper',
+        component: () => import("@/views/Games/MineSweeper.vue"),
         meta: {
             bread: [
                 {
@@ -61,8 +61,8 @@ const routes: RouteRecordRaw[] = [
                     to: { name: 'Games' }
                 },
                 {
-                    label: 'mime-sweeper',
-                    to: { name: 'MimeSweeper' }
+                    label: 'mine-sweeper',
+                    to: { name: 'MineSweeper' }
                 }
             ]
         }
