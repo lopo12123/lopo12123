@@ -98,22 +98,30 @@ class Mine_sweeper {
      * @description 挖一个
      * @return boolean 是否死亡
      */
-    dig(x: number, y: number) {
+    dig(x: number, y: number): [ if_end: boolean, win_or_die: 'win' | 'die' | 'unknown' ] {
         const real_thing = this.#ground[y][x]
         // 已经掀开的不能进行操作
-        if(real_thing >= 0) return false
+        if(real_thing >= 0) return [ false, 'unknown' ]
         // 已标记的点位无法操作
         else if(real_thing === BlockState.flag_safe
             || real_thing === BlockState.flag_mine
             || real_thing === BlockState.unknown_safe
-            || real_thing === BlockState.unknown_mine) return false
+            || real_thing === BlockState.unknown_mine) return [ false, 'unknown' ]
         // 遇到雷直接结束
-        else if(real_thing === BlockState.mine) return true
-        // 否则递归挖开并统计周围的雷数量
+        else if(real_thing === BlockState.mine) return [ true, 'die' ]
+        // 未挖开的格子 递归挖开并统计周围的雷数量
         else {
-            this.#ground[y][x] = this.count_around(x, y)
-            // todo 递归扩散
-            return false
+            let mine_around = this.count_around(x, y)
+            this.#ground[y][x] = mine_around
+            // 如果周围八个全是空白, 则递归展开
+            if(mine_around === 0) {
+                for (let p_y = Math.max(0, y - 1); p_y <= Math.min(this.#y_len - 1, y + 1); p_y++) {
+                    for (let p_x = Math.max(0, x - 1); p_x <= Math.min(this.#x_len - 1, x + 1); p_x++) {
+                        this.dig(p_x, p_y)
+                    }
+                }
+            }
+            return [ false, 'unknown' ]
         }
     }
 
