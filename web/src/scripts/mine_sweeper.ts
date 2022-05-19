@@ -1,29 +1,29 @@
 const enum BlockState {
-    // 雷
-    mime = -4,
-    // 安全
-    safe = -3,
-    // 旗子
-    certain = -2,
-    // 问号
-    unknown = -1,
-    // 已点击 0 - 8
-    zero = 0,
-    one = 1,
-    two = 2,
-    three = 3,
-    four = 4,
-    five = 5,
-    six = 6,
-    seven = 7,
-    eight = 8,
+    /** 雷 */
+    mime = -6,
+    /** 安全 */
+    safe = -5,
+    /** 旗子 - 雷 */
+    flag_mine = -4,
+    /** 旗子 - 安全 */
+    flag_safe = -3,
+    /** 问号 - 雷 */
+    unknown_mine = -2,
+    /** 问号 - 安全 */
+    unknown_safe = -1,
+    /** 结束后展示全部的雷 */
+    // expose_mine = 9
 }
 
 class Mine_sweeper {
     #x_len: number = 0
     #y_len: number = 0
-    #mine: number = 0
     #ground: (BlockState | number)[][] = []
+    #mine: number = 0
+
+    get mine() {
+        return this.#mine
+    }
 
     /**
      * @description 初始化场地
@@ -73,7 +73,7 @@ class Mine_sweeper {
      * @param y [9, 30]
      * @param mine
      */
-    constructor(x: number = 10, y: number = 10, mine?: number) {
+    constructor(x: number = 9, y: number = 9, mine?: number) {
         this.init_ground(x, y, mine)
         this.init_mine()
     }
@@ -86,7 +86,9 @@ class Mine_sweeper {
         let count = 0
         for (let p_y = Math.max(0, y - 1); p_y <= Math.min(this.#y_len - 1, y + 1); p_y++) {
             for (let p_x = Math.max(0, x - 1); p_x <= Math.min(this.#x_len - 1, x + 1); p_x++) {
-                if(this.#ground[y][x] === BlockState.mime) count += 1
+                if(this.#ground[p_y][p_x] === BlockState.mime
+                    || this.#ground[p_y][p_x] === BlockState.flag_mine
+                    || this.#ground[p_y][p_x] === BlockState.unknown_mine) count += 1
             }
         }
         return count
@@ -97,15 +99,39 @@ class Mine_sweeper {
      * @return boolean 是否死亡
      */
     dig(x: number, y: number) {
+        const real_thing = this.#ground[y][x]
         // 已经掀开的不能进行操作
-        if(this.#ground[y][x] >= 0) return false
+        if(real_thing >= 0) return false
+        // 已标记的点位无法操作
+        else if(real_thing === BlockState.flag_safe
+            || real_thing === BlockState.flag_mine
+            || real_thing === BlockState.unknown_safe
+            || real_thing === BlockState.unknown_mine) return false
         // 遇到雷直接结束
-        else if(this.#ground[y][x] === BlockState.mime) return true
+        else if(real_thing === BlockState.mime) return true
         // 否则递归挖开并统计周围的雷数量
         else {
             this.#ground[y][x] = this.count_around(x, y)
+            // todo 递归扩散
             return false
         }
+    }
+
+    /**
+     * @description [无 - 旗 - 问号] 标记循环
+     */
+    mark(x: number, y: number) {
+        const real_thing = this.#ground[y][x]
+        // 已显示 - 直接返回
+        if(real_thing >= 0) return
+        // 雷
+        else if(real_thing === BlockState.mime) this.#ground[y][x] = BlockState.flag_mine
+        else if(real_thing === BlockState.flag_mine) this.#ground[y][x] = BlockState.unknown_mine
+        else if(real_thing === BlockState.unknown_mine) this.#ground[y][x] = BlockState.mime
+        // 安全
+        else if(real_thing === BlockState.safe) this.#ground[y][x] = BlockState.flag_safe
+        else if(real_thing === BlockState.flag_safe) this.#ground[y][x] = BlockState.unknown_safe
+        else if(real_thing === BlockState.unknown_safe) this.#ground[y][x] = BlockState.safe
     }
 
     /**
