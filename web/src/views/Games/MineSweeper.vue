@@ -87,13 +87,13 @@ const label_color = (num: number) => {
 
     .banner-area {
         position: relative;
-        width: 200px;
+        width: 300px;
         height: 100%;
     }
 
     .ground-area {
         position: relative;
-        width: calc(100% - 101px);
+        width: calc(100% - 301px);
         height: 100%;
         border-left: solid 1px #ccc;
         //color: ;

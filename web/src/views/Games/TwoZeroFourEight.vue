@@ -36,7 +36,7 @@ const color_generator = (val: number) => {
 
 const keyboard_listener_cb = (e: KeyboardEvent) => {
     let ifEnd
-    switch (e.key) {
+    switch(e.key) {
         case 'ArrowUp':
             ifEnd = game.apply_force('up')
             grid.value = game.have_a_look()
@@ -101,13 +101,13 @@ onBeforeUnmount(() => {
 
     .banner-area {
         position: relative;
-        width: 200px;
+        width: 300px;
         height: 100%;
     }
 
     .game-area {
         position: relative;
-        width: calc(100% - 101px);
+        width: calc(100% - 301px);
         height: 100%;
         border-left: solid 1px #ccc;
         display: flex;
