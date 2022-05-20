@@ -1,10 +1,15 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { Mine_sweeper } from "@/scripts/mine_sweeper";
+import TimerBox from "@/components/TimerBox.vue";
 
 const ifEnd = ref(false)
 const game = new Mine_sweeper()
 const ground = ref(game.have_a_look())
+
+const start = () => {
+
+}
 
 const dig = (x: number, y: number) => {
     if(ifEnd.value) {
@@ -49,7 +54,30 @@ const label_color = (num: number) => {
 <template>
     <div class="mine-sweeper">
         <div class="banner-area">
-            mine-sweeper <br>
+            <!--            <TimerBox/>-->
+
+            <div class="ipt">
+                <span>宽度: </span>
+                <input type="number">
+            </div>
+            <div class="ipt">
+                <span>高度: </span>
+                <input type="number">
+            </div>
+            <div class="ipt">
+                <span>雷数: </span>
+                <input type="number">
+            </div>
+            <div class="group">
+                <div class="btn" title="提示一个安全位置">
+                    <i class="iconfont icon-note"/>
+                    提示
+                </div>
+                <div class="btn" title="开始">
+                    <i class="iconfont icon-start"/>
+                    开始
+                </div>
+            </div>
         </div>
 
         <div class="ground-area">
@@ -88,7 +116,66 @@ const label_color = (num: number) => {
     .banner-area {
         position: relative;
         width: 300px;
-        height: 100%;
+        height: calc(100% - 40px);
+        padding: 20px 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+
+        .ipt {
+            position: relative;
+            width: calc(100% - 40px);
+            height: 40px;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            span {
+                position: relative;
+                width: 60px;
+                display: inline-block;
+            }
+
+            input {
+                position: relative;
+                width: calc(100% - 60px);
+                height: 30px;
+                border: none;
+                border-bottom: solid 1px #ccc;
+                outline: none;
+                color: #777;
+                font-size: 18px;
+                display: inline-block;
+            }
+        }
+
+        .group {
+            position: relative;
+            width: calc(100% - 40px);
+            height: 40px;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+
+            .btn {
+                position: relative;
+                width: calc(50% - 20px);
+                height: 40px;
+                border: solid 1px #ccc;
+                color: #777;
+                text-align: center;
+                line-height: 40px;
+                cursor: pointer;
+                user-select: none;
+                transition: font-size 0.5s;
+                &:hover {
+                    font-size: 18px;
+                }
+            }
+        }
     }
 
     .ground-area {
