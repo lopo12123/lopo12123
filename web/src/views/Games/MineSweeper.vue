@@ -11,7 +11,7 @@ const dig = (x: number, y: number) => {
         alert('已结束')
         return
     }
-    ifEnd.value = game.dig(x, y)
+    ifEnd.value = game.dig(x, y)[0]
     ground.value = game.have_a_look()
 }
 const mark = (x: number, y: number, e: MouseEvent) => {
