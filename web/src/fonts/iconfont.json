@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "2076225",
+      "name": " 提示",
+      "font_class": "note",
+      "unicode": "e881",
+      "unicode_decimal": 59521
+    },
+    {
+      "icon_id": "12939967",
+      "name": "ETL-开始",
+      "font_class": "start",
+      "unicode": "e642",
+      "unicode_decimal": 58946
+    },
+    {
       "icon_id": "1174",
       "name": "用研",
       "font_class": "logo",
