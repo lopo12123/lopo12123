@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { onBeforeUnmount, onMounted, ref } from "vue";
+import { onBeforeUnmount, ref } from "vue";
 import TimerId = NodeJS.Timeout;
 
 const timerId = ref<TimerId | null>(null)
