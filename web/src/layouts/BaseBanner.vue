@@ -235,6 +235,7 @@ const tiered_toggle = (e: MouseEvent) => {
     width: 100%;
     height: calc(100% - 1px);
     border-bottom: solid 1px #ccc;
+    background-color: #262626;
     display: flex;
     align-items: center;
     justify-content: center;
