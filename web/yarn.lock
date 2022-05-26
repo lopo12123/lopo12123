@@ -872,6 +872,13 @@ is-number@^7.0.0:
   resolved "https://registry.yarnpkg.com/is-number/-/is-number-7.0.0.tgz#7535345b896734d5f80c4d06c50955527a14f12b"
   integrity sha512-41Cifkg6e8TylSpdtTpeLVMqvSBEVzTttHvERD741+pnZ8ANv0004MRL43QKPDlK9cGvNp6NZWZUBlbGXYxxng==
 
+lopo-lib@^3.0.4:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/lopo-lib/-/lopo-lib-3.0.4.tgz#7805e941cb11a2894da860a5dbeeb3c8ba57e998"
+  integrity sha512-iSLbl47jr8hf6z+5ojy6XWVxRd+uFGYxR1wgz3yl9I/ojj9QSzL4W6/7X+zs9bKoQ1DwM/EqD8CNy2WVIklP6A==
+  dependencies:
+    uuid "^8.3.2"
+
 magic-string@^0.25.7:
   version "0.25.9"
   resolved "https://registry.yarnpkg.com/magic-string/-/magic-string-0.25.9.tgz#de7f9faf91ef8a1c91d02c2e5314c8277dbcdd1c"
