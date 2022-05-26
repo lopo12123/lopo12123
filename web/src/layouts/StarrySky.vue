@@ -18,13 +18,13 @@ const MAX_SENSITIVE_DISTANCE = 60
 // 密集度 < 1
 const DENSITY_RATIO = 0.5
 // 原始半径范围
-const SIZE_RANGE = [ 1, 5 ]
+const SIZE_RANGE = [ 1, 3 ]
 // 放缩最大比例 > 1
-const MAX_SCALE = 1.5
+const MAX_SCALE = 2
 // 偏移最大距离
 const OFFSET_RANGE = [ 20, 20 ]
 // 原始亮度范围 [0, 1]
-const ALPHA_RANGE = [ 0.2, 0.4 ]
+const ALPHA_RANGE = [ 0.2, 0.3 ]
 const MAX_ALPHA = 0.9
 // endregion
 
