@@ -3,6 +3,16 @@ import { onBeforeUnmount, onMounted, ref } from "vue";
 import { select } from "d3";
 import Timeout = NodeJS.Timeout;
 
+const colorProps = withDefaults(defineProps<{
+    colorHH?: string
+    colorMM?: string
+    colorSS?: string
+}>(), {
+    colorHH: '#ec4117',
+    colorMM: '#0ccd53',
+    colorSS: '#2da0ff'
+})
+
 const d3CanvasRef = ref<HTMLDivElement | null>(null)
 const clock_timer = ref<Timeout | null>(null)
 
@@ -55,7 +65,7 @@ const draw_d3_clock = (w: number, h: number) => {
     const text = svg
         .append('g')
         .selectAll('.label-text')
-        .data([ [ 'H', '#ec4117' ], [ 'M', '#2da0ff' ], [ 'S', '#001c33' ] ])
+        .data([ [ 'H', colorProps.colorHH ], [ 'M', colorProps.colorMM ], [ 'S', colorProps.colorSS ] ])
         .enter()
         .append('text')
         .attr('class', 'label-text')
@@ -78,7 +88,7 @@ const draw_d3_clock = (w: number, h: number) => {
         .attr('y1', 0)
         .attr('x2', 3)
         .attr('y2', 0)
-        .style('stroke', '#ec4117')
+        .style('stroke', colorProps.colorHH)
         .style('stroke-width', 3)
     // endregion
     // region 分针
@@ -92,7 +102,7 @@ const draw_d3_clock = (w: number, h: number) => {
         .attr('y1', 0)
         .attr('x2', 3)
         .attr('y2', 0)
-        .style('stroke', '#2da0ff')
+        .style('stroke', colorProps.colorMM)
         .style('stroke-width', 3)
     // endregion
     // region 秒针
@@ -106,7 +116,7 @@ const draw_d3_clock = (w: number, h: number) => {
         .attr('y1', 0)
         .attr('x2', 3)
         .attr('y2', 0)
-        .style('stroke', '#001c33')
+        .style('stroke', colorProps.colorSS)
         .style('stroke-width', 3)
     // endregion
 
