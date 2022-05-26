@@ -14,17 +14,18 @@ type SingleStar = {
 
 // region 配置
 // 光标最大影响距离 > 0
-const MAX_SENSITIVE_DISTANCE = 50
+const MAX_SENSITIVE_DISTANCE = 60
 // 密集度 < 1
 const DENSITY_RATIO = 0.5
 // 原始半径范围
-const SIZE_LIMIT = [ 1, 5 ]
+const SIZE_RANGE = [ 1, 5 ]
 // 放缩最大比例 > 1
 const MAX_SCALE = 1.5
 // 偏移最大距离
-const MAX_OFFSET = [ 20, 20 ]
+const OFFSET_RANGE = [ 20, 20 ]
 // 原始亮度范围 [0, 1]
-const ALPHA_LIMIT = [ 0.2, 0.5 ]
+const ALPHA_RANGE = [ 0.2, 0.4 ]
+const MAX_ALPHA = 0.9
 // endregion
 
 // region 各种 ref
@@ -65,10 +66,10 @@ const renderStars = (reGenerate: boolean = true) => {
             starsRef.value = new Array(star_count).fill(0).map(() => ({
                 x: randInRange(0, w, 'right', 5),
                 y: randInRange(0, h, 'right', 5),
-                radius: randInRange(SIZE_LIMIT[0], SIZE_LIMIT[1]),
+                radius: randInRange(SIZE_RANGE[0], SIZE_RANGE[1]),
                 scale: 1,
                 offset: [ 0, 0 ],
-                alpha: randInRange(ALPHA_LIMIT[0], ALPHA_LIMIT[1])
+                alpha: randInRange(ALPHA_RANGE[0], ALPHA_RANGE[1])
             }))
         }
         // endregion
@@ -80,7 +81,7 @@ const renderStars = (reGenerate: boolean = true) => {
         ctx.clearRect(0, 0, w, h)
         // 遍历绘制所有星
         starsRef.value.forEach(star => {
-            ctx.fillStyle = `hsla(0, 100%, 100%, ${ rangeMapping([ 1, MAX_SCALE ], [ star.alpha, 1 ], star.scale) })`
+            ctx.fillStyle = `hsla(0, 100%, 100%, ${ rangeMapping([ 1, MAX_SCALE ], [ star.alpha, MAX_ALPHA ], star.scale) })`
             ctx.beginPath()
             ctx.arc(star.x + star.offset[0], star.y + star.offset[1], star.radius * star.scale, 0, Math.PI * 2)
             ctx.fill()
@@ -106,7 +107,7 @@ const pointerCB = (ev: PointerEvent) => {
         else {
             star.scale = 1
         }
-        star.offset = [ rangeMapping([ 0, w ], [ MAX_OFFSET[0], -MAX_OFFSET[0] ], clientX), rangeMapping([ 0, h ], [ MAX_OFFSET[1], -MAX_OFFSET[1] ], clientY) ]
+        // star.offset = [ rangeMapping([ 0, w ], [ OFFSET_RANGE[0], -OFFSET_RANGE[0] ], clientX), rangeMapping([ 0, h ], [ OFFSET_RANGE[1], -OFFSET_RANGE[1] ], clientY) ]
     })
     renderStars(false)
 }
@@ -116,7 +117,7 @@ const pointerCB = (ev: PointerEvent) => {
 const pointerLeaveCB = () => {
     starsRef.value.forEach(star => {
         star.scale = 1
-        star.offset = [ 0, 0 ]
+        // star.offset = [ 0, 0 ]
     })
     renderStars(false)
 }
