@@ -166,13 +166,14 @@ onBeforeUnmount(() => {
 .d3-clock {
     position: absolute;
     z-index: 1000;
-    width: 150px;
-    height: 150px;
+    width: 130px;
+    height: 130px;
+    padding: 10px;
 
     &:hover {
         border-radius: 30px;
         outline: solid 1px #ccc;
-        box-shadow: #ccc 3px 3px 5px;
+        box-shadow: #777 3px 3px 5px;
     }
 
     #d3-canvas {
