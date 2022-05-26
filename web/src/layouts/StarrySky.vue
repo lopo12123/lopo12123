@@ -8,6 +8,7 @@ type SingleStar = {
     y: number
     radius: number
     scale: number
+    offset: [ number, number ]
     alpha: number
 }
 
@@ -18,15 +19,19 @@ const MAX_SENSITIVE_DISTANCE = 50
 const DENSITY_RATIO = 0.5
 // 原始半径范围
 const SIZE_LIMIT = [ 1, 5 ]
-// 原始亮度范围 [0, 1]
-const ALPHA_LIMIT = [ 0.2, 0.5 ]
 // 放缩最大比例 > 1
 const MAX_SCALE = 1.5
+// 偏移最大距离
+const MAX_OFFSET = [ 20, 20 ]
+// 原始亮度范围 [0, 1]
+const ALPHA_LIMIT = [ 0.2, 0.5 ]
 // endregion
 
-// 画布ref
+// region 各种 ref
 const canvasRef: Ref<HTMLCanvasElement | null> = ref(null)
 const starsRef: Ref<SingleStar[]> = ref([])
+const canvasSize: Ref<[ number, number ]> = ref([ 1, 1 ])
+// endregion
 
 /**
  * @description 两点距离
@@ -50,19 +55,21 @@ const renderStars = (reGenerate: boolean = true) => {
 
         cvs.width = w
         cvs.height = h
+
+        canvasSize.value = [ w, h ]
         // endregion
 
         // region 构建星并存储其属性
         if(reGenerate) {
             const star_count = Math.floor(DENSITY_RATIO * Math.floor(w, h))
-            const stars = new Array(star_count).fill(0).map(() => ({
+            starsRef.value = new Array(star_count).fill(0).map(() => ({
                 x: randInRange(0, w, 'right', 5),
                 y: randInRange(0, h, 'right', 5),
                 radius: randInRange(SIZE_LIMIT[0], SIZE_LIMIT[1]),
                 scale: 1,
+                offset: [ 0, 0 ],
                 alpha: randInRange(ALPHA_LIMIT[0], ALPHA_LIMIT[1])
             }))
-            starsRef.value = stars
         }
         // endregion
 
@@ -75,7 +82,7 @@ const renderStars = (reGenerate: boolean = true) => {
         starsRef.value.forEach(star => {
             ctx.fillStyle = `hsla(0, 100%, 100%, ${ rangeMapping([ 1, MAX_SCALE ], [ star.alpha, 1 ], star.scale) })`
             ctx.beginPath()
-            ctx.arc(star.x, star.y, star.radius * star.scale, 0, Math.PI * 2)
+            ctx.arc(star.x + star.offset[0], star.y + star.offset[1], star.radius * star.scale, 0, Math.PI * 2)
             ctx.fill()
         })
         // endregion
@@ -89,6 +96,7 @@ const renderStars = (reGenerate: boolean = true) => {
  */
 const pointerCB = (ev: PointerEvent) => {
     const { clientX, clientY } = ev
+    const [ w, h ] = canvasSize.value
 
     starsRef.value.forEach(star => {
         const dis = distance(star.x, star.y, clientX, clientY)
@@ -98,6 +106,7 @@ const pointerCB = (ev: PointerEvent) => {
         else {
             star.scale = 1
         }
+        star.offset = [ rangeMapping([ 0, w ], [ MAX_OFFSET[0], -MAX_OFFSET[0] ], clientX), rangeMapping([ 0, h ], [ MAX_OFFSET[1], -MAX_OFFSET[1] ], clientY) ]
     })
     renderStars(false)
 }
@@ -107,6 +116,7 @@ const pointerCB = (ev: PointerEvent) => {
 const pointerLeaveCB = () => {
     starsRef.value.forEach(star => {
         star.scale = 1
+        star.offset = [ 0, 0 ]
     })
     renderStars(false)
 }
