@@ -97,7 +97,7 @@ const renderStars = (reGenerate: boolean = true) => {
  */
 const pointerCB = (ev: PointerEvent) => {
     const { clientX, clientY } = ev
-    const [ w, h ] = canvasSize.value
+    // const [ w, h ] = canvasSize.value
 
     starsRef.value.forEach(star => {
         const dis = distance(star.x, star.y, clientX, clientY)
