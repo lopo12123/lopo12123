@@ -5,6 +5,7 @@ import Toast from "primevue/toast";
 import { useToast } from "primevue/usetoast";
 import { useToastStore } from "@/stores/store_toast";
 import D3Clock from "@/components/D3Clock.vue";
+import StarrySky from "@/layouts/StarrySky.vue";
 
 const toast = useToast()
 onMounted(() => {
@@ -17,6 +18,8 @@ onMounted(() => {
         <Toast/>
 
         <D3Clock style="right: 100px; top: 100px"/>
+
+        <StarrySky/>
 
         <div class="banner-container">
             <BaseBanner/>
