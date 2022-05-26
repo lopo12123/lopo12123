@@ -31,13 +31,13 @@ const MAX_ALPHA = 0.9
 // region 各种 ref
 const canvasRef: Ref<HTMLCanvasElement | null> = ref(null)
 const starsRef: Ref<SingleStar[]> = ref([])
-const canvasSize: Ref<[ number, number ]> = ref([ 1, 1 ])
+const canvasSize = ref<[ number, number ]>([ 1, 1 ])
 // endregion
 
 /**
  * @description 两点距离
  */
-const distance = (x1, y1, x2, y2) => {
+const distance = (x1: number, y1: number, x2: number, y2: number) => {
     return Math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)
 }
 
@@ -62,7 +62,7 @@ const renderStars = (reGenerate: boolean = true) => {
 
         // region 构建星并存储其属性
         if(reGenerate) {
-            const star_count = Math.floor(DENSITY_RATIO * Math.floor(w, h))
+            const star_count = Math.floor(DENSITY_RATIO * Math.min(w, h))
             starsRef.value = new Array(star_count).fill(0).map(() => ({
                 x: randInRange(0, w, 'right', 5),
                 y: randInRange(0, h, 'right', 5),
