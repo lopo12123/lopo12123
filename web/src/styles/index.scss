@@ -48,11 +48,11 @@ input::-webkit-inner-spin-button {
     background-color: transparent;
 
     .p-menuitem-icon {
-        color: #777 !important;
+        color: #aaa !important;
     }
 
     .p-menuitem-text {
-        color: #777 !important;
+        color: #aaa !important;
         font-family: "Ink Free", sans-serif;
         font-weight: bold;
 
@@ -62,6 +62,7 @@ input::-webkit-inner-spin-button {
     }
 
     .p-breadcrumb-chevron {
-        color: #7fae02 !important;
+        color: #b0b047 !important;
+        font-weight: bold;
     }
 }
