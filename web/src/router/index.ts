@@ -68,6 +68,7 @@ const routes: RouteRecordRaw[] = [
         }
     },
     // endregion
+
     {
         path: '/test',
         name: 'Test',
