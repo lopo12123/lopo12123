@@ -125,7 +125,6 @@ class Mine_sweeper {
         else if(real_thing === BlockState.mine) {
             if(!this.#ifFirstDig) return [ true, 'die' ]
             else {
-                this.#ifFirstDig = false
                 for (let y_replace = 0; y_replace < this.#y_len; y_replace++) {
                     for (let x_replace = 0; x_replace < this.#x_len; x_replace++) {
                         if(this.#ground[y_replace][x_replace] === BlockState.safe) {
@@ -150,6 +149,7 @@ class Mine_sweeper {
         }
         // 未挖开的格子 递归挖开并统计周围的雷数量
         else {
+            if(this.#ifFirstDig) this.#ifFirstDig = false
             let mine_around = this.count_around(x, y)
             this.#ground[y][x] = mine_around
             // 如果周围八个全是空白, 则递归展开
