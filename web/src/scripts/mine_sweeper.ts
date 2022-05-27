@@ -112,15 +112,15 @@ class Mine_sweeper {
      * @description 挖一个
      * @return boolean 是否死亡
      */
-    dig(x: number, y: number): [ if_end: boolean, win_or_die: 'win' | 'die' | 'unknown' | 'never' ] {
+    dig(x: number, y: number): [ if_end: boolean, win_or_die: 'win' | 'die' | 'continue' | 'never' ] {
         const real_thing = this.#ground[y][x]
         // 已标记的点位无法操作
         if(real_thing === BlockState.flag_safe
             || real_thing === BlockState.flag_mine
             || real_thing === BlockState.unknown_safe
-            || real_thing === BlockState.unknown_mine) return [ false, 'unknown' ]
+            || real_thing === BlockState.unknown_mine) return [ false, 'continue' ]
         // 已经掀开的不能进行操作
-        else if(real_thing >= 0) return [ false, 'unknown' ]
+        else if(real_thing >= 0) return [ false, 'continue' ]
         // 遇到雷: 第一次挖 - 换位; 非第一次 - 结束
         else if(real_thing === BlockState.mine) {
             if(!this.#ifFirstDig) return [ true, 'die' ]
@@ -160,7 +160,7 @@ class Mine_sweeper {
                     }
                 }
             }
-            return [ false, 'unknown' ]
+            return this.show_me_safe()[0] === -1 ? [ true, 'win' ] : [ false, 'continue' ]
         }
     }
 
@@ -191,7 +191,7 @@ class Mine_sweeper {
         let first_unknown: [ x: number, y: number ] = [ -1, -1 ]
         let first_flag: [ x: number, y: number ] = [ -1, -1 ]
 
-        // 优先1: 未标记的空白
+        // 优先: 未标记 - 标记问号 - 标记旗子
         for (let y = 0; y < this.#y_len; y++) {
             for (let x = 0; x < this.#x_len; x++) {
                 if(this.#ground[y][x] === BlockState.safe) return [ x, y ]
