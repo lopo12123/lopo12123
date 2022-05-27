@@ -24,6 +24,7 @@ class Mine_sweeper {
         return this.#mine
     }
 
+    // region 初始化
     /**
      * @description 初始化场地 和 地雷数
      * @private
@@ -78,6 +79,8 @@ class Mine_sweeper {
         this.#ifFirstDig = true
     }
 
+    // endregion
+
     /**
      * @description 初始化
      * @param x [9, 30]
@@ -88,6 +91,7 @@ class Mine_sweeper {
         this.init_game(x, y, mine)
     }
 
+    // region 挖一个格子
     /**
      * @description 统计周围的雷的数量
      * @private
@@ -160,6 +164,8 @@ class Mine_sweeper {
         }
     }
 
+    // endregion
+
     /**
      * @description [无 - 旗 - 问号] 标记循环
      */
@@ -175,6 +181,29 @@ class Mine_sweeper {
         else if(real_thing === BlockState.safe) this.#ground[y][x] = BlockState.flag_safe
         else if(real_thing === BlockState.flag_safe) this.#ground[y][x] = BlockState.unknown_safe
         else if(real_thing === BlockState.unknown_safe) this.#ground[y][x] = BlockState.safe
+    }
+
+    /**
+     * @description 返回一个安全的点位
+     */
+    tips(): [ x: number, y: number ] {
+        let first_unknown: [ x: number, y: number ] = [ -1, -1 ]
+        let first_flag: [ x: number, y: number ] = [ -1, -1 ]
+
+        // 优先1: 未标记的空白
+        for (let y = 0; y < this.#y_len; y++) {
+            for (let x = 0; x < this.#x_len; x++) {
+                if(this.#ground[y][x] === BlockState.safe) return [ x, y ]
+                else if(this.#ground[y][x] === BlockState.unknown_safe
+                    && first_unknown[0] === -1) first_unknown = [ x, y ]
+                else if(this.#ground[y][x] === BlockState.flag_safe
+                    && first_flag[0] === -1) first_flag = [ x, y ]
+            }
+        }
+
+        if(first_unknown[0] !== -1) return first_unknown
+        else if(first_flag[0] !== -1) return first_flag
+        else return [ -1, -1 ]
     }
 
     /**
