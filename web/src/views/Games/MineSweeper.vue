@@ -27,6 +27,19 @@ const getTimerHandle = (handle: TimerHandle) => {
 // endregion
 
 // region 提示 / 开始
+const tipsPos = ref([ -1, -1 ])
+/**
+ * @description 给出一次提示
+ */
+const tips = () => {
+    if(gameState.value !== 'start') {
+        alert('请先点击开始')
+        return
+    }
+    const tip_pos = game.show_me_safe()
+    alert(`click ${ tip_pos }`)
+
+}
 /**
  * @description 初始化新的一次游戏
  */
@@ -38,14 +51,6 @@ const start = () => {
     // 开始计时
     timer_start.value()
 }
-/**
- * @description 给出一次提示
- */
-const tips = () => {
-    const tip_pos = game.show_me_safe()
-    console.log(tip_pos)
-
-}
 // endregion
 
 const dig = (x: number, y: number) => {
@@ -53,10 +58,11 @@ const dig = (x: number, y: number) => {
         alert('请先点击开始')
         return
     }
-    const ifEnd = game.dig(x, y)[0]
-    if(ifEnd) {
+    const digResult = game.dig(x, y)
+    if(digResult[0]) {
         timer_stop.value()
         gameState.value = 'end'
+        alert(digResult[1])
     }
     ground.value = game.have_a_look()
 }
@@ -77,7 +83,7 @@ const label_color = (num: number) => {
         case 2:
             return '#ffa500'
         case 3:
-            return '#ffff00'
+            return '#b0b047'
         case 4:
             return '#008000'
         case 5:
