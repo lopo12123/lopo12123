@@ -3,12 +3,21 @@ import { ref } from "vue";
 import { Mine_sweeper } from "@/scripts/mine_sweeper";
 import TimerBox from "@/components/TimerBox.vue";
 
+// region 游戏相关
 const ifEnd = ref(false)
 const game = new Mine_sweeper()
 const ground = ref(game.have_a_look())
+// endregion
+
+// region 侧面板数据绑定
+const width = ref('')
+const height = ref('')
+const mine = ref('')
+// endregion
 
 const start = () => {
-
+    game.init_game(parseInt(width.value) || 9, parseInt(height.value) || 9, parseInt(mine.value) || 0)
+    ground.value = game.have_a_look()
 }
 
 const dig = (x: number, y: number) => {
@@ -58,22 +67,22 @@ const label_color = (num: number) => {
 
             <div class="ipt">
                 <span>宽度: </span>
-                <input type="number" placeholder="范围: 9 - 30">
+                <input type="number" v-model="width" placeholder="范围: 9 - 30">
             </div>
             <div class="ipt">
                 <span>高度: </span>
-                <input type="number" placeholder="范围: 9 - 30">
+                <input type="number" v-model="height" placeholder="范围: 9 - 30">
             </div>
             <div class="ipt">
                 <span>雷数: </span>
-                <input type="number" placeholder="最小为10个">
+                <input type="number" v-model="mine" placeholder="最小为10个">
             </div>
             <div class="group">
                 <div class="btn" title="提示一个安全位置">
                     <i class="iconfont icon-note"/>
                     提示
                 </div>
-                <div class="btn" title="开始">
+                <div class="btn" title="开始" @click="start">
                     <i class="iconfont icon-start"/>
                     开始
                 </div>
@@ -176,6 +185,7 @@ const label_color = (num: number) => {
                 cursor: pointer;
                 user-select: none;
                 transition: font-size, color 0.5s;
+
                 &:hover {
                     font-size: 18px;
                     color: #2da0ff;
