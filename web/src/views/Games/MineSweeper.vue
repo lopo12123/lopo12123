@@ -58,15 +58,15 @@ const label_color = (num: number) => {
 
             <div class="ipt">
                 <span>宽度: </span>
-                <input type="number">
+                <input type="number" placeholder="范围: 9 - 30">
             </div>
             <div class="ipt">
                 <span>高度: </span>
-                <input type="number">
+                <input type="number" placeholder="范围: 9 - 30">
             </div>
             <div class="ipt">
                 <span>雷数: </span>
-                <input type="number">
+                <input type="number" placeholder="最小为10个">
             </div>
             <div class="group">
                 <div class="btn" title="提示一个安全位置">
@@ -135,6 +135,9 @@ const label_color = (num: number) => {
             span {
                 position: relative;
                 width: 60px;
+                color: #ccc;
+                font-family: cursive;
+                font-size: 18px;
                 display: inline-block;
             }
 
@@ -145,7 +148,9 @@ const label_color = (num: number) => {
                 border: none;
                 border-bottom: solid 1px #ccc;
                 outline: none;
+                background-color: transparent;
                 color: #777;
+                font-family: cursive;
                 font-size: 18px;
                 display: inline-block;
             }
@@ -165,14 +170,15 @@ const label_color = (num: number) => {
                 width: calc(50% - 20px);
                 height: 40px;
                 border: solid 1px #ccc;
-                color: #777;
+                color: #ccc;
                 text-align: center;
                 line-height: 40px;
                 cursor: pointer;
                 user-select: none;
-                transition: font-size 0.5s;
+                transition: font-size, color 0.5s;
                 &:hover {
                     font-size: 18px;
+                    color: #2da0ff;
                 }
             }
         }
