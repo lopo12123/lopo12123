@@ -187,7 +187,7 @@ class Mine_sweeper {
     /**
      * @description 返回一个安全的点位
      */
-    tips(): [ x: number, y: number ] {
+    show_me_safe(): [ x: number, y: number ] {
         let first_unknown: [ x: number, y: number ] = [ -1, -1 ]
         let first_flag: [ x: number, y: number ] = [ -1, -1 ]
 
