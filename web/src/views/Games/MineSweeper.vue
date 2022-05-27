@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import { ref } from "vue";
+import { ref, shallowRef } from "vue";
 import { Mine_sweeper } from "@/scripts/mine_sweeper";
-import TimerBox from "@/components/TimerBox.vue";
+import TimerBox, { TimerHandle } from "@/components/TimerBox.vue";
 
 // region 游戏相关
-const ifEnd = ref(false)
+const gameState = ref<'wait' | 'start' | 'end'>('wait')
 const game = new Mine_sweeper()
 const ground = ref(game.have_a_look())
 // endregion
@@ -15,22 +15,54 @@ const height = ref('')
 const mine = ref('')
 // endregion
 
+// region 计时器控制
+const timer_start = shallowRef((() => {
+}))
+const timer_stop = shallowRef((() => {
+}))
+const getTimerHandle = (handle: TimerHandle) => {
+    timer_start.value = handle.start
+    timer_stop.value = handle.stop
+}
+// endregion
+
+// region 提示 / 开始
+/**
+ * @description 初始化新的一次游戏
+ */
 const start = () => {
+    // 初始化
+    gameState.value = 'start'
     game.init_game(parseInt(width.value) || 9, parseInt(height.value) || 9, parseInt(mine.value) || 0)
     ground.value = game.have_a_look()
+    // 开始计时
+    timer_start.value()
 }
+/**
+ * @description 给出一次提示
+ */
+const tips = () => {
+    const tip_pos = game.show_me_safe()
+    console.log(tip_pos)
+
+}
+// endregion
 
 const dig = (x: number, y: number) => {
-    if(ifEnd.value) {
-        alert('已结束')
+    if(gameState.value !== 'start') {
+        alert('请先点击开始')
         return
     }
-    ifEnd.value = game.dig(x, y)[0]
+    const ifEnd = game.dig(x, y)[0]
+    if(ifEnd) {
+        timer_stop.value()
+        gameState.value = 'end'
+    }
     ground.value = game.have_a_look()
 }
 const mark = (x: number, y: number, e: MouseEvent) => {
-    if(ifEnd.value) {
-        alert('已结束')
+    if(gameState.value !== 'start') {
+        alert('请先点击开始')
         return
     }
     e.preventDefault()
@@ -63,7 +95,7 @@ const label_color = (num: number) => {
 <template>
     <div class="mine-sweeper">
         <div class="banner-area">
-            <!--            <TimerBox/>-->
+            <TimerBox @ready="getTimerHandle"/>
 
             <div class="ipt">
                 <span>宽度: </span>
@@ -78,13 +110,11 @@ const label_color = (num: number) => {
                 <input type="number" v-model="mine" placeholder="最小为10个">
             </div>
             <div class="group">
-                <div class="btn" title="提示一个安全位置">
-                    <i class="iconfont icon-note"/>
-                    提示
+                <div class="btn" title="提示一个安全位置" @click="tips">
+                    <i class="iconfont icon-note"/> 提示
                 </div>
                 <div class="btn" title="开始" @click="start">
-                    <i class="iconfont icon-start"/>
-                    开始
+                    <i class="iconfont icon-start"/> 开始
                 </div>
             </div>
         </div>
@@ -103,7 +133,7 @@ const label_color = (num: number) => {
                         <span v-if="col >= 0" class="label" :style="`color: ${label_color(col)}`">
                             {{ col > 0 ? col : '&nbsp;' }}
                         </span>
-                        <span v-if="ifEnd && (col === -6 || col === -4 || col === -2)" class="label">
+                        <span v-if="gameState === 'end' && (col === -6 || col === -4 || col === -2)" class="label">
                             {{ '💣' }}
                         </span>
                     </div>
