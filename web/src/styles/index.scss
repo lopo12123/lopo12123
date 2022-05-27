@@ -15,6 +15,10 @@ img {
     -webkit-user-drag: none !important;
 }
 
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
 .lopo-blink {
     @keyframes blink {
         0% {
