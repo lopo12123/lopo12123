@@ -2,6 +2,7 @@
 import { ref, shallowRef } from "vue";
 import { Mine_sweeper } from "@/scripts/mine_sweeper";
 import TimerBox, { TimerHandle } from "@/components/TimerBox.vue";
+import { useToastStore } from "@/stores/store_toast";
 
 // region 游戏相关
 const gameState = ref<'wait' | 'start' | 'end'>('wait')
@@ -33,7 +34,7 @@ const tipsPos = ref([ -1, -1 ])
  */
 const tips = () => {
     if(gameState.value !== 'start') {
-        alert('请先点击开始')
+        useToastStore().info('请点击开始按钮')
         return
     }
     tipsPos.value = game.show_me_safe()
@@ -56,7 +57,7 @@ const start = () => {
 
 const dig = (x: number, y: number) => {
     if(gameState.value !== 'start') {
-        alert('请先点击开始')
+        useToastStore().info('请点击开始按钮')
         return
     }
 
@@ -69,13 +70,14 @@ const dig = (x: number, y: number) => {
     if(digResult[0]) {
         timer_stop.value()
         gameState.value = 'end'
-        alert(digResult[1])
+        if(digResult[1] === 'win') useToastStore().success('you win!')
+        else useToastStore().error('you failed!')
     }
     ground.value = game.have_a_look()
 }
 const mark = (x: number, y: number, e: MouseEvent) => {
     if(gameState.value !== 'start') {
-        alert('请先点击开始')
+        useToastStore().info('请点击开始按钮')
         return
     }
     e.preventDefault()
