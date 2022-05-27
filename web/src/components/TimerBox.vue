@@ -1,15 +1,22 @@
 <script lang="ts" setup>
-import { onBeforeUnmount, ref } from "vue";
+import { onBeforeUnmount, onMounted, ref } from "vue";
 import TimerId = NodeJS.Timeout;
+
+export type TimerHandle = {
+    start: () => void,
+    stop: () => void
+}
 
 const timerId = ref<TimerId | null>(null)
 const min = ref(0)
 const sec = ref(0)
-const clear = () => {
+
+const start = () => {
+    if(timerId.value !== null) clearInterval(timerId.value)
+
     min.value = 0
     sec.value = 0
-}
-const start = () => {
+
     timerId.value = setInterval(() => {
         if(sec.value === 59) {
             sec.value = 0
@@ -26,6 +33,14 @@ const stop = () => {
     }
     timerId.value = null
 }
+
+const emits = defineEmits<{
+    (ev: 'ready', handle: TimerHandle): void
+}>()
+
+onMounted((() => {
+    emits('ready', { start, stop })
+}))
 
 onBeforeUnmount(() => {
     stop()
@@ -51,11 +66,11 @@ onBeforeUnmount(() => {
     position: relative;
     width: 160px;
     height: 60px;
-    border-top: solid 10px #aaa;
-    border-bottom: solid 10px #aaa;
-    border-left: solid 10px #bbb;
-    border-right: solid 10px #bbb;
-    color: #f9ae61;
+    border-top: solid 10px #333;
+    border-bottom: solid 10px #333;
+    border-left: solid 10px #666;
+    border-right: solid 10px #666;
+    color: #ffa500;
     font-size: 40px;
     font-family: UniDream-LED, cursive;
     display: flex;
