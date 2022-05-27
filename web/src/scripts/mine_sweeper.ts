@@ -166,6 +166,7 @@ class Mine_sweeper {
 
     // endregion
 
+    // region 标记 提示
     /**
      * @description [无 - 旗 - 问号] 标记循环
      */
@@ -205,6 +206,8 @@ class Mine_sweeper {
         else if(first_flag[0] !== -1) return first_flag
         else return [ -1, -1 ]
     }
+
+    // endregion
 
     /**
      * @description 读取快照
