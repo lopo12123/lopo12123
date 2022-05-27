@@ -11,11 +11,10 @@ const enum BlockState {
     unknown_mine = -2,
     /** 问号 - 安全 */
     unknown_safe = -1,
-    /** 结束后展示全部的雷 */
-    // expose_mine = 9
 }
 
 class Mine_sweeper {
+    #ifFirstDig = true
     #x_len: number = 0
     #y_len: number = 0
     #ground: (BlockState | number)[][] = []
@@ -98,17 +97,42 @@ class Mine_sweeper {
      * @description 挖一个
      * @return boolean 是否死亡
      */
-    dig(x: number, y: number): [ if_end: boolean, win_or_die: 'win' | 'die' | 'unknown' ] {
+    dig(x: number, y: number): [ if_end: boolean, win_or_die: 'win' | 'die' | 'unknown' | 'never' ] {
         const real_thing = this.#ground[y][x]
-        // 已经掀开的不能进行操作
-        if(real_thing >= 0) return [ false, 'unknown' ]
         // 已标记的点位无法操作
-        else if(real_thing === BlockState.flag_safe
+        if(real_thing === BlockState.flag_safe
             || real_thing === BlockState.flag_mine
             || real_thing === BlockState.unknown_safe
             || real_thing === BlockState.unknown_mine) return [ false, 'unknown' ]
-        // 遇到雷直接结束
-        else if(real_thing === BlockState.mine) return [ true, 'die' ]
+        // 已经掀开的不能进行操作
+        else if(real_thing >= 0) return [ false, 'unknown' ]
+        // 遇到雷: 第一次挖 - 换位; 非第一次 - 结束
+        else if(real_thing === BlockState.mine) {
+            if(!this.#ifFirstDig) return [ true, 'die' ]
+            else {
+                this.#ifFirstDig = false
+                for (let y_replace = 0; y_replace < this.#y_len; y_replace++) {
+                    for (let x_replace = 0; x_replace < this.#x_len; x_replace++) {
+                        if(this.#ground[y_replace][x_replace] === BlockState.safe) {
+                            this.#ground[y_replace][x_replace] = BlockState.mine
+                            this.#ground[y][x] = BlockState.safe
+                            return this.dig(x, y)
+                        }
+                        else if(this.#ground[y_replace][x_replace] === BlockState.flag_safe) {
+                            this.#ground[y_replace][x_replace] = BlockState.flag_mine
+                            this.#ground[y][x] = BlockState.safe
+                            return this.dig(x, y)
+                        }
+                        else if(this.#ground[y_replace][x_replace] === BlockState.unknown_safe) {
+                            this.#ground[y_replace][x_replace] = BlockState.unknown_mine
+                            this.#ground[y][x] = BlockState.safe
+                            return this.dig(x, y)
+                        }
+                    }
+                }
+                return [ false, 'never' ]
+            }
+        }
         // 未挖开的格子 递归挖开并统计周围的雷数量
         else {
             let mine_around = this.count_around(x, y)
