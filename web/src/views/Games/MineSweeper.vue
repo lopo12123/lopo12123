@@ -36,9 +36,7 @@ const tips = () => {
         alert('请先点击开始')
         return
     }
-    const tip_pos = game.show_me_safe()
-    alert(`click ${ tip_pos }`)
-
+    tipsPos.value = game.show_me_safe()
 }
 /**
  * @description 初始化新的一次游戏
@@ -50,6 +48,9 @@ const start = () => {
     ground.value = game.have_a_look()
     // 开始计时
     timer_start.value()
+
+    // debug
+    console.log(ground.value)
 }
 // endregion
 
@@ -58,6 +59,12 @@ const dig = (x: number, y: number) => {
         alert('请先点击开始')
         return
     }
+
+    // 如果点击的是提示位置 则移除提示
+    if(tipsPos.value[0] === x && tipsPos.value[1] === y) {
+        tipsPos.value = [ -1, -1 ]
+    }
+
     const digResult = game.dig(x, y)
     if(digResult[0]) {
         timer_stop.value()
@@ -135,6 +142,7 @@ const label_color = (num: number) => {
                          @click.right="mark(col_idx, row_idx, $event)">
                         <span v-if="col === -1 || col === -2" class="mark">{{ '❓' }}</span>
                         <span v-if="col === -3 || col === -4" class="mark">{{ '🚩' }}</span>
+                        <span v-if="col_idx === tipsPos[0] && row_idx === tipsPos[1]" class="tip">{{ '👇' }}</span>
 
                         <span v-if="col >= 0" class="label" :style="`color: ${label_color(col)}`">
                             {{ col > 0 ? col : '&nbsp;' }}
@@ -285,13 +293,20 @@ const label_color = (num: number) => {
 
                     .mark {
                         position: absolute;
-                        z-index: 100;
+                        z-index: 10;
                         width: 100%;
                         height: 100%;
                         font-weight: bold;
                         display: flex;
                         align-items: center;
                         justify-content: center;
+                    }
+
+                    .tip {
+                        position: absolute;
+                        z-index: 100;
+                        width: 100%;
+                        height: 100%;
                     }
                 }
 
