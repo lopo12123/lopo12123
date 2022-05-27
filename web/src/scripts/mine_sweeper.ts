@@ -25,12 +25,12 @@ class Mine_sweeper {
     }
 
     /**
-     * @description 初始化场地
+     * @description 初始化场地 和 地雷数
      * @private
      */
-    private init_ground(x: number = 10, y: number = 10, mine?: number) {
-        if(x < 9) x = 9; else if(x > 30) x = 30
-        if(y < 9) y = 9; else if(y > 30) y = 30
+    private init_ground(x: number = 9, y: number = 9, mine?: number) {
+        if(x < 9) x = 9; else if(x > 30) x = 30;
+        if(y < 9) y = 9; else if(y > 30) y = 30;
 
         this.#x_len = x
         this.#y_len = y
@@ -67,14 +67,25 @@ class Mine_sweeper {
     }
 
     /**
+     * @description 初始化游戏 包括区域大小和雷
+     * @param x [9, 30]
+     * @param y [9, 30]
+     * @param mine
+     */
+    init_game(x: number = 9, y: number = 9, mine?: number) {
+        this.init_ground(x, y, mine)
+        this.init_mine()
+        this.#ifFirstDig = true
+    }
+
+    /**
      * @description 初始化
      * @param x [9, 30]
      * @param y [9, 30]
      * @param mine
      */
     constructor(x: number = 9, y: number = 9, mine?: number) {
-        this.init_ground(x, y, mine)
-        this.init_mine()
+        this.init_game(x, y, mine)
     }
 
     /**
