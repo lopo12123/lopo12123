@@ -129,18 +129,18 @@ class Mine_sweeper {
                 for (let y_replace = 0; y_replace < this.#y_len; y_replace++) {
                     for (let x_replace = 0; x_replace < this.#x_len; x_replace++) {
                         if(this.#ground[y_replace][x_replace] === BlockState.safe) {
-                            this.#ground[y_replace][x_replace] = BlockState.mine
                             this.#ground[y][x] = BlockState.safe
+                            this.#ground[y_replace][x_replace] = BlockState.mine
                             return this.dig(x, y)
                         }
                         else if(this.#ground[y_replace][x_replace] === BlockState.flag_safe) {
-                            this.#ground[y_replace][x_replace] = BlockState.flag_mine
                             this.#ground[y][x] = BlockState.safe
+                            this.#ground[y_replace][x_replace] = BlockState.flag_mine
                             return this.dig(x, y)
                         }
                         else if(this.#ground[y_replace][x_replace] === BlockState.unknown_safe) {
-                            this.#ground[y_replace][x_replace] = BlockState.unknown_mine
                             this.#ground[y][x] = BlockState.safe
+                            this.#ground[y_replace][x_replace] = BlockState.unknown_mine
                             return this.dig(x, y)
                         }
                     }
