@@ -11,9 +11,9 @@ const ground = ref(game.have_a_look())
 // endregion
 
 // region 侧面板数据绑定
-const width = ref('')
-const height = ref('')
-const mine = ref('')
+const width = ref('9')
+const height = ref('9')
+const mine = ref('10')
 // endregion
 
 // region 计时器控制
@@ -47,6 +47,10 @@ const start = () => {
     gameState.value = 'start'
     game.init_game(parseInt(width.value) || 9, parseInt(height.value) || 9, parseInt(mine.value) || 0)
     ground.value = game.have_a_look()
+
+    // 将实际的数量更新到侧面板
+    mine.value = game.mine
+
     // 开始计时
     timer_start.value()
 
