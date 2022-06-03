@@ -156,5 +156,6 @@ onBeforeUnmount(() => {
     height: 100%;
     inset: 0;
     background-color: #262626;
+    pointer-events: none;
 }
 </style>
