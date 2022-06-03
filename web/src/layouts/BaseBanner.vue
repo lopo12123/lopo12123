@@ -46,14 +46,14 @@ const tiered_items = ref<MenuItem[]>([
         items: [
             {
                 label: '2048',
-                icon: 'iconfont icon-mobang-',
+                icon: 'iconfont icon-2048',
                 to: {
                     name: 'TwoZeroFourEight'
                 }
             },
             {
                 label: 'mine-sweeper',
-                icon: 'iconfont icon-mobang-',
+                icon: 'iconfont icon-mine',
                 to: {
                     name: 'MineSweeper'
                 }

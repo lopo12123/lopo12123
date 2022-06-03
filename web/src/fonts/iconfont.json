@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "74704",
+      "name": "2048",
+      "font_class": "2048",
+      "unicode": "e672",
+      "unicode_decimal": 58994
+    },
+    {
+      "icon_id": "26383341",
+      "name": "菜单图标-扫雷小能手",
+      "font_class": "mine",
+      "unicode": "e688",
+      "unicode_decimal": 59016
+    },
+    {
+      "icon_id": "1629912",
+      "name": "定位",
+      "font_class": "icon-test",
+      "unicode": "e628",
+      "unicode_decimal": 58920
+    },
+    {
       "icon_id": "2076225",
       "name": " 提示",
       "font_class": "note",
