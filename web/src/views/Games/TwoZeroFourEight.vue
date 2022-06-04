@@ -36,7 +36,7 @@ const color_generator = (val: number) => {
 
 const keyboard_listener_cb = (e: KeyboardEvent) => {
     let ifEnd
-    switch(e.key) {
+    switch (e.key) {
         case 'ArrowUp':
             ifEnd = game.apply_force('up')
             grid.value = game.have_a_look()
@@ -70,10 +70,17 @@ onBeforeUnmount(() => {
 <template>
     <div class="two-zero-four-eight">
         <div class="banner-area">
-            <div>
-                <input type="number" v-model="x_len" placeholder="长度(4, 10), 默认: 4">
-                <input type="number" v-model="y_len" placeholder="高度(4, 10), 默认: 4">
-                <button class="div" @click="custom_set">重置</button>
+            <div class="ipt">
+                <span>长度</span>
+                <input type="number" v-model="x_len" placeholder="范围: 4 - 10">
+            </div>
+            <div class="ipt">
+                <span>高度</span>
+                <input type="number" v-model="y_len" placeholder="范围: 4 - 10">
+            </div>
+
+            <div class="btn" title="重新开始" @click="custom_set">
+                <i class="iconfont icon-start"/> 重新开始
             </div>
         </div>
         <div class="game-area">
@@ -102,7 +109,64 @@ onBeforeUnmount(() => {
     .banner-area {
         position: relative;
         width: 300px;
-        height: 100%;
+        height: calc(100% - 40px);
+        padding: 20px 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+
+        .ipt {
+            position: relative;
+            width: calc(100% - 40px);
+            height: 40px;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            span {
+                position: relative;
+                width: 60px;
+                color: #ccc;
+                font-family: cursive;
+                font-size: 18px;
+                display: inline-block;
+            }
+
+            input {
+                position: relative;
+                width: calc(100% - 60px);
+                height: 30px;
+                border: none;
+                border-bottom: solid 1px #ccc;
+                outline: none;
+                background-color: transparent;
+                color: #777;
+                font-family: cursive;
+                font-size: 18px;
+                display: inline-block;
+            }
+        }
+
+        .btn {
+            position: relative;
+            width: calc(50% - 20px);
+            height: 40px;
+            margin-top: 40px;
+            border: solid 1px #ccc;
+            color: #ccc;
+            text-align: center;
+            line-height: 40px;
+            cursor: pointer;
+            user-select: none;
+            transition: font-size, color 0.5s;
+
+            &:hover {
+                font-size: 18px;
+                color: #2da0ff;
+            }
+        }
     }
 
     .game-area {
@@ -121,6 +185,7 @@ onBeforeUnmount(() => {
             height: fit-content;
             min-height: fit-content;
             border: solid 2px #2da0ff;
+            background-color: #fff;
             display: flex;
             flex-direction: column;
             align-items: center;
