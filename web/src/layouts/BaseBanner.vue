@@ -14,7 +14,7 @@ const logoAnime = () => {
     anime({
         targets: '.logo-container .chars path',
         // strokeDashoffset: [ anime.setDashoffset, 0 ],
-        strokeDashoffset: (el: HTMLOrSVGElement) => {
+        strokeDashoffset: (el: HTMLElement | SVGElement) => {
             const svgLength = anime.setDashoffset(el);
             return [ svgLength * 2, 0 ];
         },
@@ -263,7 +263,7 @@ onMounted(() => {
     <div class="base-banner">
         <div class="logo-container">
             <svg width="100%" height="100%" viewBox="0 0 64 24">
-                <g class="chars" stroke-width="1" stroke="#8453e3" fill="transparent">
+                <g class="chars" stroke-width="1" stroke="#c26eff" fill="transparent">
                     <!-- L -->
                     <path d="M0 0 L0 24 18 24 18 18 6 18 6 0 0 0"/>
                     <!-- O -->
@@ -289,7 +289,7 @@ onMounted(() => {
         </div>
 
         <div class="bread-container">
-            <Breadcrumb :model="bread_other"/>
+            <Breadcrumb :home="bread_home" :model="bread_other"/>
         </div>
     </div>
 </template>
@@ -334,7 +334,7 @@ onMounted(() => {
             font-size: 24px;
             line-height: 24px;
             text-align: center;
-            color: #ccc;
+            color: #a4ff4f;
         }
     }
 
