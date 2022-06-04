@@ -53,9 +53,6 @@ const start = () => {
 
     // 开始计时
     timer_start.value()
-
-    // todo debug
-    // console.log(ground.value)
 }
 // endregion
 
