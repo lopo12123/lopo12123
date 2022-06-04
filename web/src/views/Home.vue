@@ -4,7 +4,7 @@
 
 <template>
     <div class="home">
-        home page
+        <div class="actor"></div>
     </div>
 </template>
 
@@ -13,5 +13,8 @@
     position: relative;
     width: 100%;
     height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 </style>
