@@ -1,12 +1,31 @@
 <script lang="ts" setup>
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import Breadcrumb from "primevue/breadcrumb";
 import TieredMenu from "primevue/tieredmenu";
 import type { MenuItem } from "primevue/menuitem";
+import anime from "animejs";
 
 const router = useRouter()
 const route = useRoute()
+
+// region logo animate
+const logoAnime = () => {
+    anime({
+        targets: '.logo-container .chars path',
+        // strokeDashoffset: [ anime.setDashoffset, 0 ],
+        strokeDashoffset: (el: HTMLOrSVGElement) => {
+            const svgLength = anime.setDashoffset(el);
+            return [ svgLength * 2, 0 ];
+        },
+        easing: 'easeInOutSine',
+        duration: 2000,
+        delay: 500,
+        direction: 'normal',
+        loop: true
+    })
+}
+// endregion
 
 // region bread
 const bread_home = {
@@ -76,7 +95,7 @@ const tiered_items = ref<MenuItem[]>([
                         }
                     },
                     {
-                        label: 'download .exe',
+                        label: 'download (*.exe)',
                         icon: 'pi pi-download',
                         command() {
                             window.open('https://github.com/lopo12123/flow-chart/releases/download/v0.0.1/flow-chart_setup_0.0.1.exe')
@@ -96,7 +115,7 @@ const tiered_items = ref<MenuItem[]>([
                 icon: 'iconfont icon-record',
                 items: [
                     {
-                        label: 'download .exe',
+                        label: 'download (*.exe)',
                         icon: 'pi pi-download',
                         command() {
                             window.open('https://github.com/lopo12123/loco/releases/tag/v0.0.1/loco-0.0.1-setup.exe')
@@ -107,6 +126,26 @@ const tiered_items = ref<MenuItem[]>([
                         icon: 'pi pi-github',
                         command() {
                             window.open('https://github.com/lopo12123/loco')
+                        }
+                    }
+                ]
+            },
+            {
+                label: 'photo resize',
+                icon: 'iconfont icon-resize',
+                items: [
+                    {
+                        label: 'download (*.7z)',
+                        icon: 'pi pi-download',
+                        command() {
+                            window.open('https://github.com/lopo12123/photo-resize/releases/download/v0.0.2/release-v0.0.2.7z')
+                        }
+                    },
+                    {
+                        label: 'repository',
+                        icon: 'pi pi-github',
+                        command() {
+                            window.open('https://github.com/lopo12123/photo-resize')
                         }
                     }
                 ]
@@ -214,17 +253,43 @@ const tiered_toggle = (e: MouseEvent) => {
     tiered_ref.value?.toggle(e)
 }
 // endregion
+
+onMounted(() => {
+    logoAnime()
+})
 </script>
 
 <template>
     <div class="base-banner">
+        <div class="logo-container">
+            <svg width="100%" height="100%" viewBox="0 0 64 24">
+                <g class="chars" stroke-width="1" stroke="#8453e3" fill="transparent">
+                    <!-- L -->
+                    <path d="M0 0 L0 24 18 24 18 18 6 18 6 0 0 0"/>
+                    <!-- O -->
+                    <path d="M24 0 A8 12 0 1 0 24 24"/>
+                    <path d="M24 24 A8 12 0 1 0 24 0"/>
+                    <path d="M24 6 A4 6 0 0 0 24 18"/>
+                    <path d="M24 18 A4 6 0 0 0 24 6"/>
+                    <!-- P -->
+                    <path d="M32 0 L32 24 38 24 38 16 A10 8 0 0 0 38 0 L32 0"/>
+                    <path d="M38 4 L38 12 A6 4 0 0 0 38 4"/>
+                    <!-- O -->
+                    <path d="M56 0 A8 12 0 1 0 56 24"/>
+                    <path d="M56 24 A8 12 0 1 0 56 0"/>
+                    <path d="M56 6 A4 6 0 0 0 56 18"/>
+                    <path d="M56 18 A4 6 0 0 0 56 6"/>
+                </g>
+            </svg>
+        </div>
+
         <div class="tiered-container" @click="tiered_toggle">
-            <i class="iconfont icon-logo lopo-blink"/>
+            <i class="iconfont icon-record" title="menu"/>
             <TieredMenu ref="tiered_ref" :popup="true" :model="tiered_items"/>
         </div>
 
         <div class="bread-container">
-            <Breadcrumb :home="bread_home" :model="bread_other"/>
+            <Breadcrumb :model="bread_other"/>
         </div>
     </div>
 </template>
@@ -232,19 +297,32 @@ const tiered_toggle = (e: MouseEvent) => {
 <style lang="scss" scoped>
 .base-banner {
     position: relative;
-    width: 100%;
+    width: calc(100% - 40px);
     height: calc(100% - 1px);
+    padding: 0 20px;
     border-bottom: solid 1px #ccc;
     background-color: #262626;
     display: flex;
     align-items: center;
     justify-content: center;
 
+    .logo-container {
+        position: relative;
+        width: 64px;
+        height: 24px;
+        color: #8453e3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
     .tiered-container {
         position: relative;
-        width: 59px;
+        width: 38px;
         height: 24px;
-        border-right: solid 1px #ccc;
+        margin: 0 10px;
+        border-left: solid 1px #cccccc80;
+        border-right: solid 1px #cccccc80;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -262,7 +340,7 @@ const tiered_toggle = (e: MouseEvent) => {
 
     .bread-container {
         position: relative;
-        width: calc(100% - 60px);
+        width: calc(100% - 124px);
     }
 }
 </style>
