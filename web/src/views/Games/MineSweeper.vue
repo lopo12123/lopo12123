@@ -49,7 +49,7 @@ const start = () => {
     ground.value = game.have_a_look()
 
     // 将实际的数量更新到侧面板
-    mine.value = game.mine
+    mine.value = game.mine + ''
 
     // 开始计时
     timer_start.value()
@@ -90,7 +90,7 @@ const mark = (x: number, y: number, e: MouseEvent) => {
 }
 
 const label_color = (num: number) => {
-    switch(num) {
+    switch (num) {
         case 1:
             return '#ff0000'
         case 2:
