@@ -15,6 +15,7 @@
     - [toca](https://github.com/lopo12123/toca-tauri) An application to record keyboard or mouse events, and playback later using log file (`.k.toca` or `.m.toca`).
 - **Rust Packages** - [crates.io](https://crates.io/)
     - [toca](https://github.com/lopo12123/toca) A recording and playback library for mouse/keyboard events.
+    - [server-here](https://github.com/lopo12123/server-here) A cargo subcommand (`cargo server-here`) to create a static file server locally to observe the server performance after the front-end files are packaged.
 - **Study Notes**
     - [javascript](https://github.com/lopo12123/study-js)
     - [rust](https://github.com/lopo12123/study-rust)
