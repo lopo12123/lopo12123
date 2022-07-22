@@ -1,5 +1,7 @@
 ### lopo
 
+<a href="mailto:lopo@zju.edu.cn?subject=From: Github Guest">Mail Me</a>
+
 霓为衣兮风为马, 云之君兮纷纷而来下.
 
 虎鼓瑟兮鸾回车, 仙之人兮列如麻.
