@@ -5,9 +5,10 @@ import vue from "@vitejs/plugin-vue";
 // https://vitejs.dev/config/
 export default defineConfig({
     base: './',
+    root: './src/index.html',
     build: {
         emptyOutDir: true,
-        outDir: '../docs',
+        outDir: './docs',
         // rollupOptions: {
         //     output: {
         //         manualChunks: (id) => {
