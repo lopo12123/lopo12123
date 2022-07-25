@@ -3,8 +3,8 @@
     "private": true,
     "version": "0.0.0",
     "scripts": {
-        "dev:web": "vite --host",
-        "build:web": "vue-tsc --noEmit && vite build"
+        "dev:page": "vite --host",
+        "build:page": "vue-tsc --noEmit && vite build"
     },
     "dependencies": {
         "fireworks-js": "^2.0.0",
