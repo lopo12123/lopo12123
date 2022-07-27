@@ -47,6 +47,23 @@
 
 ### Timeline
 
-- ~ - 2022.8.31
-    - study `vue`\`s source code
-    - study `three.js`
+- Q3 2022
+    - [x] `rust` basics [chinese document](https://rust.bootcss.com/title-page.html)
+    - [x] `taro` [homepage](https://taro-docs.jd.com/taro/docs)
+    - [ ] `nuxt` [v3 homepage](https://v3.nuxtjs.org/)
+    - [ ] `three.js`
+    - [ ] `vue` source code
+- Q4 2022
+    - ...
+    
+
+
+
+
+
+
+
+
+
+
+
