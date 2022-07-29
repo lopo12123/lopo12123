@@ -1,5 +1,8 @@
 ## lopo
 
+![QRCode](./QRCode.png)
+
+[My homepage](https://lopo12123.github.io/lopo12123/) |
 <a href="mailto:lopo@zju.edu.cn?subject=From: Github Guest">Mail Me</a>
 
 霓为衣兮风为马, 云之君兮纷纷而来下.
@@ -10,15 +13,16 @@
 
 - **Application**
     - [Card_Reader](https://github.com/lopo12123/Card_Reader) A game scoring software, which mainly includes the operation of the card reader hardware and the scoring operation controlled by the pure keyboard.
-    - [flow-chart](https://github.com/lopo12123/flow-chart) Flowchart drawing software, supports both [h5](https://lopo12123.github.io/flow-chart/) and [desktop](https://github.com/lopo12123/flow-chart/releases/download/v0.0.1/flow-chart_setup_0.0.1.exe).
+    - [flow-chart](https://github.com/lopo12123/flow-chart) \[ [online](https://lopo12123.github.io/flow-chart/) | [download](https://github.com/lopo12123/flow-chart/releases/download/v0.0.1/flow-chart_setup_0.0.1.exe) \] Flowchart drawing software, supports both h5 and desktop.
     - [Key-Value](https://github.com/lopo12123/Key-Value) Get the code of the key pressed.
-    - [loco](https://github.com/lopo12123/loco) Simple git file system visualization desktop application.
+    - [loco](https://github.com/lopo12123/loco) \[ [download](https://github.com/lopo12123/loco/releases/tag/v0.0.1) \] Simple git file system visualization desktop application.
     - [Network-surveillance-camera](https://github.com/lopo12123/Network-surveillance-camera) A network surveillance camera. Using the Raspberry Pi as a server, web pages display video streams.
         - Mode1: Control the direction of the camera through the web buttons.
         - Mode2: Automatically track the people who appear in the range until it exceeds the shooting range.
     - [Orthodontic-platform](https://github.com/lopo12123/Orthodontic-platform) A complete orthodontic management system (doctor's side), including patient information management and loading, viewing, modifying and saving of tooth model/bracket files.
     - [pkgHosts](https://github.com/lopo12123/pkgHosts) Modify host to connect to GitHub.
-    - [toca](https://github.com/lopo12123/toca-tauri) An application to record keyboard or mouse events, and playback later using log file (`.k.toca` or `.m.toca`).
+    - [QR-it](https://github.com/lopo12123/QR-it) \[ [online](https://lopo12123.github.io/QR-it) \] create QR-code for text, URL and image
+    - [toca](https://github.com/lopo12123/toca-tauri) \[ [download](https://github.com/lopo12123/toca-tauri/releases/tag/v0.1.0) \] An application to record keyboard or mouse events, and playback later using log file (`.k.toca` or `.m.toca`).
 - **Node Packages** - [npm](https://www.npmjs.com/)
     - [better-xhr](https://github.com/lopo12123/better-xhr) Encapsulates xhr, fetch and axios, making it easy to cancel one or a group of http request tasks.
     - [divide-it](https://github.com/lopo12123/divide-it) Divide a string into an array with custom options.
