@@ -8,7 +8,14 @@ class FireworkController {
     }
 
     constructor(dom: HTMLElement) {
-        this.#firework = new Fireworks(dom)
+        this.#firework = new Fireworks(dom, {
+            gravity: 1,
+            opacity: 0.3,
+            mouse: {
+                click: true,
+                max: 3
+            }
+        })
     }
 
     start() {

@@ -35,6 +35,7 @@ const toggleFirework = () => {
 
 onMounted(() => {
     createFirework()
+    toggleFirework()
 })
 </script>
 
@@ -52,6 +53,8 @@ onMounted(() => {
     position: relative;
     width: 100%;
     height: 100%;
+    background-color: #000;
+    user-select: none;
     display: flex;
     flex-direction: column;
     align-items: center;
