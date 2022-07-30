@@ -4,7 +4,7 @@ import { FireworkController } from "@/scripts/firework";
 import StarrySky from "@/views/StarrySky.vue";
 
 const bindFirework = (ctr: FireworkController) => {
-
+    ctr.start()
 }
 </script>
 
@@ -25,20 +25,22 @@ const bindFirework = (ctr: FireworkController) => {
     width: 100%;
     height: 100%;
     background-color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     .star-sky-container {
-        position: absolute;
-        z-index: 10;
-        width: 100%;
-        height: 100%;
-    }
-
-    .firework-container {
         position: absolute;
         z-index: 1;
         width: 100%;
         height: 100%;
         inset: 0;
+    }
+
+    .firework-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
     }
 }
 </style>

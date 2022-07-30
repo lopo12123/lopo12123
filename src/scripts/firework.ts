@@ -9,6 +9,10 @@ class FireworkController {
 
     constructor(dom: HTMLElement) {
         this.#firework = new Fireworks(dom, {
+            rocketsPoint: {
+                min: 10,
+                max: 90
+            },
             gravity: 1,
             opacity: 0.3,
             mouse: {
