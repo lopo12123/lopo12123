@@ -14,6 +14,7 @@
 - **Application**
     - [Card_Reader](https://github.com/lopo12123/Card_Reader) A game scoring software, which mainly includes the operation of the card reader hardware and the scoring operation controlled by the pure keyboard.
     - [flow-chart](https://github.com/lopo12123/flow-chart) \[ [online](https://lopo12123.github.io/flow-chart/) | [download](https://github.com/lopo12123/flow-chart/releases/download/v0.0.1/flow-chart_setup_0.0.1.exe) \] Flowchart drawing software, supports both h5 and desktop.
+    - [git-netdisk-app](https://github.com/lopo12123/git-netdisk-app) \[ [download](https://github.com/lopo12123/git-netdisk-app/releases/download/v1.0.0/cat-explorer.Setup.1.0.0.exe) \] A simple explorer application with better UI.
     - [Key-Value](https://github.com/lopo12123/Key-Value) Get the code of the key pressed.
     - [loco](https://github.com/lopo12123/loco) \[ [download](https://github.com/lopo12123/loco/releases/tag/v0.0.1) \] Simple git file system visualization desktop application.
     - [Network-surveillance-camera](https://github.com/lopo12123/Network-surveillance-camera) A network surveillance camera. Using the Raspberry Pi as a server, web pages display video streams.
@@ -26,7 +27,6 @@
 - **Node Packages** - [npm](https://www.npmjs.com/)
     - [better-xhr](https://github.com/lopo12123/better-xhr) Encapsulates xhr, fetch and axios, making it easy to cancel one or a group of http request tasks.
     - [divide-it](https://github.com/lopo12123/divide-it) Divide a string into an array with custom options.
-    - [git-netdisk-app](https://github.com/lopo12123/git-netdisk-app) A simple explorer [application](https://github.com/lopo12123/git-netdisk-app/releases/download/v1.0.0/cat-explorer.Setup.1.0.0.exe) with better UI.
     - [lopo-lib](https://github.com/lopo12123/lopo-lib) Some commonly used functions.
     - [myers-diff](https://github.com/lopo12123/myers-diff) Implementation of myers diff algorithm.
     - [ol-controller](https://github.com/lopo12123/ol-controller) A control layer wrapper for the openlayer library, which can be used in vue react or vanilla.
