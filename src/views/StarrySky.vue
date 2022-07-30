@@ -45,7 +45,7 @@ const renderStars = (reGenerate: boolean = true) => {
 
         // region 构建星并存储其属性
         if(reGenerate) {
-            const star_count = Math.floor(DENSITY_RATIO * Math.floor(w, h))
+            const star_count = Math.floor(DENSITY_RATIO * Math.floor(w * h))
             starsRef.value = new Array(star_count).fill(0).map(() => ({
                 x: randInRange(0, w, 'right', 5),
                 y: randInRange(0, h, 'right', 5),
