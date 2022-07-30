@@ -35,6 +35,7 @@ const bindFirework = (ctr: FireworkController) => {
         width: 100%;
         height: 100%;
         inset: 0;
+        pointer-events: none;
     }
 
     .firework-container {
