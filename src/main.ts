@@ -1,3 +1,4 @@
+import "atropos/atropos.css";
 import "./styles/index.scss";
 import { createApp } from "vue";
 import { router } from "./routers";

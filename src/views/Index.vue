@@ -1,21 +1,19 @@
 <script lang="ts" setup>
-import { onBeforeUnmount, onMounted } from "vue";
-import { confetti } from "party-js";
 import FireworkBox from "@/views/FireworkBox.vue";
 import { FireworkController } from "@/scripts/firework";
-
-const setupConfetti = (e: MouseEvent) => {
-    confetti(e)
-}
+import StarrySky from "@/views/StarrySky.vue";
 
 const bindFirework = (ctr: FireworkController) => {
-    // ctr.start()
+
 }
 </script>
 
 <template>
     <div class="index-view">
-        <div class="fireworks">
+        <div class="star-sky-container">
+            <StarrySky/>
+        </div>
+        <div class="firework-container">
             <FireworkBox @firework-ready="bindFirework"/>
         </div>
     </div>
@@ -28,10 +26,19 @@ const bindFirework = (ctr: FireworkController) => {
     height: 100%;
     background-color: #333;
 
-    .fireworks {
-        position: relative;
+    .star-sky-container {
+        position: absolute;
+        z-index: 10;
         width: 100%;
         height: 100%;
+    }
+
+    .firework-container {
+        position: absolute;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        inset: 0;
     }
 }
 </style>
