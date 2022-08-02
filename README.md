@@ -55,7 +55,7 @@
     - [x] `rust` basics [chinese document](https://rust.bootcss.com/title-page.html)
     - [x] `taro` [homepage](https://taro-docs.jd.com/taro/docs)
     - [ ] `nuxt` [v3 homepage](https://v3.nuxtjs.org/)
-    - [ ] `three.js`
+    - [x] `three.js` basic (renderer, scene, geometry, material, bloom, etc.)
     - [ ] `vue` source code
 - Q4 2022
     - ...
