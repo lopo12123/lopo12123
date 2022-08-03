@@ -1,4 +1,13 @@
-import { Mesh, MeshLambertMaterial, SphereGeometry, TextureLoader } from "three";
+import {
+    DoubleSide,
+    Mesh,
+    MeshBasicMaterial,
+    MeshLambertMaterial,
+    MeshNormalMaterial,
+    RingGeometry,
+    SphereGeometry,
+    TextureLoader
+} from "three";
 
 const enum Ruler {
     kkm = 1_000,
@@ -93,6 +102,7 @@ const RenderSize: { [k in typeof PlanetList[number]]: [ radius: number, orbitRad
 const createSun = () => {
     const _material = new MeshLambertMaterial()
     const sun = new Mesh(new SphereGeometry(20), _material)
+    sun.name = 'sun'
 
     const loader = new TextureLoader()
     loader.load(
@@ -109,14 +119,11 @@ const createSun = () => {
 
     return sun
 }
-
 const createPlanet = () => {
-    const colorList = [
-        0xff0000, 0x00ff00, 0x000ff
-    ]
-    return PlanetList.map((planetName, idx) => {
+    return PlanetList.map(planetName => {
         const _material = new MeshLambertMaterial()
         const _planet = new Mesh(new SphereGeometry(RenderSize[planetName][0]), _material)
+        _planet.name = planetName
 
         const loader = new TextureLoader()
         loader.load(
@@ -135,10 +142,27 @@ const createPlanet = () => {
         return _planet
     })
 }
+const createTrack = () => {
+    return PlanetList.map(planetName => {
+        const radius = RenderSize[planetName][0]
+        const orbitRadius = RenderSize[planetName][1]
+
+        const _track = new Mesh(
+            new RingGeometry(orbitRadius, orbitRadius + 0.1, 50),
+            new MeshBasicMaterial({
+                color: 0xffffff,
+                side: DoubleSide
+            })
+        )
+        _track.name = `track-${ planetName }`
+        return _track
+    })
+}
 
 export {
     PlanetList,
     PlanetConfigs,
     createSun,
-    createPlanet
+    createPlanet,
+    createTrack,
 }

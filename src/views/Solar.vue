@@ -2,7 +2,7 @@
 import { onMounted, ref } from "vue";
 import { commonSetup, setupAnimate } from "@/scripts/useThree";
 import { AmbientLight, BoxGeometry, Mesh, MeshNormalMaterial, PointLight } from "three";
-import { createPlanet, createSun } from "@/scripts/Solar";
+import { createPlanet, createSun, createTrack } from "@/scripts/Solar";
 
 const canvasEl = ref<HTMLCanvasElement | null>(null)
 const doRender = (el: HTMLCanvasElement) => {
@@ -19,7 +19,8 @@ const doRender = (el: HTMLCanvasElement) => {
 
     const sun = createSun()
     const planets = createPlanet()
-    scene.add(sunLight, envLight, sun, ...planets)
+    const tracks = createTrack()
+    scene.add(sunLight, envLight, sun, ...planets, ...tracks)
 
     renderer.render(scene, camera)
 
