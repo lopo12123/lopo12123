@@ -1,21 +1,10 @@
 <script lang="ts" setup>
-import FireworkBox from "@/views/FireworkBox.vue";
-import { FireworkController } from "@/scripts/firework";
-import StarrySky from "@/views/StarrySky.vue";
-
-const bindFirework = (ctr: FireworkController) => {
-    ctr.start()
-}
+import Three from "@/views/Three.vue";
 </script>
 
 <template>
     <div class="index-view">
-        <div class="star-sky-container">
-            <StarrySky/>
-        </div>
-        <div class="firework-container">
-            <FireworkBox @firework-ready="bindFirework"/>
-        </div>
+        <Three/>
     </div>
 </template>
 
@@ -24,24 +13,5 @@ const bindFirework = (ctr: FireworkController) => {
     position: relative;
     width: 100%;
     height: 100%;
-    background-color: #333;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    .star-sky-container {
-        position: absolute;
-        z-index: 1;
-        width: 100%;
-        height: 100%;
-        inset: 0;
-        pointer-events: none;
-    }
-
-    .firework-container {
-        position: relative;
-        width: 100%;
-        height: 100%;
-    }
 }
 </style>
