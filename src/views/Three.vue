@@ -1,9 +1,13 @@
 <script lang="ts" setup>
 import { onMounted, ref } from "vue";
+import { commonSetup } from "@/scripts/useThree";
+import { Mesh } from "three";
 
 const canvasEl = ref<HTMLCanvasElement | null>(null)
 const doRender = (el: HTMLCanvasElement) => {
+    const { renderer, scene, camera } = commonSetup(el)
 
+    const cube = new Mesh()
 }
 
 onMounted(() => {
