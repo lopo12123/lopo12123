@@ -10,11 +10,13 @@
         "atropos": "^1.0.2",
         "fireworks-js": "^2.0.0",
         "party-js": "^2.2.0",
+        "three": "^0.143.0",
         "vue": "^3.2.33",
         "vue-router": "^4.0.15"
     },
     "devDependencies": {
         "@types/node": "14.17.5",
+        "@types/three": "^0.143.0",
         "@vitejs/plugin-vue": "^2.3.3",
         "lopo-lib": "^3.0.4",
         "sass": "^1.51.0",
