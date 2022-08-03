@@ -7,6 +7,11 @@ const routes: RouteRecordRaw[] = [
         path: '/',
         name: 'Root',
         component: Index
+    },
+    {
+        path: '/solar',
+        name: 'Solar',
+        component: () => import("@/views/Solar.vue")
     }
 ]
 

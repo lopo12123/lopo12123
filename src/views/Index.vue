@@ -1,10 +1,13 @@
 <script lang="ts" setup>
-import Solar from "@/views/Solar.vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter()
+router.push({ name: 'Solar' })
 </script>
 
 <template>
     <div class="index-view">
-        <Solar/>
+        <router-view/>
     </div>
 </template>
 

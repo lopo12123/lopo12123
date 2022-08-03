@@ -1,29 +1,31 @@
 <script lang="ts" setup>
 import { onMounted, ref } from "vue";
 import { commonSetup, setupAnimate } from "@/scripts/useThree";
-import { BoxGeometry, Mesh, MeshNormalMaterial } from "three";
+import { AmbientLight, BoxGeometry, Mesh, MeshNormalMaterial, PointLight } from "three";
+import { createPlanet, createSun } from "@/scripts/Solar";
 
 const canvasEl = ref<HTMLCanvasElement | null>(null)
 const doRender = (el: HTMLCanvasElement) => {
-    const { renderer, scene, camera } = commonSetup(el, { cameraPosition: [ 0, 0, 100 ] })
+    const { renderer, scene, camera } = commonSetup(el, { cameraPosition: [ 0, 0, 200 ] })
 
-    for (let i = 0; i < 20; i++) {
-        const _cube = new Mesh(
-            new BoxGeometry(1, 1, 1),
-            new MeshNormalMaterial()
-        )
-        _cube.position.set(Math.random() * 70 - 35, Math.random() * 40 - 20, Math.random() * 40 - 20)
-        scene.add(_cube)
-    }
+    const _cube = new Mesh(
+        new BoxGeometry(1, 1, 1),
+        new MeshNormalMaterial()
+    )
+    _cube.position.set(2, 0, 0)
+
+    const sunLight = new PointLight(0xff0000)
+    const envLight = new AmbientLight(0x777777)
+
+    const sun = createSun()
+    const planets = createPlanet()
+    scene.add(sunLight, envLight, sun, ...planets)
 
     renderer.render(scene, camera)
 
-    // setupAnimate(() => {
-    //     cube.rotation.x += 0.03
-    //     cube.rotation.y += 0.04
-    //     cube.rotation.z += 0.05
-    //     renderer.render(scene, camera)
-    // }, 1)
+    setupAnimate(() => {
+        renderer.render(scene, camera)
+    }, 1)
 }
 
 onMounted(() => {

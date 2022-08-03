@@ -27,7 +27,7 @@ const commonSetup = (
     // 场景
     const scene = new Scene()
     // 相机
-    const camera = new PerspectiveCamera()
+    const camera = new PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 0.1, 2000)
     camera.position.set(...setupOptions.cameraPosition)
 
     return {
