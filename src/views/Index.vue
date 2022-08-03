@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import Three from "@/views/Three.vue";
+import Solar from "@/views/Solar.vue";
 </script>
 
 <template>
     <div class="index-view">
-        <Three/>
+        <Solar/>
     </div>
 </template>
 
