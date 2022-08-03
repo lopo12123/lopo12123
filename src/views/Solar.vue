@@ -3,29 +3,35 @@ import { onMounted, ref } from "vue";
 import { commonSetup, setupAnimate } from "@/scripts/useThree";
 import { AmbientLight, BoxGeometry, Mesh, MeshNormalMaterial, PointLight } from "three";
 import { createPlanet, createSun, createTrack } from "@/scripts/Solar";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 const canvasEl = ref<HTMLCanvasElement | null>(null)
 const doRender = (el: HTMLCanvasElement) => {
-    const { renderer, scene, camera } = commonSetup(el, { cameraPosition: [ 0, 0, 200 ] })
-
-    const _cube = new Mesh(
-        new BoxGeometry(1, 1, 1),
-        new MeshNormalMaterial()
-    )
-    _cube.position.set(2, 0, 0)
+    const { renderer, scene, camera } = commonSetup(el, {
+        cameraPosition: [ 0, 100, 200 ]
+    })
+    camera.lookAt(0, 0, 0)
 
     const sunLight = new PointLight(0xff0000)
     const envLight = new AmbientLight(0x777777)
 
     const sun = createSun()
-    const planets = createPlanet()
-    const tracks = createTrack()
-    scene.add(sunLight, envLight, sun, ...planets, ...tracks)
+    const planetGroups = createPlanet()
+    scene.add(sunLight, envLight, sun, ...planetGroups)
 
-    renderer.render(scene, camera)
+    const control = new OrbitControls(camera, el)
+    control.update()
+    control.minDistance = 50
+    control.maxDistance = 500
 
     setupAnimate(() => {
+        planetGroups.forEach(group => {
+            group.rotation.y += 0.005
+            const planet = group.getObjectByName('planet')!
+            planet.rotation.y += 0.01
+        })
         renderer.render(scene, camera)
+        control.update()
     }, 1)
 }
 

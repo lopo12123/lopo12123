@@ -1,12 +1,11 @@
 import {
-    DoubleSide,
+    DoubleSide, Group,
     Mesh,
     MeshBasicMaterial,
-    MeshLambertMaterial,
-    MeshNormalMaterial,
+    MeshLambertMaterial, PointsMaterial,
     RingGeometry,
     SphereGeometry,
-    TextureLoader
+    TextureLoader, TorusGeometry
 } from "three";
 
 const enum Ruler {
@@ -121,10 +120,9 @@ const createSun = () => {
 }
 const createPlanet = () => {
     return PlanetList.map(planetName => {
-        const _material = new MeshLambertMaterial()
-        const _planet = new Mesh(new SphereGeometry(RenderSize[planetName][0]), _material)
-        _planet.name = planetName
+        const orbitRadius = RenderSize[planetName][1]
 
+        const _material = new MeshLambertMaterial()
         const loader = new TextureLoader()
         loader.load(
             `./solar/${ planetName }.png`,
@@ -138,8 +136,25 @@ const createPlanet = () => {
             }
         )
 
-        _planet.position.set(RenderSize[planetName][1], 0, 0)
-        return _planet
+        const _planet = new Mesh(new SphereGeometry(RenderSize[planetName][0]), _material)
+        _planet.name = 'planet'
+        _planet.position.set(orbitRadius, 0, 0)
+
+        const _track = new Mesh(
+            new TorusGeometry(orbitRadius, 0.2, 8, 100),
+            new PointsMaterial({
+                color: 0x333333,
+                side: DoubleSide,
+            })
+        )
+        _track.name = 'track'
+        _track.rotation.x = 1.57
+
+        const _group = new Group()
+        _group.name = planetName
+        _group.add(_planet, _track)
+
+        return _group
     })
 }
 const createTrack = () => {
