@@ -1,13 +1,15 @@
-## lopo
+*I mourned for my old life. My once found paradise.*
 
-![QRCode](./QRCode.png)
+[comment]: <> (霓为衣兮风为马, 云之君兮纷纷而来下.)
 
-[My homepage](https://lopo12123.github.io/lopo12123/) |
-<a href="mailto:lopo@zju.edu.cn?subject=From: Github Guest">Mail Me</a>
+[comment]: <> (虎鼓瑟兮鸾回车, 仙之人兮列如麻.)
 
-霓为衣兮风为马, 云之君兮纷纷而来下.
+[comment]: <> (![QRCode]&#40;./QRCode.png&#41;)
 
-虎鼓瑟兮鸾回车, 仙之人兮列如麻.
+### Links
+
+- [Homepage](https://lopo12123.github.io/lopo12123/)
+- <a href="mailto:lopo@zju.edu.cn?subject=From: Github Guest">E-Mail</a>
 
 ### Projects
 
@@ -58,8 +60,8 @@
     - [x] `three.js` basic (renderer, scene, geometry, material, bloom, etc.)
     - [ ] `vue` source code
 - Q4 2022
-    - ...
-    
+    - [ ] `babylonjs` basic(renderer, scene, geometry, material, etc.)
+    - [ ] `leetcode` (level easy, using rust)
 
 
 
