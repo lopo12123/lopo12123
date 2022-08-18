@@ -8,7 +8,8 @@
 
 ### Links
 
-- [Homepage](https://lopo12123.github.io/lopo12123/)
+[comment]: <> (- [Homepage]&#40;https://lopo12123.github.io/lopo12123/&#41;)
+
 - <a href="mailto:lopo@zju.edu.cn?subject=From: Github Guest">E-Mail</a>
 
 ### Projects
@@ -56,12 +57,12 @@
 - Q3 2022
     - [x] `rust` basics [chinese document](https://rust.bootcss.com/title-page.html)
     - [x] `taro` [homepage](https://taro-docs.jd.com/taro/docs)
-    - [ ] `nuxt` [v3 homepage](https://v3.nuxtjs.org/)
     - [x] `three.js` basic (renderer, scene, geometry, material, bloom, etc.)
     - [ ] `vue` source code
 - Q4 2022
+    - [ ] `nuxt` [v3 homepage](https://v3.nuxtjs.org/)
+    - [ ] `flutter/dart` [chinese document](https://flutterchina.club/)
     - [ ] `babylonjs` basic(renderer, scene, geometry, material, etc.)
-    - [ ] `leetcode` (level easy, using rust)
 
 
 
