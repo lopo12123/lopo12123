@@ -55,14 +55,14 @@
 ### Timeline
 
 - Q3 2022
-    - [x] `rust` basics [chinese document](https://rust.bootcss.com/title-page.html)
+    - [x] `rust` [homepage](https://rust.bootcss.com/title-page.html)
     - [x] `taro` [homepage](https://taro-docs.jd.com/taro/docs)
-    - [x] `three.js` basic (renderer, scene, geometry, material, bloom, etc.)
+    - [x] `three.js`
+    - [ ] `nuxt` [v3 homepage](https://v3.nuxtjs.org/)
     - [ ] `vue` source code
 - Q4 2022
-    - [ ] `nuxt` [v3 homepage](https://v3.nuxtjs.org/)
-    - [ ] `flutter/dart` [chinese document](https://flutterchina.club/)
-    - [ ] `babylonjs` basic(renderer, scene, geometry, material, etc.)
+    - [ ] `flutter/dart` [homepage](https://flutterchina.club/)
+    - [ ] `babylonjs`
 
 
 
