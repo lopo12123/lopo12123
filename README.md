@@ -1,6 +1,6 @@
 [comment]: <> (*I mourned for my old life. My once found paradise.*)
 
-云霞明灭或可睹
+霓为衣兮风为马，云之君兮纷纷而来下
 
 ---
 
