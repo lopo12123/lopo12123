@@ -1,5 +1,3 @@
----  
-
 [comment]: <> (*I mourned for my old life. My once found paradise.*)
 
 [comment]: <> (霓为衣兮风为马，云之君兮纷纷而来下)
