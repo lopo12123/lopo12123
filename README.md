@@ -20,7 +20,7 @@
     - [pkgHosts](https://github.com/lopo12123/pkgHosts) Modify host to connect to GitHub.
     - [QR-it](https://github.com/lopo12123/QR-it) \[ [online](https://lopo12123.github.io/QR-it) \] create QR-code for text, URL and image
     - [toca](https://github.com/lopo12123/toca-tauri) \[ [download](https://github.com/lopo12123/toca-tauri/releases/tag/v0.1.0) \] An application to record keyboard or mouse events, and playback later using log file (`.k.toca` or `.m.toca`).
-    - [useful packages](https://github.com/lopo12123/useful-packages) \[ [online](https://lopo12123.github.io/useful-packages/) \] some useful packages
+    - [useful packages](https://github.com/lopo12123/useful-packages) \[ [online](https://lopo12123.github.io/useful-packages/) \] a store to record some useful packages, and an online page to display it.
 - **Node Packages** - [npm](https://www.npmjs.com/)
     - [better-xhr](https://github.com/lopo12123/better-xhr) Encapsulates xhr, fetch and axios, making it easy to cancel one or a group of http request tasks.
     - [divide-it](https://github.com/lopo12123/divide-it) Divide a string into an array with custom options.
