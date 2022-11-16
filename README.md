@@ -1,6 +1,10 @@
+---  
+
 [comment]: <> (*I mourned for my old life. My once found paradise.*)
 
-霓为衣兮风为马，云之君兮纷纷而来下
+[comment]: <> (霓为衣兮风为马，云之君兮纷纷而来下)
+
+_If you're a plumber, you're better off learning how to use an ax by chopping down trees with it than unclogging gutters. That's exactly what I did._
 
 ---
 
