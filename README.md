@@ -1,18 +1,8 @@
-### lopo
-
 [comment]: <> (*I mourned for my old life. My once found paradise.*)
 
-霓为衣兮风为马, 云之君兮纷纷而来下.
+云霞明灭或可睹
 
-虎鼓瑟兮鸾回车, 仙之人兮列如麻.
-
-[comment]: <> (![QRCode]&#40;./QRCode.png&#41;)
-
-### Links
-
-[comment]: <> (- [Homepage]&#40;https://lopo12123.github.io/lopo12123/&#41;)
-
-- <a href="mailto:lopo@zju.edu.cn?subject=From: Github Guest">E-Mail</a>
+---
 
 ### Projects
 
@@ -30,6 +20,7 @@
     - [pkgHosts](https://github.com/lopo12123/pkgHosts) Modify host to connect to GitHub.
     - [QR-it](https://github.com/lopo12123/QR-it) \[ [online](https://lopo12123.github.io/QR-it) \] create QR-code for text, URL and image
     - [toca](https://github.com/lopo12123/toca-tauri) \[ [download](https://github.com/lopo12123/toca-tauri/releases/tag/v0.1.0) \] An application to record keyboard or mouse events, and playback later using log file (`.k.toca` or `.m.toca`).
+    - [useful packages](https://github.com/lopo12123/useful-packages) \[ [online](https://lopo12123.github.io/useful-packages/) \] some useful packages
 - **Node Packages** - [npm](https://www.npmjs.com/)
     - [better-xhr](https://github.com/lopo12123/better-xhr) Encapsulates xhr, fetch and axios, making it easy to cancel one or a group of http request tasks.
     - [divide-it](https://github.com/lopo12123/divide-it) Divide a string into an array with custom options.
@@ -47,33 +38,19 @@
     - [three.js](https://github.com/lopo12123/study-three)
     - [vue (with source code)](https://github.com/lopo12123/study-vue)
 
+---
+
 ### Stats
 
 ![personal-status](https://github-readme-stats.vercel.app/api?username=lopo12123&show_icons=true&icon_color=718096&title_color=718096&hide_title=true&text_color=718096&bg_color=ffffff)
 
 ### Language
 
-![top-languages](https://github-readme-stats.vercel.app/api/top-langs/?username=lopo12123&langs_count=10&hide_title=true&card_width=495&layout=compact)
+![top-languages](https://github-readme-stats.vercel.app/api/top-langs/?username=lopo12123&langs_count=5&hide_title=true&layout=compact)
 
-[comment]: <> (### Timeline)
+---
 
-[comment]: <> (- Q3 2022)
-
-[comment]: <> (    - [x] `rust` [homepage]&#40;https://rust.bootcss.com/title-page.html&#41;)
-
-[comment]: <> (    - [x] `taro` [homepage]&#40;https://taro-docs.jd.com/taro/docs&#41;)
-
-[comment]: <> (    - [x] `three.js`)
-
-[comment]: <> (    - [ ] `nuxt` [v3 homepage]&#40;https://v3.nuxtjs.org/&#41;)
-
-[comment]: <> (    - [ ] `vue` source code)
-
-[comment]: <> (- Q4 2022)
-
-[comment]: <> (    - [ ] `flutter/dart` [homepage]&#40;https://flutterchina.club/&#41;)
-
-[comment]: <> (    - [ ] `babylonjs`)
+<a href="mailto:lopo@zju.edu.cn?subject=From: Github Guest">mail me</a>
 
 
 
