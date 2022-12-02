@@ -2,7 +2,9 @@
 
 [comment]: <> (霓为衣兮风为马，云之君兮纷纷而来下)
 
-_If you're a plumber, you're better off learning how to use an ax by chopping down trees with it than unclogging gutters. That's exactly what I did._
+## [Vanilla Forever!](http://vanilla-js.com/)
+
+_If you're a plumber, you're better off learning how to use an ax by chopping down trees with it than unclogging gutters._
 
 ---
 
