@@ -1,3 +1,13 @@
+<script setup lang="ts">
+
+</script>
+
 <template>
-    <router-view/>
+    <div>
+        <button>greet!</button>
+    </div>
 </template>
+
+<style scoped>
+
+</style>

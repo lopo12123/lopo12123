@@ -1,9 +1,6 @@
-import "atropos/atropos.css";
-import "./styles/index.scss";
-import { createApp } from "vue";
-import { router } from "./routers";
-import App from "./App.vue";
+import './index.css'
+import {createApp} from 'vue'
+import App from './App.vue'
 
 createApp(App)
-    .use(router)
     .mount('#app')
