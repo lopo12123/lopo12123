@@ -1,10 +1,8 @@
-[comment]: <> (*I mourned for my old life. My once found paradise.*)
-
-[comment]: <> (霓为衣兮风为马，云之君兮纷纷而来下)
-
-## [Vanilla Forever!](http://vanilla-js.com/)
+### [_Vanilla Forever!_](http://vanilla-js.com/)
 
 _If you're a plumber, you're better off learning how to use an ax by chopping down trees with it than unclogging gutters._
+
+[comment]: <> (![]&#40;./io_page.png  "my homepage."&#41;)
 
 ---
 
