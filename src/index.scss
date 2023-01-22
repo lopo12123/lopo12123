@@ -2,9 +2,8 @@
     position: relative;
     margin: 0;
     padding: 0;
-    background-color: #600;
     color: #f0f0f0;
-    font-family: cursive;
+    font-family: sans-serif;
     box-sizing: border-box;
 
     &::-webkit-scrollbar {
@@ -27,5 +26,6 @@
 html, body, #app {
     width: 100vw;
     height: 100vh;
+    background-color: #600;
     overflow: hidden;
 }
