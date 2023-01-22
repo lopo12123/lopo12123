@@ -1,0 +1,31 @@
+* {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    background-color: #600;
+    color: #f0f0f0;
+    font-family: cursive;
+    box-sizing: border-box;
+
+    &::-webkit-scrollbar {
+        width: 8px !important;
+        height: 8px !important;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: #7b7b7b !important;
+        border-radius: 10px !important;
+    }
+
+    &::-webkit-scrollbar-track {
+        background-color: transparent !important;
+        border-radius: 10px !important;
+        opacity: 0 !important;
+    }
+}
+
+html, body, #app {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
