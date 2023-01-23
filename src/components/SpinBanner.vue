@@ -20,6 +20,7 @@ defineProps<{
     height: 160px;
     top: 0;
     right: 0;
+    overflow: hidden;
 
     &__bg {
         width: 100%;

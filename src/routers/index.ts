@@ -3,7 +3,8 @@ import AboutMe from "../pages/AboutMe.vue"
 
 const routes: RouteRecordRaw[] = [
     {
-        path: '/', redirect: {name: 'AboutMe'}
+        path: '/',
+        redirect: {name: 'AboutMe'}
     },
     {
         path: '/about-me',
@@ -13,7 +14,7 @@ const routes: RouteRecordRaw[] = [
     {
         path: '/my-projects',
         name: 'MyProjects',
-        component: AboutMe
+        component: () => import("../pages/MyProjects.vue")
     },
     {
         path: '/:any',

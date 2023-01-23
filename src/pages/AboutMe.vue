@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import SpinBanner from "../components/SpinBanner.vue"
 import LanguageBox from "../components/LanguageBox.vue";
+import LinkBox from "../components/LinkBox.vue";
 
 const bannerCfg = {
     text: 'mail me',
@@ -16,11 +17,14 @@ const bannerCfg = {
 
         <div class="padding">
             <div class="title">
-                title
+                <div class="name">lopo12123</div>
+                <div class="quote">123</div>
             </div>
 
             <div class="body">
                 <LanguageBox/>
+
+                <LinkBox/>
             </div>
         </div>
     </div>
@@ -31,10 +35,27 @@ const bannerCfg = {
     position: relative;
     width: 100%;
     height: 100%;
+    overflow: auto;
 
     .padding {
         width: 832px;
-        margin: auto;
+        margin: 0 auto;
+
+        .title {
+            margin: 80px 0;
+
+            .name {
+                font-size: 48px;
+                font-weight: bold;
+                font-family: "Curlz MT", sans-serif;
+            }
+        }
+
+        .body {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
     }
 }
 </style>
