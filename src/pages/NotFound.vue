@@ -8,8 +8,8 @@ const backToHome = () => router.replace('/')
 <template>
     <div class="not-found">
         <span class="context">
-            Oops! You seem to have come to a page that does not exist, click the
-            <span class="btn" @click="backToHome">button</span>
+            Oops! You seem to have come to a page that does not exist, click
+            <span class="btn" @click="backToHome">here</span>
             to return to the home page.
         </span>
     </div>

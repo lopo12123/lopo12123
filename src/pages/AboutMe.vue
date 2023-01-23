@@ -14,7 +14,15 @@ const bannerCfg = {
     <div class="about-me">
         <SpinBanner :text="bannerCfg.text" :action="bannerCfg.action"/>
 
-        <LanguageBox/>
+        <div class="padding">
+            <div class="title">
+                title
+            </div>
+
+            <div class="body">
+                <LanguageBox/>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -23,5 +31,10 @@ const bannerCfg = {
     position: relative;
     width: 100%;
     height: 100%;
+
+    .padding {
+        width: 832px;
+        margin: auto;
+    }
 }
 </style>
