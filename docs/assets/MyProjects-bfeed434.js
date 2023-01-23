@@ -1,1 +1,0 @@
-import{d as t,c as o,t as s,o as c,_ as n}from"./index-2468dc1e.js";const _={class:"my-projects"},r=t({__name:"MyProjects",setup(a){const e="Listen to me, take your time. I know you're in a hurry, but don't be in a hurry.";return(p,i)=>(c(),o("div",_,s(e)))}});const y=n(r,[["__scopeId","data-v-59cc1cb7"]]);export{y as default};

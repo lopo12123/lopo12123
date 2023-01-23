@@ -121,7 +121,7 @@ job = "front-end developer"`
 }
 
 const descInLangs: DescInLang[] = [
-    descInRust, descInJs, descInTs, descInDart, descInJson, descInToml
+    descInRust, descInJs, descInTs, descInDart,  // descInJson, descInToml
 ]
 
 const iconsOfDesc = [
@@ -129,8 +129,8 @@ const iconsOfDesc = [
     {class: 'icon-js', title: 'javascript'},
     {class: 'icon-ts', title: 'typescript'},
     {class: 'icon-dart', title: 'dart'},
-    {class: 'icon-json', title: 'json'},
-    {class: 'icon-toml', title: 'toml'},
+    // {class: 'icon-json', title: 'json'},
+    // {class: 'icon-toml', title: 'toml'},
 ]
 
 export {
