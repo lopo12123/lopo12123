@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-
-import {onMounted} from "vue";
+import {onMounted, ref} from "vue";
 import hljs from "highlight.js/lib/core";
+import descInLangs from "../constants/DescInLangs";
 
-const displayCode = `let name = 'lopo';`
+const descIdx = ref(2)
 
 onMounted(() => {
     console.log(123)
@@ -13,7 +13,8 @@ onMounted(() => {
 
 <template>
     <div class="language-box">
-        <pre><code class="hljs language-javascript">{{ displayCode }}</code></pre>
+        <pre><code :class="['hljs',
+        `language-${descInLangs[descIdx].lang}`]">{{ descInLangs[descIdx].code }}</code></pre>
         <div class="switcher">switcher</div>
     </div>
 </template>
@@ -29,6 +30,7 @@ onMounted(() => {
 
     code {
         height: 304px;
+        font-size: 14px;
         font-family: Consolas, monospace;
         display: block;
     }

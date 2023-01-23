@@ -1,5 +1,5 @@
 import './index.scss'
-import 'highlight.js/styles/stackoverflow-dark.css'
+import 'highlight.js/styles/agate.css'
 
 import hljs from 'highlight.js/lib/core'
 import javascript from 'highlight.js/lib/languages/javascript'
@@ -13,12 +13,12 @@ import {createApp} from 'vue'
 import {router} from "./routers";
 import App from './App.vue'
 
-hljs.registerLanguage('javascript', javascript)
-hljs.registerLanguage('typescript', typescript)
+hljs.registerLanguage('js', javascript)
+hljs.registerLanguage('ts', typescript)
 hljs.registerLanguage('rust', rust)
 hljs.registerLanguage('dart', dart)
 hljs.registerLanguage('json', json)
-hljs.registerLanguage('ini', ini)
+hljs.registerLanguage('toml', ini)
 
 createApp(App)
     .use(router)
