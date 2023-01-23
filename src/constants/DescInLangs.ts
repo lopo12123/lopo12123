@@ -102,8 +102,37 @@ void main() {
 }`
 }
 
+const descInJson: DescInLang = {
+    lang: 'json',
+    code: `{
+    "me": {
+        "name": "lopo",
+        "dob": "1999.01.24",
+        "job": "front-end developer"
+    }
+}`
+}
+const descInToml: DescInLang = {
+    lang: 'toml',
+    code: `[me]
+name = "lopo"
+dob = "1999.01.24"
+job = "front-end developer"`
+}
+
 const descInLangs: DescInLang[] = [
-    descInJs, descInTs, descInRust, descInDart
+    descInRust, descInJs, descInTs, descInDart, descInJson, descInToml
 ]
 
-export default descInLangs
+const iconsOfDesc = [
+    {class: 'icon-rust', title: 'rust'},
+    {class: 'icon-js', title: 'javascript'},
+    {class: 'icon-ts', title: 'typescript'},
+    {class: 'icon-dart', title: 'dart'},
+    {class: 'icon-json', title: 'json'},
+    {class: 'icon-toml', title: 'toml'},
+]
+
+export {
+    descInLangs, iconsOfDesc
+}

@@ -1,4 +1,5 @@
 import './index.scss'
+import './icons/iconfont.css'
 import 'highlight.js/styles/agate.css'
 
 import hljs from 'highlight.js/lib/core'
