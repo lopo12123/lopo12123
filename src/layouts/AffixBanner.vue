@@ -6,15 +6,15 @@ defineProps<{
 </script>
 
 <template>
-    <div class="spin-banner">
-        <div class="spin-banner__bg" @click="action">
-            <span class="spin-banner__text">{{ text }}</span>
+    <div class="affix-banner">
+        <div class="affix-banner__bg" @click="action">
+            <span class="affix-banner__text">{{ text }}</span>
         </div>
     </div>
 </template>
 
 <style lang="scss" scoped>
-.spin-banner {
+.affix-banner {
     position: absolute;
     width: 256px;
     height: 160px;

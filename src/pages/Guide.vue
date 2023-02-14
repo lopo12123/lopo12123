@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import SpinBanner from "../layouts/SpinBanner.vue"
+import SpinBanner from "../layouts/AffixBanner.vue"
 import LanguageBox from "../layouts/LanguageBox.vue";
 import LinkBox from "../layouts/LinkBox.vue";
 
