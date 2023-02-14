@@ -6,6 +6,41 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "10299094",
+      "name": "进行中",
+      "font_class": "doing",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
+      "icon_id": "10299105",
+      "name": "已完成",
+      "font_class": "done",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    },
+    {
+      "icon_id": "11993103",
+      "name": "npm",
+      "font_class": "npm-outline",
+      "unicode": "e71a",
+      "unicode_decimal": 59162
+    },
+    {
+      "icon_id": "13303947",
+      "name": "npm",
+      "font_class": "npm",
+      "unicode": "e685",
+      "unicode_decimal": 59013
+    },
+    {
+      "icon_id": "19054752",
+      "name": "纸箱_牛皮纸箱-3",
+      "font_class": "crates",
+      "unicode": "e61f",
+      "unicode_decimal": 58911
+    },
+    {
       "icon_id": "13302922",
       "name": "android",
       "font_class": "android",
@@ -36,7 +71,7 @@
     {
       "icon_id": "6496056",
       "name": "Nodejs",
-      "font_class": "Nodejs",
+      "font_class": "nodejs",
       "unicode": "e79b",
       "unicode_decimal": 59291
     },
@@ -50,7 +85,7 @@
     {
       "icon_id": "11993026",
       "name": "markdown",
-      "font_class": "md",
+      "font_class": "markdown",
       "unicode": "e6ff",
       "unicode_decimal": 59135
     },
