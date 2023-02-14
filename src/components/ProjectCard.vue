@@ -1,5 +1,13 @@
 <script lang="ts" setup>
+import {IconLogo} from "../constants/IconLogo";
 
+export type ProjectDetail = {
+    name: string
+    repository: string
+    homepage?: string
+    languages: IconLogo[],
+
+}
 </script>
 
 <template>
@@ -15,6 +23,8 @@
     height: 240px;
     border: solid 1px #c8c8c8;
     border-radius: 4px;
+    background-color: #c8c8c833;
+    //backdrop-filter: blur(5px);
     cursor: pointer;
     transition: box-shadow .3s;
     display: inline-block;
