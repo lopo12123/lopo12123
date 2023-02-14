@@ -1,20 +1,16 @@
 import {createRouter, createWebHashHistory, RouteRecordRaw} from "vue-router";
-import AboutMe from "../pages/AboutMe.vue"
+import Guide from "../pages/Guide.vue"
 
 const routes: RouteRecordRaw[] = [
     {
         path: '/',
-        redirect: {name: 'AboutMe'}
+        name: 'Guide',
+        component: Guide
     },
     {
-        path: '/about-me',
-        name: 'AboutMe',
-        component: AboutMe
-    },
-    {
-        path: '/my-projects',
-        name: 'MyProjects',
-        component: () => import("../pages/MyProjects.vue")
+        path: '/projects',
+        name: 'Projects',
+        component: () => import("../pages/Projects.vue")
     },
     {
         path: '/:any',

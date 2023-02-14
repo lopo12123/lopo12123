@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import SpinBanner from "../components/SpinBanner.vue"
-import LanguageBox from "../components/LanguageBox.vue";
-import LinkBox from "../components/LinkBox.vue";
+import SpinBanner from "../layouts/SpinBanner.vue"
+import LanguageBox from "../layouts/LanguageBox.vue";
+import LinkBox from "../layouts/LinkBox.vue";
 
 const bannerCfg = {
     text: 'mail me',
@@ -14,7 +14,7 @@ const quoteText = "If you're a plumber, you're better off learning how to use an
 </script>
 
 <template>
-    <div class="about-me">
+    <div class="guide">
         <SpinBanner :text="bannerCfg.text" :action="bannerCfg.action"/>
 
         <div class="padding">
@@ -33,7 +33,7 @@ const quoteText = "If you're a plumber, you're better off learning how to use an
 </template>
 
 <style lang="scss" scoped>
-.about-me {
+.guide {
     position: relative;
     width: 100%;
     height: 100%;

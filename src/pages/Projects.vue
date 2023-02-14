@@ -3,13 +3,13 @@ const nonsense = "Listen to me, take your time. I know you're in a hurry, but do
 </script>
 
 <template>
-    <div class="my-projects">
+    <div class="projects">
         {{ nonsense }}
     </div>
 </template>
 
 <style lang="scss" scoped>
-.my-projects {
+.projects {
     position: relative;
     width: 100%;
     height: 100%;

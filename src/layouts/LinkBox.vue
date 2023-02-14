@@ -4,7 +4,7 @@ import {useRouter} from "vue-router";
 const router = useRouter()
 
 const allMyProjects = () => {
-    router.push({name: 'MyProjects'})
+    router.push({name: 'Projects'})
 }
 
 const viewOnGithub = () => {

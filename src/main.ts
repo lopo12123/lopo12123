@@ -7,8 +7,8 @@ import javascript from 'highlight.js/lib/languages/javascript'
 import typescript from 'highlight.js/lib/languages/typescript'
 import rust from 'highlight.js/lib/languages/rust'
 import dart from 'highlight.js/lib/languages/dart'
-import json from 'highlight.js/lib/languages/json'
-import ini from 'highlight.js/lib/languages/ini'
+// import json from 'highlight.js/lib/languages/json'
+// import ini from 'highlight.js/lib/languages/ini'
 
 import {createApp} from 'vue'
 import {router} from "./routers";
@@ -18,8 +18,8 @@ hljs.registerLanguage('js', javascript)
 hljs.registerLanguage('ts', typescript)
 hljs.registerLanguage('rust', rust)
 hljs.registerLanguage('dart', dart)
-hljs.registerLanguage('json', json)
-hljs.registerLanguage('toml', ini)
+// hljs.registerLanguage('json', json)
+// hljs.registerLanguage('toml', ini)
 
 createApp(App)
     .use(router)
