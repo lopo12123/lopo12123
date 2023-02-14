@@ -1,10 +1,12 @@
 <script lang="ts" setup>
+import ProjectCard from "../components/ProjectCard.vue";
+
 const nonsense = "Listen to me, take your time. I know you're in a hurry, but don't be in a hurry."
 </script>
 
 <template>
     <div class="projects">
-        {{ nonsense }}
+        <ProjectCard v-for="(idx) in 10"/>
     </div>
 </template>
 
@@ -16,8 +18,12 @@ const nonsense = "Listen to me, take your time. I know you're in a hurry, but do
     padding: 32px;
     font-family: cursive;
     font-size: 32px;
-    display: flex;
-    align-items: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 320px);
+    grid-template-rows: repeat(auto-fill, 240px);
+    gap: 32px;
+    grid-auto-flow: dense;
     justify-content: center;
+    overflow: hidden auto;
 }
 </style>
