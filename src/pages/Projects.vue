@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import ProjectCard from "../components/ProjectCard.vue";
+import ProjectCard, {ProjectDetail} from "../components/ProjectCard.vue";
 
-const nonsense = "Listen to me, take your time. I know you're in a hurry, but don't be in a hurry."
+const projects: ProjectDetail[] = []
 </script>
 
 <template>

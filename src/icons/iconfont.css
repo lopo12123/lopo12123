@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3868874 */
-  src: url('iconfont.woff2?t=1674476052500') format('woff2'),
-       url('iconfont.woff?t=1674476052500') format('woff'),
-       url('iconfont.ttf?t=1674476052500') format('truetype');
+  src: url('iconfont.woff2?t=1676388710058') format('woff2'),
+       url('iconfont.woff?t=1676388710058') format('woff'),
+       url('iconfont.ttf?t=1676388710058') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,50 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-android:before {
+  content: "\e625";
+}
+
+.icon-js:before {
+  content: "\e704";
+}
+
+.icon-vue:before {
+  content: "\e799";
+}
+
+.icon-react:before {
+  content: "\e79a";
+}
+
+.icon-Nodejs:before {
+  content: "\e79b";
+}
+
+.icon-js-outline:before {
+  content: "\e810";
+}
+
+.icon-md:before {
+  content: "\e6ff";
+}
+
+.icon-java:before {
+  content: "\e639";
+}
+
+.icon-dart:before {
+  content: "\e63f";
+}
+
+.icon-rust:before {
+  content: "\e68f";
+}
+
+.icon-flutter:before {
+  content: "\eb95";
 }
 
 .icon-ts:before {
@@ -25,15 +69,7 @@
   content: "\e7bd";
 }
 
-.icon-rust:before {
-  content: "\e685";
-}
-
-.icon-js:before {
-  content: "\ec68";
-}
-
-.icon-dart:before {
+.icon-dart-outline:before {
   content: "\eb71";
 }
 

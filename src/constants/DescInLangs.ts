@@ -126,9 +126,9 @@ const descInLangs: DescInLang[] = [
 
 const iconsOfDesc = [
     {class: 'icon-rust', title: 'rust'},
-    {class: 'icon-js', title: 'javascript'},
+    {class: 'icon-js-outline', title: 'javascript'},
     {class: 'icon-ts', title: 'typescript'},
-    {class: 'icon-dart', title: 'dart'},
+    {class: 'icon-dart-outline', title: 'dart'},
     // {class: 'icon-json', title: 'json'},
     // {class: 'icon-toml', title: 'toml'},
 ]
