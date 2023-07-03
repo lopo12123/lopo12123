@@ -12,11 +12,11 @@ const routes: RouteObject[] = [
         errorElement: <PageError/>,
         children: [
             {
-                path: '/',
-                element: <Navigate to="/overview" replace/>
+                path: '',
+                element: <Navigate to="overview" replace/>
             },
             {
-                path: '/overview',
+                path: 'overview',
                 element: <LazyOverview/>
             }
         ]
