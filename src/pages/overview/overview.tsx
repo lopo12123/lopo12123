@@ -1,6 +1,6 @@
 const PageOverview = () => {
     return (
-        <div>
+        <div className="page-overview">
             overview
         </div>
     )

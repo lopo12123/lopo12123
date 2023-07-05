@@ -4,6 +4,7 @@ import {App} from "@/App";
 import {PageError} from "@/pages/_error/error";
 
 const LazyOverview = lazy(() => import("@/pages/overview/overview"))
+const LazyZote = lazy(() => import("@/pages/zote/zote"))
 
 const routes: RouteObject[] = [
     {
@@ -18,7 +19,11 @@ const routes: RouteObject[] = [
             {
                 path: 'overview',
                 element: <LazyOverview/>
-            }
+            },
+            {
+                path: 'zote',
+                element: <LazyZote/>
+            },
         ]
     }
 ]
