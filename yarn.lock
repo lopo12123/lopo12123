@@ -261,6 +261,11 @@ csstype@^3.0.2:
   resolved "https://registry.npmmirror.com/csstype/-/csstype-3.1.2.tgz#1d4bf9d572f11c14031f0436e1c10bc1f571f50b"
   integrity sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==
 
+cursor-effects@^1.0.11:
+  version "1.0.11"
+  resolved "https://registry.npmmirror.com/cursor-effects/-/cursor-effects-1.0.11.tgz#6497551049cb0a89b13d878b5eefc38611d77587"
+  integrity sha512-P+nV/8Bfxk6RQvsg2uq7wW+WncJLBx8bmqT80QU1nlW15qSb5fpaCLfZ9nl2BZSRyz+u+sxKhAESPNoAkAfJmw==
+
 esbuild@^0.17.5:
   version "0.17.19"
   resolved "https://registry.npmmirror.com/esbuild/-/esbuild-0.17.19.tgz#087a727e98299f0462a3d0bcdd9cd7ff100bd955"
