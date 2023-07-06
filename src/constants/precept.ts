@@ -1,4 +1,4 @@
-const RULES = [
+const PRECEPT = [
     "Precept One: \"Always Win Your Battles\". Losing a battle earns you nothing and teaches you nothing. Win your battles, or don't engage in them at all!",
     "Precept Two: \"Never Let Them Laugh at You\". Fools laugh at everything, even at their superiors. But beware, laughter isn't harmless! Laughter spreads like a disease, and soon everyone is laughing at you. You need to strike at the source of this perverse merriment quickly to stop it from spreading.",
     "Precept Three: \"Always Be Rested\". Fighting and adventuring take their toll on your body. When you rest, your body strengthens and repairs itself. The longer you rest, the stronger you become.",
@@ -59,5 +59,5 @@ const RULES = [
 ]
 
 export {
-    RULES
+    PRECEPT
 }

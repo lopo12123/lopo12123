@@ -7,7 +7,7 @@ const Banner = () => {
     return (
         <div className="banner">
             <div className="nav" onClick={() => navigate('/overview')}>overview</div>
-            <div className="nav" onClick={() => navigate('/zote')}>zote</div>
+            <div className="nav" onClick={() => navigate('/precept')}>precept</div>
         </div>
     )
 }
