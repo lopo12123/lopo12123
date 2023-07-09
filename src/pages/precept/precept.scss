@@ -1,0 +1,24 @@
+.page-precept {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden auto;
+    scroll-snap-type: y mandatory;
+
+    .precept {
+        width: 100%;
+        padding: 24px 48px;
+        font-size: 24px;
+        scroll-snap-align: start;
+
+        &:nth-child(odd) {
+            color: #f5f6f7;
+            background-color: #1f2329;
+        }
+
+        &:nth-child(even) {
+            color: #1f2329;
+            background-color: #f5f6f7;
+        }
+    }
+}
