@@ -1,7 +1,8 @@
-import {createHashRouter, RouteObject, Navigate} from "react-router-dom";
+import {createHashRouter, RouteObject} from "react-router-dom";
 import {lazy} from "react";
 import {App} from "@/App";
-import {PageError} from "@/pages/_error/error";
+import PageHome from "@/pages/home/home";
+import PageError from "@/pages/_error/error";
 
 const LazyOverview = lazy(() => import("@/pages/overview/overview"))
 const LazyZote = lazy(() => import("@/pages/zote/zote"))
@@ -14,7 +15,7 @@ const routes: RouteObject[] = [
         children: [
             {
                 path: '',
-                element: <Navigate to="overview" replace/>
+                element: <PageHome/>
             },
             {
                 path: 'overview',

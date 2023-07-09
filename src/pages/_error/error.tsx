@@ -3,7 +3,7 @@ import './error.scss'
 import {useNavigate, useRouteError} from 'react-router-dom'
 import {useEffect} from "react";
 
-const PageError = () => {
+export default function PageError() {
     const navigate = useNavigate()
     const routeError = useRouteError()
 

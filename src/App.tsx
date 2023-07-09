@@ -1,15 +1,15 @@
 import {Suspense} from 'react'
 import {Outlet} from 'react-router-dom'
-import Banner from "@/layouts/banner/banner";
-import {PageLoading} from "@/pages/_loading/loading";
+import {PageLoading} from '@/pages/_loading/loading'
+import DockBar from '@/layouts/dock/dock'
 
 function App() {
     return (
         <>
-            <Banner/>
-            <div style={{width: '100%', height: 'calc(100% - 52px)'}}>
+            <div style={{width: '100%', height: '100%'}}>
                 <Suspense fallback={<PageLoading/>} children={<Outlet/>}/>
             </div>
+            <DockBar/>
         </>
     )
 }

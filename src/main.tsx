@@ -1,12 +1,15 @@
+import "primereact/resources/themes/lara-light-indigo/theme.css"
+import "primereact/resources/primereact.min.css"
+
 import './styles/font.scss'
 import './styles/index.scss'
 
 import {createRoot} from 'react-dom/client'
-import {RouterProvider} from "react-router-dom";
+import {RouterProvider} from "react-router-dom"
 import {fairyDustCursor} from 'cursor-effects'
 
 import {router} from "@/routers";
-import {PageLoading} from "./pages/_loading/loading";
+import {PageLoading} from "./pages/_loading/loading"
 
 // cursor effect
 new fairyDustCursor()
