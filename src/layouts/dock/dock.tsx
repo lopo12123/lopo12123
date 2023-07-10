@@ -1,9 +1,18 @@
-import IconGithub from '@/assets/dock/github.svg'
-import IconTerminal from '@/assets/dock/terminal.svg'
+import IconHome from '@/assets/dock/home.png'
+import IconGithub from '@/assets/dock/github.png'
+import IconTerminal from '@/assets/dock/terminal.png'
+import IconTrash from '@/assets/dock/trash.png'
 import {Dock} from "primereact/dock";
 import {MenuItem} from "primereact/menuitem";
 
 const dockItems: MenuItem[] = [
+    {
+        label: 'Home',
+        icon: <img src={IconHome} width="100%" alt="Home"/>,
+        command(_ev) {
+            // TODO: terminal
+        }
+    },
     {
         label: 'Terminal',
         icon: <img src={IconTerminal} width="100%" alt="Terminal"/>,
@@ -18,12 +27,19 @@ const dockItems: MenuItem[] = [
             window.open('https://github.com/lopo12123', '_blank')
         }
     },
+    {
+        label: 'Trash',
+        icon: <img src={IconTrash} width="100%" alt="Trash"/>,
+        command(_ev) {
+            // TODO: terminal
+        }
+    },
 ]
 
 const DockBar = () => {
 
     return (
-        <Dock style={{marginBottom: 30}} model={dockItems}/>
+        <Dock style={{marginBottom: 30}} model={dockItems} pt={{action: {style: {cursor: 'pointer'}}}}/>
     )
 }
 
