@@ -2,6 +2,7 @@ import IconHome from '@/assets/dock/home.png'
 import IconGithub from '@/assets/dock/github.png'
 import IconTerminal from '@/assets/dock/terminal.png'
 import IconTrash from '@/assets/dock/trash.png'
+import IconQuit from '@/assets/dock/quit.png'
 import {Dock} from "primereact/dock";
 import {MenuItem} from "primereact/menuitem";
 
@@ -27,11 +28,20 @@ const dockItems: MenuItem[] = [
             window.open('https://github.com/lopo12123', '_blank')
         }
     },
+    // {
+    //     label: 'Trash',
+    //     icon: <img src={IconTrash} width="100%" alt="Trash"/>,
+    //     command(_ev) {
+    //         // TODO: terminal
+    //     }
+    // },
     {
-        label: 'Trash',
-        icon: <img src={IconTrash} width="100%" alt="Trash"/>,
+        label: 'Quit',
+        icon: <img src={IconQuit} width="100%" alt="Quit"/>,
         command(_ev) {
             // TODO: terminal
+            const quit = confirm('确认退出?')
+            if (quit) window.close()
         }
     },
 ]
