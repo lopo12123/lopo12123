@@ -1,11 +1,8 @@
-import {createHashRouter, RouteObject} from "react-router-dom";
+import {createHashRouter, RouteObject, useNavigate} from "react-router-dom";
 import {lazy} from "react";
 import {App} from "@/App";
 import PageHome from "@/pages/home/home";
 import PageError from "@/pages/_error/error";
-
-const LazyOverview = lazy(() => import("@/pages/overview/overview"))
-const LazyPrecept = lazy(() => import("@/pages/precept/precept"))
 
 const routes: RouteObject[] = [
     {
@@ -18,12 +15,20 @@ const routes: RouteObject[] = [
                 element: <PageHome/>
             },
             {
-                path: 'overview',
-                element: <LazyOverview/>
+                path: 'tool',
+                // TODO
             },
             {
-                path: 'precept',
-                element: <LazyPrecept/>
+                path: 'note',
+                // TODO
+            },
+            {
+                path: 'study',
+                // TODO
+            },
+            {
+                path: 'rss',
+                // TODO
             },
         ]
     }
@@ -31,6 +36,12 @@ const routes: RouteObject[] = [
 
 const router = createHashRouter(routes, {})
 
+// FIXME: implement
+const useDeduplicateNavigate = () => {
+    return useNavigate()
+}
+
 export {
-    router
+    router,
+    useDeduplicateNavigate
 }

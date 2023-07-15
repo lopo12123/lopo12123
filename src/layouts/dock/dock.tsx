@@ -1,41 +1,40 @@
-import IconHome from '@/assets/dock/home.png'
-import IconGithub from '@/assets/dock/github.png'
-import IconTerminal from '@/assets/dock/terminal.png'
-import IconQuit from '@/assets/dock/quit.png'
+import IconTool from '@/assets/dock/tool.png'
+import IconNote from '@/assets/dock/note.png'
+import IconStudy from '@/assets/dock/study.png'
+import IconRSS from '@/assets/dock/rss.png'
 import {Dock} from "primereact/dock";
 import {MenuItem} from "primereact/menuitem";
-import {GlobalUtils} from "@/utils/global";
+import {useDeduplicateNavigate} from "@/routers";
 
 const DockBar = () => {
+    const deduplicateNavigate = useDeduplicateNavigate()
     const dockItems: MenuItem[] = [
         {
-            label: 'Home',
-            icon: <img src={IconHome} width="100%" alt="Home"/>,
-            command(_ev) {
-                // TODO: back to home
-            }
+            label: 'Tool',
+            icon: <img src={IconTool} width="48" alt=""/>,
+            command: (_ev) => deduplicateNavigate('/tool')
         },
         {
-            label: 'Terminal',
-            icon: <img src={IconTerminal} width="100%" alt="Terminal"/>,
-            command(_ev) {
-                // TODO: show terminal
-            }
+            label: 'Note',
+            icon: <img src={IconNote} width="48" alt=""/>,
+            command: (_ev) => deduplicateNavigate('/note')
         },
         {
-            label: 'Github',
-            icon: <img src={IconGithub} width="100%" alt="Github"/>,
-            command: GlobalUtils.jumpToGithub,
+            label: 'Study',
+            icon: <img src={IconStudy} width="48" alt=""/>,
+            command: (_ev) => deduplicateNavigate('/study')
         },
         {
-            label: 'Quit',
-            icon: <img src={IconQuit} width="100%" alt="Quit"/>,
-            command: GlobalUtils.quit,
+            label: 'RSS',
+            icon: <img src={IconRSS} width="48" alt=""/>,
+            command: (_ev) => deduplicateNavigate('/rss')
         },
     ]
 
     return (
-        <Dock style={{marginBottom: 30}} model={dockItems} pt={{action: {style: {cursor: 'pointer'}}}}/>
+        <Dock model={dockItems} position="left"
+              style={{marginLeft: 32}}
+              pt={{action: {className: 'p-help'}}}/>
     )
 }
 

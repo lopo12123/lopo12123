@@ -1,5 +1,4 @@
 import {useEffect, useState} from 'react'
-import IconLopo from '@/assets/lopo.png'
 
 const formatDate = () => {
     const t = new Date()
@@ -14,9 +13,6 @@ const formatDate = () => {
     return `${h > 9 ? h : '0' + h}:${m > 9 ? m : '0' + m}:${s > 9 ? s : '0' + s}`
 }
 
-/**
- * @supported css `rotate` since chrome@114
- */
 export default function PageHome() {
     const [timeStr, setTimeStr] = useState('')
 
@@ -33,8 +29,6 @@ export default function PageHome() {
         <div className="page-home"
              style={{display: 'flex', alignItems: 'flex-start', justifyContent: 'center'}}>
             <div style={{marginTop: 48, fontSize: 52}}>{timeStr}</div>
-            <img src={IconLopo} alt="lopo" width="80"
-                 style={{position: 'absolute', left: 0, top: 56, rotate: '-45deg', transformOrigin: 'top left'}}/>
         </div>
     )
 }

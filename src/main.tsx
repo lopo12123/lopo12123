@@ -2,6 +2,7 @@ import "primereact/resources/themes/lara-light-indigo/theme.css"
 import "primereact/resources/primereact.min.css"
 
 import './styles/font.scss'
+import './styles/cursor.scss'
 import './styles/index.scss'
 
 import {createRoot} from 'react-dom/client'
@@ -12,7 +13,7 @@ import {router} from "@/routers";
 import {PageLoading} from "./pages/_loading/loading"
 
 // cursor effect
-new fairyDustCursor()
+// new fairyDustCursor()
 
 createRoot(document.getElementById('root') as HTMLElement)
     .render(<RouterProvider router={router} fallbackElement={<PageLoading/>}/>)
