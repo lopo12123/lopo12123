@@ -1,14 +1,6 @@
-![](./lopo_animate.svg)
-
 > _If you're a plumber, you're better off learning how to use an ax by chopping down trees with it than unclogging gutters._
 
-[comment]: <> (_Everyone needs an anchor to stop drifting_)
-
----
-
-Things to do in 2023
-
-- ...
+![](./lopo_animate.svg)
 
 ---
 
@@ -22,4 +14,9 @@ Things to do in 2023
 
 [comment]: <> (![top-languages]&#40;https://github-readme-stats.vercel.app/api/top-langs/?username=lopo12123&langs_count=5&hide_title=true&layout=compact&#41;)
 
+---
+
+Things to do in 2023
+
+- ...
 
