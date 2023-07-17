@@ -2,17 +2,8 @@
 
 ![](./lopo_animate.svg)
 
----
-
-- languages
-
-![top-languages](https://github-readme-stats.vercel.app/api/top-langs/?username=lopo12123&langs_count=5&hide_title=true)
-
-- stats
-
-![personal-status](https://github-readme-stats.vercel.app/api?username=lopo12123&show_icons=true&hide_title=true)
-
-[comment]: <> (![top-languages]&#40;https://github-readme-stats.vercel.app/api/top-langs/?username=lopo12123&langs_count=5&hide_title=true&layout=compact&#41;)
+| <img align="center" src="https://github-readme-stats.vercel.app/api?username=lopo12123&show_icons=true&hide_border=true" /> | <img align="center" src="https://github-readme-stats.vercel.app/api/top-langs/?username=lopo12123&layout=compact&hide_border=true" /> |
+| ------------- | ------------- |
 
 ---
 
