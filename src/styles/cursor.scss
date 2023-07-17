@@ -1,0 +1,15 @@
+.p-default {
+    cursor: url("/cursors/default.cur"), default !important;
+}
+
+.p-notallowed {
+    cursor: url("/cursors/disabled.cur"), not-allowed !important;;
+}
+
+.p-help {
+    cursor: url("/cursors/help.cur"), text !important;;
+}
+
+.p-text {
+    cursor: url("/cursors/text.cur"), text !important;;
+}
