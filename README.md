@@ -1,7 +1,8 @@
 <div align="center">
 <img src="./lopo_animate.svg" width="270" alt="lopo animate"/>
 <br/><br/>
-<a href="https://lopo12123.github.io/" target="_blank">View my Homepage</a>
+<a href="https://lopo12123.github.io/">View my Homepage</a>
+<br/><br/>
 </div>
 
 > _If you're a plumber, you're better off learning how to use an ax by chopping down trees with it than unclogging
