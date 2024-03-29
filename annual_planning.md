@@ -4,5 +4,9 @@
 
 ## 2024
 
-- [ ] PowerShell -- basic
-- [ ] Rust -- macros
+- [ ] Learn PowerShell concepts and basics
+- [ ] Learn how to use Rust’s macros
+
+## 2025
+
+- [ ] Make money and build a house
