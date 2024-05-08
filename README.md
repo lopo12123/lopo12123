@@ -6,18 +6,16 @@ gutters._
 &nbsp;
 <b>Hi there, it's</b>
 &nbsp;
-<a href="https://github.com/lopo12123">
 <img style="display: inline-block;" src="./lopo_animate.svg" height="20" alt="lopo"/>
-</a>
 &nbsp;
 <b>!</b>
 </p>
 
 <br/>
 
-![Static Badge](https://img.shields.io/badge/Javascript-yellow?logo=nodedotjs&logoColor=fff&labelColor=777)
-![Static Badge](https://img.shields.io/badge/Rust-orange?logo=rust&logoColor=fff&labelColor=777)
-![Static Badge](https://img.shields.io/badge/Flutter-blue?logo=flutter&logoColor=fff&labelColor=777)
-![Static Badge](https://img.shields.io/badge/Dart-blue?logo=dart&logoColor=fff&labelColor=777)
+![Static Badge](https://img.shields.io/badge/Javascript-f1e05a?logo=nodedotjs&logoColor=f1e05a&labelColor=333)
+![Static Badge](https://img.shields.io/badge/Rust-dea584?logo=rust&logoColor=dea584&labelColor=333)
+![Static Badge](https://img.shields.io/badge/Flutter-027dfd?logo=flutter&logoColor=027dfd&labelColor=333)
+![Static Badge](https://img.shields.io/badge/Dart-2cb7f6?logo=dart&logoColor=2cb7f6&labelColor=333)
 
-<img style="height: 135px;" src="https://github-readme-stats.vercel.app/api/top-langs/?username=lopo12123&hide_border=true&hide_title=true&layout=compact" alt="">
+<img height="200" src="https://github-readme-stats.vercel.app/api/top-langs/?username=lopo12123&hide_border=true&hide_title=true" alt="">
