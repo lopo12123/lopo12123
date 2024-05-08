@@ -1,7 +1,7 @@
 > _If you're a plumber, you're better off learning how to use an ax by chopping down trees with it than unclogging
 gutters._
 
-<div style="display: flex; align-items: center;">
+<p>
 <span>👋</span>
 &nbsp;
 <b>Hi there, it's</b>
@@ -11,7 +11,9 @@ gutters._
 </a>
 &nbsp;
 <b>!</b>
-</div>
+</p>
+
+<br/>
 
 ![Static Badge](https://img.shields.io/badge/Javascript-yellow?logo=nodedotjs&logoColor=fff&labelColor=777)
 ![Static Badge](https://img.shields.io/badge/Rust-orange?logo=rust&logoColor=fff&labelColor=777)
