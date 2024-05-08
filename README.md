@@ -6,11 +6,13 @@ gutters._
 &nbsp;
 <b>Hi there, it's</b>
 &nbsp;
+<a href="https://github.com/lopo12123">
 <img style="display: inline-block;" src="./lopo_animate.svg" height="20" alt="lopo"/>
+</a>
 &nbsp;
 <b>!</b>
 </div>
 
-<div align="center">
+---
+
 <img style="height: 135px;" src="https://github-readme-stats.vercel.app/api/top-langs/?username=lopo12123&hide_border=true&hide_title=true&layout=compact" alt="">
-</div>
