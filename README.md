@@ -13,6 +13,9 @@ gutters._
 <b>!</b>
 </div>
 
----
+![Static Badge](https://img.shields.io/badge/Javascript-yellow?logo=nodedotjs&logoColor=fff&labelColor=777)
+![Static Badge](https://img.shields.io/badge/Rust-orange?logo=rust&logoColor=fff&labelColor=777)
+![Static Badge](https://img.shields.io/badge/Flutter-blue?logo=flutter&logoColor=fff&labelColor=777)
+![Static Badge](https://img.shields.io/badge/Dart-blue?logo=dart&logoColor=fff&labelColor=777)
 
 <img style="height: 135px;" src="https://github-readme-stats.vercel.app/api/top-langs/?username=lopo12123&hide_border=true&hide_title=true&layout=compact" alt="">
